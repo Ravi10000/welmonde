@@ -1,0 +1,48 @@
+.optionItem {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  &:hover {
+    .name {
+      display: inline-block;
+    }
+  }
+  &.selected {
+    background: #fff;
+    border-radius: 50px;
+    animation: pop 0.15s ease-in-out;
+  }
+  img {
+    width: 25px;
+    height: fit-content;
+  }
+  // .name {
+  //   display: none;
+  //   text-transform: capitalize;
+  //   top: 50%;
+  //   left: 100%;
+  //   position: absolute;
+  //   background: #e0e0e0eb;
+  //   padding: 5px 10px;
+  //   border-radius: 5px;
+  //   width: max-content;
+  //   color: var(--heading-clr);
+  // }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}

@@ -1,0 +1,20 @@
+.allEmployees {
+  padding: 10px;
+  table {
+    width: 100%;
+    tr {
+      td {
+        position: relative;
+        &:nth-child(2) {
+          width: 100%;
+        }
+        .docs {
+          position: absolute;
+          top: 0;
+          left: 0%;
+          background: #fff;
+        }
+      }
+    }
+  }
+}

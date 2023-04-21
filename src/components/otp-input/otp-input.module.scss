@@ -1,0 +1,10 @@
+.otpInput {
+  width: 3rem;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #edf0f2;
+  font-size: 1.5rem;
+  &:focus {
+    outline: 1px solid var(--mainBrandColor);
+  }
+}

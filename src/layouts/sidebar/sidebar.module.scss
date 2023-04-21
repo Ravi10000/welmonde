@@ -1,0 +1,65 @@
+.sidebar {
+  min-height: 100vh;
+  height: 100%;
+  padding: 20px 10px;
+  width: fit-content;
+  background: var(--subBrandColor);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transform: translateX(-100%);
+  animation: slideOut 0.3s ease-in-out forwards;
+  &.active {
+    animation: slideIn 0.3s ease-in-out forwards;
+  }
+
+  .closeSidebar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+    img {
+      cursor: pointer;
+      width: 50px;
+      height: fit-content;
+    }
+  }
+  .optionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes slideOut {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@media (min-width: 1000px) {
+  .sidebar {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    transform: translate(0, 0);
+    animation: none;
+    padding: 20px 20px 50px;
+    min-height: 100vh;
+  }
+}

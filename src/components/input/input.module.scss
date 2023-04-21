@@ -1,0 +1,21 @@
+.inputBox {
+  width: 100%;
+  input {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid #edf0f2;
+    &::placeholder {
+      color: #959595;
+    }
+    &:focus {
+      outline: 1px solid var(--mainBrandColor);
+    }
+  }
+  label {
+    margin-bottom: 5px;
+    text-transform: capitalize;
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+}

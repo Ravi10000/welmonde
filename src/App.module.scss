@@ -1,0 +1,32 @@
+.postLoginPage {
+  width: 100%;
+  .toggleSideBar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: flex-start;
+    padding: 20px;
+    background: var(--subBrandColor);
+    z-index: 2;
+    img {
+      cursor: pointer;
+      width: 30px;
+      height: fit-content;
+    }
+  }
+  .page {
+    min-height: 100vh;
+  }
+}
+
+@media (min-width: 1000px) {
+  .postLoginPage {
+    display: flex;
+    .toggleSideBar {
+      display: none;
+    }
+    .page {
+      width: 100%;
+    }
+  }
+}

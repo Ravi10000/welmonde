@@ -1,0 +1,36 @@
+.signinPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  min-height: 100vh;
+  padding: 25px;
+  .inputsContainer {
+    border-radius: 5px;
+    background: #f5f7fa;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 450px;
+
+    .actions {
+      text-align: center;
+      p {
+        cursor: pointer;
+        font-weight: 500;
+        color: var(--subBrandColor);
+        &:hover {
+          color: var(--mainBrandColor);
+        }
+      }
+      //   gap: 3 px;
+    }
+    .otpContainer {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}
