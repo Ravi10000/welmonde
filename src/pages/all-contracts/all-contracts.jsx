@@ -5,15 +5,15 @@ const contract = {
   title: "Contract Title",
   contents: [
     {
-      title: "Contract 1",
+      title: "Agreement 1",
       text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis doloribus minima ipsam exercitationem labore, at ullam alias mollitia repudiandae, nulla fuga totam dolorem autem? Ullam ipsum cum maxime nisi nobis id dicta optio fuga accusamus explicabo sit aliquid saepe molestiae odit doloremque veniam in quisquam similique praesentium aut vero, quaerat dolore ut! Esse illo id neque eum ullam obcaecati, qui magnam atque aliquid nulla pariatur blanditiis quos autem ratione culpa! Repellendus animi, consectetur, eaque voluptas perspiciatis id voluptatem nulla earum fugiat quibusdam debitis tempore ad cupiditate non, eveniet rem nobis suscipit vel. Nemo et libero iusto fugiat commodi qui alias.",
     },
     {
-      title: "Contract 2",
+      title: "Agreement 2",
       text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis doloribus minima ipsam exercitationem labore, at ullam alias mollitia repudiandae, nulla fuga totam dolorem autem? Ullam ipsum cum maxime nisi nobis id dicta optio fuga accusamus explicabo sit aliquid saepe molestiae odit doloremque veniam in quisquam similique praesentium aut vero, quaerat dolore ut! Esse illo id neque eum ullam obcaecati, qui magnam atque aliquid nulla pariatur blanditiis quos autem ratione culpa! Repellendus animi, consectetur, eaque voluptas perspiciatis id voluptatem nulla earum fugiat quibusdam debitis tempore ad cupiditate non, eveniet rem nobis suscipit vel. Nemo et libero iusto fugiat commodi qui alias.",
     },
     {
-      title: "Contract 3",
+      title: "Agreement 3",
       content:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis doloribus minima ipsam exercitationem labore, at ullam alias mollitia repudiandae, nulla fuga totam dolorem autem? Ullam ipsum cum maxime nisi nobis id dicta optio fuga accusamus explicabo sit aliquid saepe molestiae odit doloremque veniam in quisquam similique praesentium aut vero, quaerat dolore ut! Esse illo id neque eum ullam obcaecati, qui magnam atque aliquid nulla pariatur blanditiis quos autem ratione culpa! Repellendus animi, consectetur, eaque voluptas perspiciatis id voluptatem nulla earum fugiat quibusdam debitis tempore ad cupiditate non, eveniet rem nobis suscipit vel. Nemo et libero iusto fugiat commodi qui alias.",
     },
