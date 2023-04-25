@@ -43,6 +43,7 @@ tr:hover {
 
 th,
 td {
+  text-align: left;
   padding: 10px 20px;
   width: max-content;
 }
@@ -66,4 +67,14 @@ td img {
   width: 20px;
   height: fit-content;
   cursor: pointer;
+}
+
+.__subColorHeading {
+  color: var(--subBrandColor);
+}
+
+@media (min-width: 800px) {
+  th {
+    white-space: pre-wrap;
+  }
 }

@@ -2,22 +2,21 @@ import styles from "./all-contracts.module.scss";
 import { useState, useRef, useEffect } from "react";
 import Contract from "./contract/contract";
 const contract = {
-  title: "Contract Title",
-  contents: [
-    {
-      title: "Agreement 1",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis doloribus minima ipsam exercitationem labore, at ullam alias mollitia repudiandae, nulla fuga totam dolorem autem? Ullam ipsum cum maxime nisi nobis id dicta optio fuga accusamus explicabo sit aliquid saepe molestiae odit doloremque veniam in quisquam similique praesentium aut vero, quaerat dolore ut! Esse illo id neque eum ullam obcaecati, qui magnam atque aliquid nulla pariatur blanditiis quos autem ratione culpa! Repellendus animi, consectetur, eaque voluptas perspiciatis id voluptatem nulla earum fugiat quibusdam debitis tempore ad cupiditate non, eveniet rem nobis suscipit vel. Nemo et libero iusto fugiat commodi qui alias.",
-    },
-    {
-      title: "Agreement 2",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis doloribus minima ipsam exercitationem labore, at ullam alias mollitia repudiandae, nulla fuga totam dolorem autem? Ullam ipsum cum maxime nisi nobis id dicta optio fuga accusamus explicabo sit aliquid saepe molestiae odit doloremque veniam in quisquam similique praesentium aut vero, quaerat dolore ut! Esse illo id neque eum ullam obcaecati, qui magnam atque aliquid nulla pariatur blanditiis quos autem ratione culpa! Repellendus animi, consectetur, eaque voluptas perspiciatis id voluptatem nulla earum fugiat quibusdam debitis tempore ad cupiditate non, eveniet rem nobis suscipit vel. Nemo et libero iusto fugiat commodi qui alias.",
-    },
-    {
-      title: "Agreement 3",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis doloribus minima ipsam exercitationem labore, at ullam alias mollitia repudiandae, nulla fuga totam dolorem autem? Ullam ipsum cum maxime nisi nobis id dicta optio fuga accusamus explicabo sit aliquid saepe molestiae odit doloremque veniam in quisquam similique praesentium aut vero, quaerat dolore ut! Esse illo id neque eum ullam obcaecati, qui magnam atque aliquid nulla pariatur blanditiis quos autem ratione culpa! Repellendus animi, consectetur, eaque voluptas perspiciatis id voluptatem nulla earum fugiat quibusdam debitis tempore ad cupiditate non, eveniet rem nobis suscipit vel. Nemo et libero iusto fugiat commodi qui alias.",
-    },
-  ],
+  name: "Contract Title",
+  employee: "some employee",
+  status: "pending",
+  client: "some client",
+  // contents: [
+  //   {
+  //     title: "Agreement 1",
+  //   },
+  //   {
+  //     title: "Agreement 2",
+  //   },
+  //   {
+  //     title: "Agreement 3",
+  //   },
+  // ],
 };
 
 function AllContractsPage() {
@@ -39,31 +38,21 @@ function AllContractsPage() {
 
   return (
     <div className={styles.allEmployees}>
-      <h1 className="__pageHeading">All Contracts</h1>
+      <h1 className="__pageHeading __subColorHeading">All Contracts</h1>
       <div className="__tableContainer">
         <table>
-          {/* <thead>
+          <thead>
             <tr>
               <th>
                 <input type="checkbox" />
               </th>
-              <th>
-                Employee Name <img src="/sorting.png" alt="sort" />
-              </th>
-              <th>
-                Employee Email <img src="/sorting.png" alt="sort" />
-              </th>
-              <th>
-                Employee Phone <img src="/sorting.png" alt="sort" />
-              </th>
-              <th>
-                Total Contracts Generated <img src="/sorting.png" alt="sort" />
-              </th>
-              <th>
-                Total Contracts Signed <img src="/sorting.png" alt="sort" />
-              </th>
+              <th>Contract Name</th>
+              <th>Employee</th>
+              <th>Status</th>
+              <th>Client</th>
+              <th></th>
             </tr>
-          </thead> */}
+          </thead>
           <tbody>
             {Array(25)
               .fill()

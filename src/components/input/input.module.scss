@@ -1,5 +1,6 @@
 .inputBox {
   width: 100%;
+  // outline: ;
   input {
     width: 100%;
     padding: 10px 15px;
@@ -13,7 +14,7 @@
     }
   }
   label {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     text-transform: capitalize;
     font-weight: 500;
     letter-spacing: 1px;

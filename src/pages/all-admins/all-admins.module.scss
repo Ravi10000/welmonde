@@ -1,3 +1,35 @@
 .allAdmins {
   padding: 10px;
+  .cardsAndBtn {
+    margin: 10px 0;
+    button {
+      margin: 0 auto;
+    }
+    .cardsContainer {
+      display: flex;
+      margin-bottom: 10px;
+      gap: 20px;
+      .card {
+        border-radius: 5px;
+        padding: 10px;
+        border: 1px solid var(--fadeGray);
+        color: var(--subBrandColor);
+      }
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  .allAdmins {
+    .cardsAndBtn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      button {
+        margin: 0;
+      }
+    }
+  }
 }

@@ -1,0 +1,12 @@
+.popup-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  min-height: 100%;
+  padding: 30px 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+}

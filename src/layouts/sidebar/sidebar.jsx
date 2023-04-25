@@ -63,10 +63,7 @@ const options = [
 //   },
 // ];
 
-function Sidebar({
-  isSidebarOpen,
-  setIsSidebarOpen,
-}) {
+function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
   // console.log({ currentUser });
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -100,7 +97,8 @@ function Sidebar({
       ref={sidebarRef}
     >
       <div className={styles.closeSidebar} onClick={() => navigate("/")}>
-        <img src="/logo.png" alt="<brand>" />
+        {/* <img src="/welmonde-logo.jpg" alt="<brand>" /> */}
+        <img src="/logo-transparent.png" alt="<brand>" />
       </div>
       <div className={styles.optionsContainer}>
         {options?.map((option) => (

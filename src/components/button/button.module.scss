@@ -6,8 +6,28 @@
   border-radius: 5px;
   cursor: pointer;
   width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  p {
+    width: max-content;
+  }
+  img {
+    width: 20px;
+    height: fit-content;
+  }
+  &.outlined {
+    color: var(--subBrandColor);
+    background: transparent;
+    border: 2px solid var(--subBrandColor);
+    &:hover {
+      background: var(--subBrandColor);
+      color: #fff;
+    }
+  }
   &.disabled {
     cursor: not-allowed;
-    background: #94D4CC;
+    background: #94d4cc;
   }
 }

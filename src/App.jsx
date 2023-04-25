@@ -10,6 +10,7 @@ import Sidebar from "./layouts/sidebar/sidebar";
 import AllEmployeesPage from "./pages/all-employees/all-employees";
 import AllClientsPage from "./pages/all-clients/all-clients";
 import AllContractsPage from "./pages/all-contracts/all-contracts";
+import Header from "./layouts/header/header";
 
 function App() {
   const { pathname } = useLocation();
@@ -30,6 +31,7 @@ function App() {
 
   return (
     <div className={`${isPostLogin ? styles.postLoginPage : ""}`}>
+      {!isPostLogin && <Header />}
       {isPostLogin && (
         <>
           <div className={styles.toggleSideBar}>
@@ -48,14 +50,14 @@ function App() {
       <div className={`${isPostLogin ? styles.page : ""}`}>
         <Routes>
           <Route exact path="/admin/signin" element={<AdminSigninPage />} />
-          <Route exact path="/signin" element={<SigninPage />} />
+          <Route exact path="/admin" element={<AdminSigninPage />} />
 
           <Route exact path="/admins" element={<AllAdminsPage />} />
           <Route exact path="/employees" element={<AllEmployeesPage />} />
           <Route exact path="/clients" element={<AllClientsPage />} />
           <Route exact path="/contracts" element={<AllContractsPage />} />
 
-          <Route exact path="/" element={<HomePage />} />
+          <Route exact path="/" element={<SigninPage />} />
         </Routes>
       </div>
     </div>

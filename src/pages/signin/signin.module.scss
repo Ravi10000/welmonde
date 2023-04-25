@@ -1,36 +1,61 @@
 .signinPage {
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  min-height: 100vh;
-  padding: 25px;
-  .inputsContainer {
-    border-radius: 5px;
-    background: #f5f7fa;
-    padding: 25px;
+  .signinHero {
+    display: none;
+  }
+  .signinSection {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 20px;
+    padding: 20px;
     width: 100%;
     max-width: 450px;
-
-    .actions {
-      text-align: center;
-      p {
-        cursor: pointer;
-        font-weight: 500;
-        color: var(--subBrandColor);
-        &:hover {
-          color: var(--mainBrandColor);
-        }
-      }
-      //   gap: 3 px;
+    .inputsContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
     .otpContainer {
       display: flex;
-      gap: 10px;
+      gap: 5px;
+    }
+  }
+}
+@media (min-width: 800px) {
+  .signinPage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    align-items: center;
+    padding: 0;
+
+    .signinHero {
+      display: flex;
+      flex-direction: column;
+      // justify-content: center;
+      align-items: center;
+      height: 100%;
+      // background: linear-gradient(166.76deg, #009985 4.1%, #003966 98.07%);
+      background: url("/2853458.jpg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: -80% 80%;
+    }
+    .signinSection {
+      gap: 50px;
+      // outline: 2px solid red;
+    }
+    .content {
+      // padding: 100px 50px 0;
+      text-align: center;
+      .logo {
+        width: 300px;
+        height: fit-content;
+      }
+      // height: 100%;
     }
   }
 }
