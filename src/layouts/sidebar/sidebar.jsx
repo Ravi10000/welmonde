@@ -4,14 +4,15 @@ import styles from "./sidebar.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 // import { createStructuredSelector } from "reselect";
+import { getAuth, signOut } from "firebase/auth";
 
 // components
 import SidebarOption from "./sidebar-option/sidebar-option";
 
 // custom hooks
-// import { useSelectedPage } from "../../contexts/selectedPageContext";
-// import { selectCurrentUser } from "../../redux/user/user.selectors";
-// import { connect } from "react-redux";
+import { setCurrentUser } from "../../redux/user/user.actions";
+import { setFlash } from "../../redux/flash/flash.actions";
+import { connect } from "react-redux";
 
 const options = [
   {
@@ -34,37 +35,21 @@ const options = [
     icon: "/page-icons/contract.png",
     iconDark: "/page-icons/contract-dark.png",
   },
+  {
+    name: "signout",
+    icon: "/page-icons/signout.png",
+    iconDark: "/page-icons/signout-dark.png",
+  },
 ];
-// const adminOptions = [
-//   {
-//     name: "manage-subscriptions",
-//     icon: "/page-icons/subscription.png",
-//     iconDark: "/page-icons/subscription-dark.png",
-//   },
-//   {
-//     name: "users",
-//     icon: "/page-icons/users.png",
-//     iconDark: "/page-icons/users-dark.png",
-//   },
-//   {
-//     name: "admins",
-//     icon: "/page-icons/admin.png",
-//     iconDark: "/page-icons/admin-dark.png",
-//   },
-//   {
-//     name: "analysis",
-//     icon: "/page-icons/dashboard.png",
-//     iconDark: "/page-icons/dashboard-dark.png",
-//   },
-//   {
-//     name: "payments",
-//     icon: "/page-icons/card.png",
-//     iconDark: "/page-icons/card-dark.png",
-//   },
-// ];
 
-function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
-  // console.log({ currentUser });
+function Sidebar({
+  isSidebarOpen,
+  setIsSidebarOpen,
+  setFlash,
+  setCurrentUser,
+}) {
+  const auth = getAuth();
+
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -91,6 +76,18 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     };
   }, [sidebarRef]);
 
+  async function handleSignOut() {
+    try {
+      await signOut(auth);
+      setCurrentUser(null);
+      setFlash({
+        type: "success",
+        message: "Signed out successfully",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <section
       className={`${styles.sidebar} ${isSidebarOpen && styles.active}`}
@@ -112,6 +109,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             }
             selected={selectedPage.includes(option.name)}
             onClick={() => {
+              if (option.name === "signout") return handleSignOut();
               setIsSidebarOpen(false);
               navigate(`/${option.name}`);
             }}
@@ -143,4 +141,4 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 //   currentUser: selectCurrentUser,
 // });
 // export default connect(mapStateToProps)(Sidebar);
-export default Sidebar;
+export default connect(null, { setCurrentUser, setFlash })(Sidebar);

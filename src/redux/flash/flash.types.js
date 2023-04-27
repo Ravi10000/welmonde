@@ -1,0 +1,6 @@
+const FLASH_ACTION_TYPES = {
+  SET_FLASH: "SET_FLASH",
+  CLEAR_FLASH: "CLEAR_FLASH",
+};
+
+export default FLASH_ACTION_TYPES;

@@ -57,7 +57,7 @@ function AllContractsPage() {
             {Array(25)
               .fill()
               .map((_, i) => (
-                <Contract contract={contract} />
+                <Contract contract={contract} key={i} />
               ))}
           </tbody>
         </table>

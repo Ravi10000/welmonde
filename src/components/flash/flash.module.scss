@@ -1,0 +1,60 @@
+.flash {
+  position: fixed;
+  top: -100%;
+  left: 0;
+  background-color: #fff;
+  padding: 20px 20px;
+  font-weight: 500;
+  z-index: 4000000;
+  width: 100%;
+  color: #0aa06e;
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 2px 4px 4px 5px rgba(57, 57, 57, 0.25);
+  transition: all 0.2s ease-in-out;
+  animation: animateFlash 0.2s ease-in-out forwards;
+  border: 1px solid #0aa06e;
+  border-radius: 8px;
+  .main {
+    display: flex;
+    align-items: center;
+    img {
+      width: 20px;
+      aspect-ratio: 1/1;
+      margin-right: 10px;
+    }
+  }
+  .close {
+    border: none;
+    padding: 10px;
+    background: transparent;
+    cursor: pointer;
+  }
+}
+
+.flash.error {
+  border-color: #fc476e;
+  color: #fc476e;
+}
+
+.flash.warning {
+  border-color: #ffc048;
+  color: #ffc048;
+}
+
+@media (min-width: 800px) {
+  .flash {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75%;
+    max-width: 800px;
+  }
+}
+
+@keyframes animateFlash {
+  to {
+    top: 10%;
+  }
+}

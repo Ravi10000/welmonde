@@ -18,9 +18,22 @@
       flex-direction: column;
       gap: 10px;
     }
+    .logo {
+      width: 200px;
+      height: fit-content;
+    }
     .otpContainer {
       display: flex;
       gap: 5px;
+    }
+    .action {
+      text-transform: capitalize;
+      width: fit-content;
+      color: var(--subBrandColor);
+      cursor: pointer;
+      &:hover {
+        color: var(--mainBrandColor);
+      }
     }
   }
 }
@@ -28,7 +41,8 @@
   .signinPage {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 100vh;
+    // min-height: 100vh;
+    min-height: calc(100vh - 62px);
     align-items: center;
     padding: 0;
 

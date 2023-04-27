@@ -78,3 +78,41 @@ td img {
     white-space: pre-wrap;
   }
 }
+
+/* .PhoneInputCountry {
+  display: flex;
+  flex-direction: row;
+}
+.PhoneInputCountry img {
+  width: 25px;
+} */
+
+.PhoneInputInput {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #edf0f2;
+  /* &::placeholder {
+      color: #959595;
+    }
+    &:focus {
+      outline: 1px solid var(--mainBrandColor);
+    } */
+}
+
+.PhoneInputCountrySelect {
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #edf0f2;
+}
+.PhoneInputCountrySelect:focus {
+  outline: 1px solid var(--mainBrandColor);
+}
+.PhoneInputInput:focus {
+  outline: 1px solid var(--mainBrandColor);
+  /* outline: none; */
+}
+/* .PhoneInput--focus {
+  border-radius: 5px;
+  outline: 1px solid var(--mainBrandColor);
+} */

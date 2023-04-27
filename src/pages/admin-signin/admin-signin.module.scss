@@ -13,10 +13,22 @@
     padding: 20px;
     width: 100%;
     max-width: 450px;
+    .logo {
+      width: 200px;
+      height: fit-content;
+    }
     .inputsContainer {
       display: flex;
       flex-direction: column;
       gap: 10px;
+    }
+    .fp {
+      width: fit-content;
+      color: var(--subBrandColor);
+      cursor: pointer;
+      &:hover {
+        color: var(--mainBrandColor);
+      }
     }
   }
 }
@@ -24,7 +36,7 @@
   .signinPage {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 100vh;
+    min-height: calc(100vh - 62px);
     align-items: center;
     padding: 0;
 

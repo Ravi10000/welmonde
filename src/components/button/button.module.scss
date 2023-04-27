@@ -10,6 +10,19 @@
   gap: 10px;
   align-items: center;
   justify-content: center;
+  &.isLoading {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .loader {
+    border: 2px solid #fff;
+    border-top: 2px solid transparent;
+    border-right: 2px solid transparent;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    animation: spinLoader 0.5s linear infinite;
+  }
   p {
     width: max-content;
   }
@@ -26,8 +39,19 @@
       color: #fff;
     }
   }
-  &.disabled {
-    cursor: not-allowed;
-    background: #94d4cc;
+  &.danger {
+    color: #e63946;
+    background: transparent;
+    border: 2px solid #e63946;
+    &:hover {
+      background: #e63946;
+      color: #fff;
+    }
+  }
+}
+
+@keyframes spinLoader {
+  to {
+    transform: rotate(360deg);
   }
 }
