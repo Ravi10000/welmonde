@@ -16,12 +16,12 @@ import app from "./firebase/index";
 // import { useAuthState } from "react-firebase-hooks/auth";
 import { setCurrentUser } from "./redux/user/user.actions";
 import { connect } from "react-redux";
-import IsAdmin from "./components/is-admin/is-admin";
+import IsAdmin from "./components/auth/is-admin";
 // import { checkUserAuth } from "./firebase/auth";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ProfilePage from "./pages/profile/profile";
-import IsUser from "./components/is-user/is-user";
-import IsNotSignedIn from "./components/is-not-signed-in/is-not-signed-in";
+import IsUser from "./components/auth/is-user";
+import IsNotSignedIn from "./components/auth/is-not-signed-in";
 import Flash from "./components/flash/flash";
 
 function App({ setCurrentUser, flash }) {

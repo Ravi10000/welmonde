@@ -3,8 +3,13 @@ import Button from "../../components/button/button";
 import { useRef, useState, useEffect } from "react";
 import Backdrop from "../../components/backdrop/backdrop";
 import Contract from "../all-contracts/contract/contract";
+import Popup from "../../components/popup/popup";
+import TextInput from "../../components/text-input/text-input";
+import NumInput from "../../components/num-input/num-input";
+
 function AllEmployeesPage() {
   const [showContracts, setShowContracts] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef();
 
   const contract = {
@@ -12,17 +17,6 @@ function AllEmployeesPage() {
     employee: "some employee",
     status: "pending",
     client: "some client",
-    // contents: [
-    //   {
-    //     title: "Agreement 1",
-    //   },
-    //   {
-    //     title: "Agreement 2",
-    //   },
-    //   {
-    //     title: "Agreement 3",
-    //   },
-    // ],
   };
   useEffect(() => {
     function handleClosePopup(e) {
@@ -37,6 +31,36 @@ function AllEmployeesPage() {
   }, [popupRef]);
   return (
     <div className={styles.allEmployees}>
+      {showPopup && (
+        <Popup title="Employee Details" closePopup={() => setShowPopup(false)}>
+          <TextInput
+            name="name"
+            label="Name"
+            placeholder="Enter Employee Name"
+          />
+          <TextInput
+            name="email"
+            label="Email"
+            placeholder="Enter Employee Email Id"
+          />
+          <NumInput
+            maxLength={10}
+            name="phone"
+            label="Phone"
+            placeholder="Enter Employee Phone Number"
+          />
+          <TextInput
+            name="password"
+            label="Password"
+            placeholder="Enter Employee Password"
+          />
+          <TextInput
+            name="confirmPassword"
+            label="Confirm Password"
+            placeholder="Enter Same Password As Above"
+          />
+        </Popup>
+      )}
       {showContracts && (
         <Backdrop>
           <div className={styles.contractPopup} ref={popupRef}>
@@ -85,6 +109,7 @@ function AllEmployeesPage() {
           fit
           icon={"/add-user.png"}
           hoverIcon={"/add-user-hover.png"}
+          onClick={() => setShowPopup(true)}
         >
           <p>Add Employee</p>
         </Button>

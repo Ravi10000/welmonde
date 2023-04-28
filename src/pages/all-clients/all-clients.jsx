@@ -1,8 +1,40 @@
 import styles from "./all-clients.module.scss";
 import Button from "../../components/button/button";
+import { useState } from "react";
+import Popup from "../../components/popup/popup";
+import TextInput from "../../components/text-input/text-input";
+import NumInput from "../../components/num-input/num-input";
+
 function AllClientsPage() {
+  const [showPopup, setShowPopup] = useState(false);
   return (
     <div className={styles.allClients}>
+      {showPopup && (
+        <Popup title="Client Details" closePopup={() => setShowPopup(false)}>
+          <TextInput name="name" label="Name" placeholder="Enter Client Name" />
+          <TextInput
+            name="email"
+            label="Email"
+            placeholder="Enter Client Email Id"
+          />
+          <NumInput
+            maxLength={10}
+            name="phone"
+            label="Phone"
+            placeholder="Enter Client Phone Number"
+          />
+          <TextInput
+            name="password"
+            label="Password"
+            placeholder="Enter Client Password"
+          />
+          <TextInput
+            name="confirmPassword"
+            label="Confirm Password"
+            placeholder="Enter Same Password As Above"
+          />
+        </Popup>
+      )}
       <h1 className="__pageHeading __subColorHeading">All Clients</h1>
       <div className={styles.cardsAndBtn}>
         <section className={styles.cardsContainer}>
@@ -24,6 +56,7 @@ function AllClientsPage() {
           fit
           icon={"/add-user.png"}
           hoverIcon={"/add-user-hover.png"}
+          onClick={() => setShowPopup(true)}
         >
           <p>Add Client</p>
         </Button>

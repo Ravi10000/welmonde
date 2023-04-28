@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import styles from "./is-not-signed-in.module.scss";
 import { connect } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import LoadinPage from "../../pages/loading/loading";
 
 function IsNotSignedIn({ currentUser, isLoading, children }) {
   const navigate = useNavigate();
@@ -11,13 +11,7 @@ function IsNotSignedIn({ currentUser, isLoading, children }) {
     }
   }, [isLoading, currentUser]);
 
-  return isLoading ? (
-    <div className={styles.loading}>
-      <h1>loading...</h1>
-    </div>
-  ) : (
-    children
-  );
+  return isLoading ? <LoadinPage /> : children;
 }
 
 const mapState = (state) => ({

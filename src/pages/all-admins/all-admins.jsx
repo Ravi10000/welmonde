@@ -3,17 +3,36 @@ import Button from "../../components/button/button";
 import Popup from "../../components/popup/popup";
 import { useState } from "react";
 import TextInput from "../../components/text-input/text-input";
+import NumInput from "../../components/num-input/num-input";
 function AllAdminsPage() {
   const [showPopup, setShowPopup] = useState(false);
 
   return (
     <div className={styles.allAdmins}>
       {showPopup && (
-        <Popup
-          title="Create New Admin"
-          closePopup={() => setShowPopup(false)}
-        >
-          <TextInput/>
+        <Popup title="Create New Admin" closePopup={() => setShowPopup(false)}>
+          <TextInput name="name" label="Name" placeholder="Enter Admin Name" />
+          <TextInput
+            name="email"
+            label="Email"
+            placeholder="Enter Admin Email Id"
+          />
+          <NumInput
+            maxLength={10}
+            name="phone"
+            label="Phone"
+            placeholder="Enter Admin Phone Number"
+          />
+          <TextInput
+            name="password"
+            label="Password"
+            placeholder="Enter Admin Password"
+          />
+          <TextInput
+            name="confirmPassword"
+            label="Confirm Password"
+            placeholder="Enter Same Password As Above"
+          />
         </Popup>
       )}
       <h1 className="__pageHeading __subColorHeading">All Admins</h1>

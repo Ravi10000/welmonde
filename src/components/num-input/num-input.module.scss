@@ -9,15 +9,15 @@
   }
   .num-input {
     padding: 15px 20px;
-    border: none;
-    border-radius: 50px;
-    color: var(--heading-clr);
-    // border: 2px solid #ced0d6;
-    // color: #545a6e;
-    // border-radius: 8px;
-    &:focus {
-      outline: 1px solid #a9a9a9;
+    border-radius: 5px;
+    border: 1px solid #edf0f2;
+    &::placeholder {
+      color: #959595;
     }
+    &:focus {
+      outline: 1px solid var(--mainBrandColor);
+    }
+
     &::placeholder {
       font-weight: 500;
       color: #545a6e98;
