@@ -102,6 +102,8 @@ function SigninPage({ setCurrentUser, setFlash }) {
     digit2.current.value = "";
     digit3.current.value = "";
     digit4.current.value = "";
+    digit5.current.value = "";
+    digit6.current.value = "";
     digit1.current.focus();
   }
   async function verifyOTP() {

@@ -6,12 +6,62 @@ import Contract from "../all-contracts/contract/contract";
 import Popup from "../../components/popup/popup";
 import TextInput from "../../components/text-input/text-input";
 import NumInput from "../../components/num-input/num-input";
+import { setFlash } from "../../redux/flash/flash.actions";
+import { connect } from "react-redux";
+import { fetchAllEmployees } from "../../firebase/auth";
+import { useForm } from "react-hook-form";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, createAdminProfileDocument } from "../../firebase/auth";
 
-function AllEmployeesPage() {
+function AllEmployeesPage({ setFlash }) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm();
   const [showContracts, setShowContracts] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef();
 
+  const [showPopup, setShowPopup] = useState(false);
+  const [employees, setEmployees] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleFetchEmployees() {
+    const employees = await fetchAllEmployees();
+    console.log(employees);
+    setEmployees(employees);
+  }
+  useEffect(() => {
+    handleFetchEmployees();
+  }, []);
+
+  async function handleEmployeeCreation(data) {
+    setIsLoading(true);
+    const { fname, lname, email, mobile, password } = data;
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await createAdminProfileDocument(user, {
+        fname,
+        lname,
+        mobile,
+        usertype: "EMPLOYEE",
+      });
+      await handleFetchEmployees();
+      setFlash({ message: "Employee Created Successfully", type: "success" });
+      setShowPopup(false);
+      reset();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }
   const contract = {
     name: "Contract Title",
     employee: "some employee",
@@ -32,34 +82,99 @@ function AllEmployeesPage() {
   return (
     <div className={styles.allEmployees}>
       {showPopup && (
-        <Popup title="Employee Details" closePopup={() => setShowPopup(false)}>
-          <TextInput
-            name="name"
-            label="Name"
-            placeholder="Enter Employee Name"
-          />
-          <TextInput
-            name="email"
-            label="Email"
-            placeholder="Enter Employee Email Id"
-          />
-          <NumInput
-            maxLength={10}
-            name="phone"
-            label="Phone"
-            placeholder="Enter Employee Phone Number"
-          />
-          <TextInput
-            name="password"
-            label="Password"
-            placeholder="Enter Employee Password"
-          />
-          <TextInput
-            name="confirmPassword"
-            label="Confirm Password"
-            placeholder="Enter Same Password As Above"
-          />
-        </Popup>
+        <form onSubmit={handleSubmit(handleEmployeeCreation)} noValidate>
+          <Popup
+            isLoading={isLoading}
+            title="Create New Admin"
+            closePopup={() => setShowPopup(false)}
+          >
+            <TextInput
+              label="First Name"
+              placeholder="Enter First Name"
+              error={errors?.fname?.message}
+              register={{
+                ...register("fname", {
+                  required: "Enter First Name",
+                  pattern: {
+                    value: /^[A-Za-z]+$/i,
+                    message: "only alphabets are allowed",
+                  },
+                }),
+              }}
+            />
+            <TextInput
+              label="Last Name"
+              placeholder="Enter Last Name"
+              error={errors?.lname?.message}
+              register={{
+                ...register("lname", {
+                  required: "Enter Last Name",
+                  pattern: {
+                    value: /^[A-Za-z]+$/i,
+                    message: "only alphabets are allowed",
+                  },
+                }),
+              }}
+            />
+            <TextInput
+              label="Email"
+              placeholder="Enter Admin Email Id"
+              error={errors?.email?.message}
+              register={{
+                ...register("email", {
+                  required: "Enter Email Id",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Not a valid Email Id",
+                  },
+                }),
+              }}
+            />
+            <NumInput
+              maxLength={10}
+              label="Mobile Number"
+              placeholder="Enter Admin Mobile Number"
+              error={errors?.mobile?.message}
+              register={{
+                ...register("mobile", {
+                  required: "Enter Mobile Number",
+                  minLength: {
+                    value: 10,
+                    message: "Mobile Number should be 10 digits",
+                  },
+                  maxLength: {
+                    value: 10,
+                    message: "Mobile Number should be 10 digits",
+                  },
+                }),
+              }}
+            />
+            <TextInput
+              label="Password"
+              type="password"
+              placeholder="Enter Admin Password"
+              error={errors?.password?.message}
+              register={{
+                ...register("password", {
+                  required: "Enter password",
+                }),
+              }}
+            />
+            <TextInput
+              label="Confirm Password"
+              type="password"
+              placeholder="Enter Same Password As Above"
+              error={errors?.confirmPassword?.message}
+              register={{
+                ...register("confirmPassword", {
+                  required: "Confirm your password ",
+                  validate: (value) =>
+                    value === watch("password") || "Passwords do not match",
+                }),
+              }}
+            />
+          </Popup>
+        </form>
       )}
       {showContracts && (
         <Backdrop>
@@ -118,9 +233,9 @@ function AllEmployeesPage() {
         <table>
           <thead>
             <tr>
-              <th>
+              {/* <th>
                 <input type="checkbox" />
-              </th>
+              </th> */}
               <th>
                 Employee Name <img src="/sorting.png" alt="sort" />
               </th>
@@ -139,23 +254,15 @@ function AllEmployeesPage() {
             </tr>
           </thead>
           <tbody>
-            {Array(100)
-              .fill()
-              .map((_, i) => (
-                <tr
-                  key={i}
-                  onClick={() => setShowContracts((prevState) => !prevState)}
-                >
-                  <td>
-                    <input type="checkbox" />
-                  </td>
-                  <td>Ravi Sharma</td>
-                  <td>ravisince2k@gmail.com</td>
-                  <td>9560863067</td>
-                  <td>102</td>
-                  <td>52</td>
-                </tr>
-              ))}
+            {employees?.map((employee, i) => (
+              <tr key={i}>
+                <td>{employee?.fname + " " + employee?.lname}</td>
+                <td>{employee?.email}</td>
+                <td>{employee?.mobile}</td>
+                <td>102</td>
+                <td>102</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -163,4 +270,4 @@ function AllEmployeesPage() {
   );
 }
 
-export default AllEmployeesPage;
+export default connect(null, { setFlash })(AllEmployeesPage);

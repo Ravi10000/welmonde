@@ -15,7 +15,7 @@ function Header({ currentUser }) {
         onClick={() => navigate("/")}
       />
       {currentUser ? (
-        currentUser?.userType === "ADMIN" ? (
+        currentUser?.usertype === "ADMIN" ? (
           <Button fit outlined onClick={() => navigate("/admins")}>
             Admin
           </Button>

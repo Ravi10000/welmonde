@@ -8,9 +8,7 @@ function IsAdmin({ currentUser, isLoading, children }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoading && currentUser?.userType !== "ADMIN") {
-      console.log("not admin");
-      console.log({ usertype: currentUser?.userType, isLoading });
+    if (!isLoading && currentUser?.usertype !== "ADMIN") {
       navigate("/");
     }
   }, [isLoading, currentUser]);

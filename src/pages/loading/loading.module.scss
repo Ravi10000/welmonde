@@ -9,5 +9,19 @@
   align-items: center;
   justify-content: center;
   background: var(--mainBrandColor);
-  color: #fff;
+  .loader {
+    border: 5px solid #fff;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    animation: spinLoader 0.5s linear infinite;
+  }
+}
+
+@keyframes spinLoader {
+  to {
+    transform: rotate(360deg);
+  }
 }

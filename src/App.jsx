@@ -23,6 +23,8 @@ import ProfilePage from "./pages/profile/profile";
 import IsUser from "./components/auth/is-user";
 import IsNotSignedIn from "./components/auth/is-not-signed-in";
 import Flash from "./components/flash/flash";
+import LoadinPage from "./pages/loading/loading";
+import { fetchUser } from "./firebase/auth";
 
 function App({ setCurrentUser, flash }) {
   const { pathname } = useLocation();
@@ -45,14 +47,18 @@ function App({ setCurrentUser, flash }) {
   async function handleCheckAuth() {
     setFetchingUser(true);
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user?.email) {
-        setCurrentUser({ email: user.email, userType: "ADMIN" });
-      } else if (user?.phoneNumber) {
-        setCurrentUser({ phoneNumber: user.phoneNumber });
+    onAuthStateChanged(auth, (userSnapshot) => {
+      if (userSnapshot) {
+        console.log({ uid: userSnapshot?.uid });
+        fetchUser(userSnapshot.uid).then((user) => {
+          console.log({ user });
+          if (user)
+            setCurrentUser({ email: user?.email, usertype: user?.usertype });
+          setFetchingUser(false);
+        });
       }
-      setFetchingUser(false);
     });
+    setFetchingUser(false);
   }
   useEffect(() => {
     handleCheckAuth();
@@ -145,6 +151,7 @@ function App({ setCurrentUser, flash }) {
             }
           />
           <Route exact path="/" element={<HomePage />} />
+          <Route exact path="/:id" element={<Navigate to="/" />} />
         </Routes>
       </div>
     </div>

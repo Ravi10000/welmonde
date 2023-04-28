@@ -21,4 +21,6 @@ console.log("initializing firebase");
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
+export const detatchApp = initializeApp(firebaseConfig, "createUser");
+
 export default app;
