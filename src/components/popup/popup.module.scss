@@ -1,0 +1,49 @@
+.popup {
+  margin: auto;
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  // background: var(--background-clr);
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 2px 20px #a6a6a640;
+  animation: slideInPopup 0.1s ease;
+  .popupHead {
+    display: flex;
+    text-transform: capitalize;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #f7f7f7;
+    .title {
+      color: var(--subBrandColor);
+    }
+    .closeIcon {
+      cursor: pointer;
+      height: 1rem;
+      width: fit-content;
+    }
+  }
+  .inputsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .btnContainer {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+  }
+}
+
+@keyframes slideInPopup {
+  0% {
+    transform: translateY(-30%) scale(0.8);
+  }
+
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}

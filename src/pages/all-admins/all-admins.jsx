@@ -1,8 +1,21 @@
 import styles from "./all-admins.module.scss";
 import Button from "../../components/button/button";
+import Popup from "../../components/popup/popup";
+import { useState } from "react";
+import TextInput from "../../components/text-input/text-input";
 function AllAdminsPage() {
+  const [showPopup, setShowPopup] = useState(false);
+
   return (
     <div className={styles.allAdmins}>
+      {showPopup && (
+        <Popup
+          title="Create New Admin"
+          closePopup={() => setShowPopup(false)}
+        >
+          <TextInput/>
+        </Popup>
+      )}
       <h1 className="__pageHeading __subColorHeading">All Admins</h1>
       <div className={styles.cardsAndBtn}>
         <section className={styles.cardsContainer}>
@@ -24,6 +37,7 @@ function AllAdminsPage() {
           fit
           icon={"/add-user.png"}
           hoverIcon={"/add-user-hover.png"}
+          onClick={() => setShowPopup(true)}
         >
           <p>Add Admin</p>
         </Button>

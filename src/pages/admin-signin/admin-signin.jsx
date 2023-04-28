@@ -4,25 +4,27 @@ import { useState } from "react";
 import { signInAdmin } from "../../firebase/auth";
 // components
 import Button from "../../components/button/button";
-import InputBox from "../../components/input/input";
 import { connect } from "react-redux";
 import { setCurrentUser } from "../../redux/user/user.actions";
 import { setFlash } from "../../redux/flash/flash.actions";
+import TextInput from "../../components/text-input/text-input";
+import { useForm } from "react-hook-form";
 
 function AdminSigninPage({ setCurrentUser, setFlash }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const navigate = useNavigate();
   const [verifing, setVerifing] = useState(false);
 
-  async function handleSignInAdmin(e) {
+  async function handleSignInAdmin(data) {
     setVerifing(true);
-    e.preventDefault();
-    const { email, password } = e.target.elements;
-    const emailValue = email.value;
-    const passwordValue = password.value;
-    console.log(emailValue, passwordValue);
-
+    console.log({ data });
     try {
-      const response = await signInAdmin(emailValue, passwordValue);
+      const response = await signInAdmin(data.email, data.password);
       if (response.error) {
         return setFlash({
           type: "error",
@@ -50,14 +52,33 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
           <img className={styles.logo} src="/logo-transparent.png" alt="" />
         </div>
         <h1>Admin Sign in</h1>
-        <form onSubmit={handleSignInAdmin}>
+        <form onSubmit={handleSubmit(handleSignInAdmin)} noValidate>
           <div className={styles.inputsContainer}>
-            <InputBox name="email" label="email" placeholder="Enter Email" />
-            <InputBox
-              name="password"
-              label="password"
+            <TextInput
+              type="email"
+              label="Email"
+              placeholder="Enter Email"
+              error={errors?.email?.message}
+              register={{
+                ...register("email", {
+                  required: "Enter Email ",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Not a valid Email Id",
+                  },
+                }),
+              }}
+            />
+            <TextInput
               type="password"
+              label="Password"
               placeholder="Enter Password"
+              error={errors?.password?.message}
+              register={{
+                ...register("password", {
+                  required: "Enter password",
+                }),
+              }}
             />
             <p className={styles.fp}>forgot password?</p>
             <Button fit isLoading={verifing}>

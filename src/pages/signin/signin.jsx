@@ -35,8 +35,8 @@ function SigninPage({ setCurrentUser, setFlash }) {
   const digit6 = useRef();
 
   async function handleSendOtp() {
-    // setOtpSent(true);
     setVerifingCaptcha(true);
+    console.log({ phone });
     const response = await sendOtp(phone);
     console.log({ response });
     if (response) setOtpSent(true);
@@ -156,15 +156,15 @@ function SigninPage({ setCurrentUser, setFlash }) {
                 onChange={setPhone}
               />
               <div id="recaptcha-container"></div>
-              {!verifingCaptcha && (
-                <Button
-                  onClick={handleSendOtp}
-                  // disabled={!validNumber}
-                  id="sign-in-button"
-                >
-                  Send OTP
-                </Button>
-              )}
+              {/* {!verifingCaptcha && ( */}
+              <Button
+                onClick={handleSendOtp}
+                // disabled={!validNumber}
+                id="sign-in-button"
+              >
+                Send OTP
+              </Button>
+              {/* )} */}
             </>
           ) : (
             <p>OTP sent to {phone}</p>

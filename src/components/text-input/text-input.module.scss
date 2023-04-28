@@ -1,0 +1,55 @@
+.input-container {
+  display: grid;
+  gap: 5px;
+  width: 100%;
+  text-align: left;
+  color: #a2a5b5;
+  .label {
+    margin-left: 10px;
+  }
+  .text-input {
+    padding: 15px 20px;
+    border-radius: 5px;
+    border: 1px solid #edf0f2;
+    &::placeholder {
+      color: #959595;
+    }
+    &:focus {
+      outline: 1px solid var(--mainBrandColor);
+    }
+
+    &::placeholder {
+      font-weight: 500;
+      color: #545a6e98;
+    }
+  }
+  .errMsg {
+    font-weight: 500;
+    // color: #545a6e;
+    color: #fb5607;
+    letter-spacing: 2px;
+    padding-left: 10px;
+    font-size: 0.75rem;
+  }
+
+  .passwordInput {
+    width: 100%;
+    position: relative;
+    .text-input {
+      width: 100%;
+    }
+    .toggleShow {
+      position: absolute;
+      right: 15px;
+      height: 25px;
+      width: fit-content;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.5;
+      cursor: pointer;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
