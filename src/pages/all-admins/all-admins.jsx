@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import TextInput from "../../components/text-input/text-input";
 import NumInput from "../../components/num-input/num-input";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { createAdminProfileDocument } from "../../firebase/auth";
+import { createUserProfile } from "../../firebase/auth";
 import { setFlash } from "../../redux/flash/flash.actions";
 import { connect } from "react-redux";
 import { fetchAllAdmins } from "../../firebase/auth";
@@ -54,7 +54,7 @@ function AllAdminsPage({ setFlash }) {
         email,
         password
       );
-      await createAdminProfileDocument(user, {
+      await createUserProfile(user, {
         fname,
         lname,
         mobile,
@@ -172,7 +172,7 @@ function AllAdminsPage({ setFlash }) {
       <div className={styles.cardsAndBtn}>
         <section className={styles.cardsContainer}>
           <div className={styles.card}>
-            <p>12000</p>
+            <p>{admins?.length}</p>
             <h4>Total Admins</h4>
           </div>
           <div className={styles.card}>

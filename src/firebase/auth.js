@@ -45,14 +45,12 @@ export async function sendOtp(phone) {
   }
 }
 
-export const createAdminProfileDocument = async (adminAuth, additionalData) => {
-  const adminDocRef = doc(db, "users", adminAuth.uid);
+export const createUserProfile = async (auth, additionalData) => {
+  const adminDocRef = doc(db, "users", auth.uid);
   const snapshot = await getDoc(adminDocRef);
-  console.log({ adminAuth });
-  console.log(snapshot.data(), snapshot.exists());
 
   if (!snapshot.exists()) {
-    const { email, uid } = adminAuth;
+    const { email, uid } = auth;
     try {
       await setDoc(adminDocRef, {
         email,
@@ -91,9 +89,19 @@ export const fetchUser = async (uid) => {
   return docSnap.data();
 };
 
-export const addClient = async (clientData) => {
+export const addNewClient = async (clientData) => {
   try {
     const docRef = await addDoc(collection(db, "clients"), clientData);
+    return docRef;
+  } catch (error) {
+    console.log(error);
+    return { error: error.message };
+  }
+};
+export const updateClientDetails = async (userId, clientData) => {
+  console.log({ userId, clientData });
+  try {
+    const docRef = await setDoc(doc(db, "clients", userId), clientData);
     return docRef;
   } catch (error) {
     console.log(error);

@@ -5,7 +5,11 @@ import Popup from "../../components/popup/popup";
 import TextInput from "../../components/text-input/text-input";
 import NumInput from "../../components/num-input/num-input";
 import { useEffect } from "react";
-import { addClient, fetchAllClients } from "../../firebase/auth";
+import {
+  updateClientDetails,
+  addNewClient,
+  fetchAllClients,
+} from "../../firebase/auth";
 import { useForm } from "react-hook-form";
 import { setFlash } from "../../redux/flash/flash.actions";
 import { connect } from "react-redux";
@@ -16,52 +20,151 @@ function AllClientsPage({ setFlash }) {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      representativeName: "test",
-      businessName: "test business",
-      mobile: Math.floor(Math.random() * 1000000000),
-      street: "street",
-      city: "city",
-      state: "state",
-      pincode: "000000",
-    },
-  });
+  } = useForm();
+  const [isAddingUser, setIsAddingUser] = useState(false);
+  const [isUpdatingUser, setIsUpdatingUser] = useState(false);
 
-  const [showPopup, setShowPopup] = useState(false);
+  const [showInitialPopup, setShowInitialPopup] = useState(false);
+  const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+  const [userId, setUserId] = useState(null);
+
   const [clients, setClients] = useState([]);
 
-  async function handleFetchClient() {
+  async function handleFetchClients() {
     const clients = await fetchAllClients();
     setClients(clients);
   }
   async function handleClientCreation(data) {
-    console.log({ data });
+    setIsAddingUser(true);
     try {
-      const res = await addClient(data);
-      if (res) {
-        await handleFetchClient();
-        setFlash({ type: "success", message: "Client Added Successfully" });
+      const userSnapshot = await addNewClient(data);
+      console.log({ userSnapshot: userSnapshot?.id });
+      if (userSnapshot) {
         reset();
+        setUserId(userSnapshot?.id);
+        setShowDetailsPopup(true);
       }
     } catch (err) {
       console.log(err);
     } finally {
-      setShowPopup(false);
+      setIsAddingUser(false);
+      setShowInitialPopup(false);
+    }
+  }
+
+  async function handleClientDetailsUpdate(data) {
+    setIsUpdatingUser(true);
+    try {
+      const res = await updateClientDetails(userId, data);
+      console.log({ res });
+      await handleFetchClients();
+      setFlash({
+        message: "Client Details Updated Successfully",
+        type: "success",
+      });
+      setShowDetailsPopup(false);
+      reset();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsUpdatingUser(false);
+      setShowDetailsPopup(false);
     }
   }
 
   useEffect(() => {
-    handleFetchClient();
+    handleFetchClients();
   }, []);
 
   return (
     <div className={styles.allClients}>
-      {showPopup && (
-        <form onSubmit={handleSubmit(handleClientCreation)}>
-          <Popup title="Client Details" closePopup={() => setShowPopup(false)}>
+      {showInitialPopup && (
+        <form onSubmit={handleSubmit(handleClientCreation)} noValidate>
+          <Popup
+            isLoading={isAddingUser}
+            title={`Create New Client`}
+            closePopup={() => setShowInitialPopup(false)}
+          >
             <TextInput
+              label="First Name"
+              placeholder="Enter First Name"
+              error={errors?.fname?.message}
+              defaultValue={"test"}
+              register={{
+                ...register("fname", {
+                  required: "Enter First Name",
+                  pattern: {
+                    value: /^[A-Za-z]+$/i,
+                    message: "only alphabets are allowed",
+                  },
+                }),
+              }}
+            />
+            <TextInput
+              defaultValue={"test"}
+              label="Last Name"
+              placeholder="Enter Last Name"
+              error={errors?.lname?.message}
+              register={{
+                ...register("lname", {
+                  required: "Enter Last Name",
+                  pattern: {
+                    value: /^[A-Za-z]+$/i,
+                    message: "only alphabets are allowed",
+                  },
+                }),
+              }}
+            />
+            <TextInput
+              defaultValue={"test@mail.com"}
+              label="Email"
+              placeholder="Enter Admin Email Id"
+              error={errors?.email?.message}
+              register={{
+                ...register("email", {
+                  required: "Enter Email Id",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Not a valid Email Id",
+                  },
+                }),
+              }}
+            />
+            <NumInput
+              defaultValue={"909090123123"}
+              maxLength={10}
+              label="Mobile Number"
+              placeholder="Enter Admin Mobile Number"
+              error={errors?.mobile?.message}
+              register={{
+                ...register("mobile", {
+                  required: "Enter Mobile Number",
+                  minLength: {
+                    value: 10,
+                    message: "Mobile Number should be 10 digits",
+                  },
+                  maxLength: {
+                    value: 10,
+                    message: "Mobile Number should be 10 digits",
+                  },
+                }),
+              }}
+            />
+          </Popup>
+        </form>
+      )}
+      {showDetailsPopup && (
+        <form onSubmit={handleSubmit(handleClientDetailsUpdate)}>
+          <Popup
+            defaultValue={"test"}
+            isLoading={isUpdatingUser}
+            title="Client Details"
+            closePopup={() => setShowDetailsPopup(false)}
+          >
+            <TextInput
+              defaultValue={"test"}
               name="representativeName"
               label="Representative Name"
               placeholder="Enter Representative Name"
@@ -69,27 +172,22 @@ function AllClientsPage({ setFlash }) {
               register={register("representativeName", { required: true })}
             />
             <TextInput
+              defaultValue={"test"}
               name="businessName"
               label="Business Name"
               placeholder="Enter Business Name"
               required={true}
               register={register("businessName", { required: true })}
             />
-            <NumInput
-              maxLength={10}
-              name="mobile"
-              label="Phone"
-              placeholder="Enter Client Phone Number"
-              required={true}
-              register={register("mobile", { required: true })}
-            />
             <TextInput
+              defaultValue={"test"}
               name="street"
               label="Street"
               placeholder="Enter Street"
               register={register("street", { required: true })}
             />
             <TextInput
+              defaultValue={"test"}
               name="city"
               label="City"
               placeholder="Enter City"
@@ -97,6 +195,7 @@ function AllClientsPage({ setFlash }) {
               register={register("city", { required: true })}
             />
             <TextInput
+              defaultValue={"test"}
               name="state"
               label="State"
               placeholder="Enter State"
@@ -104,6 +203,7 @@ function AllClientsPage({ setFlash }) {
               register={register("state", { required: true })}
             />
             <NumInput
+              defaultValue={"909090"}
               maxLength={6}
               name="pincode"
               label="Pincode"
@@ -152,7 +252,7 @@ function AllClientsPage({ setFlash }) {
       <div className={styles.cardsAndBtn}>
         <section className={styles.cardsContainer}>
           <div className={styles.card}>
-            <p>12000</p>
+            <p>{clients?.length}</p>
             <h4>Total Clients</h4>
           </div>
           <div className={styles.card}>
@@ -169,7 +269,7 @@ function AllClientsPage({ setFlash }) {
           fit
           icon={"/add-user.png"}
           hoverIcon={"/add-user-hover.png"}
-          onClick={() => setShowPopup(true)}
+          onClick={() => setShowInitialPopup(true)}
         >
           <p>Add Client</p>
         </Button>
@@ -222,9 +322,8 @@ function AllClientsPage({ setFlash }) {
                   {client?.pincode}
                 </td>
                 <td className={styles.verticalData}>
-                  {client?.vertical?.map((v) => (
-                    <p>{v}, </p>
-                  ))}
+                  {client?.vertical &&
+                    client?.vertical?.map((v) => <p>{v}, </p>)}
                 </td>
               </tr>
             ))}

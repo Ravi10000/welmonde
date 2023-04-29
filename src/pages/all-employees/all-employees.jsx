@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { fetchAllEmployees } from "../../firebase/auth";
 import { useForm } from "react-hook-form";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, createAdminProfileDocument } from "../../firebase/auth";
+import { auth, createUserProfile } from "../../firebase/auth";
 
 function AllEmployeesPage({ setFlash }) {
   const {
@@ -46,7 +46,7 @@ function AllEmployeesPage({ setFlash }) {
         email,
         password
       );
-      await createAdminProfileDocument(user, {
+      await createUserProfile(user, {
         fname,
         lname,
         mobile,
@@ -207,7 +207,7 @@ function AllEmployeesPage({ setFlash }) {
       <div className={styles.cardsAndBtn}>
         <section className={styles.cardsContainer}>
           <div className={styles.card}>
-            <p>12000</p>
+            <p>{employees?.length}</p>
             <h4>Total Employees</h4>
           </div>
           <div className={styles.card}>
