@@ -10,7 +10,7 @@ import { setFlash } from "../../redux/flash/flash.actions";
 import { connect } from "react-redux";
 import { fetchAllAdmins } from "../../firebase/auth";
 import { useForm } from "react-hook-form";
-import { detatchApp } from "../../firebase";
+import { detatchApp, detatchAuth } from "../../firebase";
 import { getAuth } from "firebase/auth";
 
 function AllAdminsPage({ setFlash }) {
@@ -20,7 +20,16 @@ function AllAdminsPage({ setFlash }) {
     watch,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      fname: "test",
+      lname: "test",
+      email: "test@email.com",
+      mobile: "0000000000",
+      password: "password",
+      confirmPassword: "password",
+    },
+  });
 
   const [showPopup, setShowPopup] = useState(false);
   const [admins, setAdmins] = useState([]);
@@ -38,10 +47,10 @@ function AllAdminsPage({ setFlash }) {
   async function handleAdminCreation(data) {
     setIsLoading(true);
     const { fname, lname, email, mobile, password } = data;
-    const auth = getAuth(detatchApp);
+    // const auth = getAuth(detatchApp);
     try {
       const { user } = await createUserWithEmailAndPassword(
-        auth,
+        detatchAuth,
         email,
         password
       );

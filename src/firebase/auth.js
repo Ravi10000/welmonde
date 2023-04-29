@@ -100,4 +100,3 @@ export const addClient = async (clientData) => {
     return { error: error.message };
   }
 };
-

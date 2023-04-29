@@ -3,7 +3,6 @@ import styles from "./num-input.module.scss";
 import React, { useId } from "react";
 
 export default function NumInput({ label, error, register, ...otherProps }) {
-  console.log({ register });
   const id = useId();
   return (
     <div className={styles["num-input-container"]}>

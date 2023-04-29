@@ -1,0 +1,15 @@
+.checkbox {
+  display: flex;
+  width: fit-content;
+  padding: 7px 10px;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid var(--fadeGray);
+  border-radius: 2px;
+  &.active {
+    border: 1px solid var(--subBrandColor);
+  }
+//   input {
+//     display: none;
+//   }
+}

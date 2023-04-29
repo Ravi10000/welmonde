@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import LoadinPage from "../../pages/loading/loading";
 
 function IsAdmin({ currentUser, isLoading, children }) {
-  console.log(currentUser?.userType === "ADMIN");
+  console.log(currentUser?.usertype === "ADMIN");
   const navigate = useNavigate();
 
   useEffect(() => {

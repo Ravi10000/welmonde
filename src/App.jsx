@@ -47,18 +47,17 @@ function App({ setCurrentUser, flash }) {
   async function handleCheckAuth() {
     setFetchingUser(true);
     const auth = getAuth();
-    onAuthStateChanged(auth, (userSnapshot) => {
+    onAuthStateChanged(auth, async (userSnapshot) => {
       if (userSnapshot) {
-        console.log({ uid: userSnapshot?.uid });
-        fetchUser(userSnapshot.uid).then((user) => {
-          console.log({ user });
+        await fetchUser(userSnapshot.uid).then((user) => {
           if (user)
             setCurrentUser({ email: user?.email, usertype: user?.usertype });
           setFetchingUser(false);
         });
+      } else {
+        setFetchingUser(false);
       }
     });
-    setFetchingUser(false);
   }
   useEffect(() => {
     handleCheckAuth();

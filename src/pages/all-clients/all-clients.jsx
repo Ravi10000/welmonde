@@ -9,6 +9,7 @@ import { addClient, fetchAllClients } from "../../firebase/auth";
 import { useForm } from "react-hook-form";
 import { setFlash } from "../../redux/flash/flash.actions";
 import { connect } from "react-redux";
+import CheckBox from "../../components/check-box/check-box";
 
 function AllClientsPage({ setFlash }) {
   const {
@@ -36,10 +37,19 @@ function AllClientsPage({ setFlash }) {
     setClients(clients);
   }
   async function handleClientCreation(data) {
-    const res = await addClient(data);
-    await handleFetchClient();
-    setShowPopup(false);
-    reset();
+    console.log({ data });
+    try {
+      const res = await addClient(data);
+      if (res) {
+        await handleFetchClient();
+        setFlash({ type: "success", message: "Client Added Successfully" });
+        reset();
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setShowPopup(false);
+    }
   }
 
   useEffect(() => {
@@ -101,6 +111,40 @@ function AllClientsPage({ setFlash }) {
               required={true}
               register={register("pincode", { required: true })}
             />
+            <div className={styles.vertical}>
+              <p>Vertical</p>
+              <div className={styles.list}>
+                <CheckBox
+                  label="Clinic"
+                  name="vertical"
+                  {...register("vertical")}
+                />
+                <CheckBox
+                  label="Pharmacy"
+                  register={{ ...register("vertical") }}
+                />
+                <CheckBox
+                  label="Diagnostics"
+                  register={{ ...register("vertical") }}
+                />
+                <CheckBox
+                  label="Pet Clinic"
+                  register={{ ...register("vertical") }}
+                />
+                <CheckBox
+                  label="Ayurveda"
+                  register={{ ...register("vertical") }}
+                />
+                <CheckBox
+                  label="Fitness"
+                  register={{ ...register("vertical") }}
+                />
+                <CheckBox
+                  label="Wellness"
+                  register={{ ...register("vertical") }}
+                />
+              </div>
+            </div>
           </Popup>
         </form>
       )}
@@ -177,7 +221,7 @@ function AllClientsPage({ setFlash }) {
                   {client?.street}, {client?.city}, {client?.state},{" "}
                   {client?.pincode}
                 </td>
-                <td>
+                <td className={styles.verticalData}>
                   {client?.vertical?.map((v) => (
                     <p>{v}, </p>
                   ))}

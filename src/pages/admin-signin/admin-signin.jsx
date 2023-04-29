@@ -15,7 +15,12 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      email: "admin@gmail.com",
+      password: "password",
+    },
+  });
 
   const navigate = useNavigate();
   const [verifing, setVerifing] = useState(false);
@@ -31,13 +36,7 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
           message: response.error,
         });
       }
-      if (response?.email)
-        setCurrentUser({ email: response?.email, userType: "ADMIN" });
-      setFlash({
-        type: "success",
-        message: "Admin Signed in successfully",
-      });
-      navigate("/admins");
+      if (response) navigate("/admins");
     } catch (err) {
       console.log(err);
     } finally {
