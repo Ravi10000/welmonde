@@ -11,6 +11,7 @@
   align-items: center;
   justify-content: center;
   border: 2px solid var(--mainBrandColor);
+  width: 100%;
   &.isLoading {
     cursor: not-allowed;
     opacity: 0.5;
@@ -47,6 +48,25 @@
     &:hover {
       background: #e63946;
       color: #fff;
+    }
+  }
+  &.destruct {
+    background: #e63946;
+    border-color: #e63946;
+  }
+  &.action {
+    background: #0077b6;
+    border-color: #0077b6;
+  }
+  &.fit {
+    width: fit-content;
+  }
+  &.iconOnly {
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    img {
+      width: 20px;
     }
   }
 }

@@ -15,6 +15,7 @@ import {
   where,
   query,
   addDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 export const auth = getAuth();
@@ -61,8 +62,9 @@ export const createUserProfile = async (auth, additionalData) => {
     } catch (err) {
       console.log("error creating admin", err.message);
     }
+  } else {
+    return { error: "User already exists" };
   }
-
   return adminDocRef;
 };
 
@@ -80,7 +82,7 @@ export const fetchAllEmployees = async () => {
 export const fetchAllClients = async () => {
   const q = query(collection(db, "clients"));
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => doc.data());
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
 
 export const fetchUser = async (uid) => {
@@ -101,10 +103,52 @@ export const addNewClient = async (clientData) => {
 export const updateClientDetails = async (userId, clientData) => {
   console.log({ userId, clientData });
   try {
-    const docRef = await setDoc(doc(db, "clients", userId), clientData);
+    const snapshot = await getDoc(doc(db, "clients", userId));
+    const existingData = snapshot.data();
+
+    const docRef = await setDoc(doc(db, "clients", userId), {
+      ...existingData,
+      ...clientData,
+    });
     return docRef;
   } catch (error) {
     console.log(error);
     return { error: error.message };
+  }
+};
+export const updateUserDetails = async (userToEdit, userData) => {
+  try {
+    const docRef = await setDoc(doc(db, "users", userToEdit.uid), {
+      ...userToEdit,
+      ...userData,
+    });
+    return docRef;
+  } catch (error) {
+    console.log(error);
+    return { error: error.message };
+  }
+};
+export const EditClientDetails = async (clientToEdit, newData) => {
+  console.log({ clientToEdit, newData });
+  try {
+    const docRef = await setDoc(doc(db, "clients", clientToEdit.id), {
+      ...clientToEdit,
+      ...newData,
+    });
+    return docRef;
+  } catch (error) {
+    console.log(error);
+    return { error: error.message };
+  }
+};
+
+export const deleteUser = async (uid) => {
+  console.log({ uid });
+  try {
+    const snapshot = await deleteDoc(doc(db, "users", uid));
+    console.log({ snapshot });
+  } catch (err) {
+    console.log({ err });
+    return { error: err.message };
   }
 };

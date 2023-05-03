@@ -17,6 +17,35 @@
       }
     }
   }
+  .table {
+    width: fit-content;
+    border: 2px solid rgba(218, 218, 218, 0.612);
+    display: grid;
+    grid-template-columns: 1fr;
+    .tableHead {
+      display: grid;
+      padding: 5px;
+      width: fit-content;
+      border-bottom: 2px solid rgba(218, 218, 218, 0.612);
+      grid-template-columns: repeat(6, 1fr);
+      .columnTitle {
+        font-weight: 600;
+        color: var(--subBrandColor);
+        // width: fit-content;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 200px;
+      }
+    }
+
+    .tableBody {
+      display: grid;
+      // overflow-x: scroll;
+      width: fit-content;
+    }
+  }
 }
 
 @media (min-width: 1000px) {
@@ -29,6 +58,11 @@
       padding: 0 25px;
       button {
         margin: 0;
+      }
+    }
+    .table {
+      .tableBody {
+        width: 100%;
       }
     }
   }

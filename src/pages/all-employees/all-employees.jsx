@@ -12,6 +12,8 @@ import { fetchAllEmployees } from "../../firebase/auth";
 import { useForm } from "react-hook-form";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, createUserProfile } from "../../firebase/auth";
+import EmployeeRecord from "./employee-record/employee-record";
+import EmployeePopup from "./employee-popup";
 
 function AllEmployeesPage({ setFlash }) {
   const {
@@ -26,7 +28,7 @@ function AllEmployeesPage({ setFlash }) {
 
   const [showPopup, setShowPopup] = useState(false);
   const [employees, setEmployees] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [employeeToEdit, setEmployeeToEdit] = useState([]);
 
   async function handleFetchEmployees() {
     const employees = await fetchAllEmployees();
@@ -37,31 +39,6 @@ function AllEmployeesPage({ setFlash }) {
     handleFetchEmployees();
   }, []);
 
-  async function handleEmployeeCreation(data) {
-    setIsLoading(true);
-    const { fname, lname, email, mobile, password } = data;
-    try {
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      await createUserProfile(user, {
-        fname,
-        lname,
-        mobile,
-        usertype: "EMPLOYEE",
-      });
-      await handleFetchEmployees();
-      setFlash({ message: "Employee Created Successfully", type: "success" });
-      setShowPopup(false);
-      reset();
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
-    }
-  }
   const contract = {
     name: "Contract Title",
     employee: "some employee",
@@ -82,99 +59,12 @@ function AllEmployeesPage({ setFlash }) {
   return (
     <div className={styles.allEmployees}>
       {showPopup && (
-        <form onSubmit={handleSubmit(handleEmployeeCreation)} noValidate>
-          <Popup
-            isLoading={isLoading}
-            title="Create New Admin"
-            closePopup={() => setShowPopup(false)}
-          >
-            <TextInput
-              label="First Name"
-              placeholder="Enter First Name"
-              error={errors?.fname?.message}
-              register={{
-                ...register("fname", {
-                  required: "Enter First Name",
-                  pattern: {
-                    value: /^[A-Za-z]+$/i,
-                    message: "only alphabets are allowed",
-                  },
-                }),
-              }}
-            />
-            <TextInput
-              label="Last Name"
-              placeholder="Enter Last Name"
-              error={errors?.lname?.message}
-              register={{
-                ...register("lname", {
-                  required: "Enter Last Name",
-                  pattern: {
-                    value: /^[A-Za-z]+$/i,
-                    message: "only alphabets are allowed",
-                  },
-                }),
-              }}
-            />
-            <TextInput
-              label="Email"
-              placeholder="Enter Admin Email Id"
-              error={errors?.email?.message}
-              register={{
-                ...register("email", {
-                  required: "Enter Email Id",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Not a valid Email Id",
-                  },
-                }),
-              }}
-            />
-            <NumInput
-              maxLength={10}
-              label="Mobile Number"
-              placeholder="Enter Admin Mobile Number"
-              error={errors?.mobile?.message}
-              register={{
-                ...register("mobile", {
-                  required: "Enter Mobile Number",
-                  minLength: {
-                    value: 10,
-                    message: "Mobile Number should be 10 digits",
-                  },
-                  maxLength: {
-                    value: 10,
-                    message: "Mobile Number should be 10 digits",
-                  },
-                }),
-              }}
-            />
-            <TextInput
-              label="Password"
-              type="password"
-              placeholder="Enter Admin Password"
-              error={errors?.password?.message}
-              register={{
-                ...register("password", {
-                  required: "Enter password",
-                }),
-              }}
-            />
-            <TextInput
-              label="Confirm Password"
-              type="password"
-              placeholder="Enter Same Password As Above"
-              error={errors?.confirmPassword?.message}
-              register={{
-                ...register("confirmPassword", {
-                  required: "Confirm your password ",
-                  validate: (value) =>
-                    value === watch("password") || "Passwords do not match",
-                }),
-              }}
-            />
-          </Popup>
-        </form>
+        <EmployeePopup
+          setEmployeeToEdit={setEmployeeToEdit}
+          closePopup={() => setShowPopup(false)}
+          onSuccess={handleFetchEmployees}
+          employeeToEdit={employeeToEdit}
+        />
       )}
       {showContracts && (
         <Backdrop>
@@ -230,41 +120,29 @@ function AllEmployeesPage({ setFlash }) {
         </Button>
       </div>
       <div className="__tableContainer">
-        <table>
-          <thead>
-            <tr>
-              {/* <th>
-                <input type="checkbox" />
-              </th> */}
-              <th>
-                Employee Name <img src="/sorting.png" alt="sort" />
-              </th>
-              <th>
-                Employee Email <img src="/sorting.png" alt="sort" />
-              </th>
-              <th>
-                Employee Phone <img src="/sorting.png" alt="sort" />
-              </th>
-              <th>
-                Total Contracts Generated <img src="/sorting.png" alt="sort" />
-              </th>
-              <th>
-                Total Contracts Signed <img src="/sorting.png" alt="sort" />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
+        <div className={styles.table}>
+          <div className={styles.tableHead}>
+            <div className={styles.columnTitle}>Employee Name</div>
+            <div className={styles.columnTitle}>Employee Email</div>
+            <div className={styles.columnTitle}>Employee Phone</div>
+            <div className={styles.columnTitle}>Total Contracts Generated</div>
+            <div className={styles.columnTitle}>Total Contracts Signed</div>
+            <div className={styles.columnTitle}>Edit Employee</div>
+          </div>
+          <div className={styles.tableBody}>
             {employees?.map((employee, i) => (
-              <tr key={i}>
-                <td>{employee?.fname + " " + employee?.lname}</td>
-                <td>{employee?.email}</td>
-                <td>{employee?.mobile}</td>
-                <td>102</td>
-                <td>102</td>
-              </tr>
+              <EmployeeRecord
+                handleFetchEmployees={handleFetchEmployees}
+                employee={employee}
+                key={i}
+                setEmployeeToEdit={setEmployeeToEdit}
+                openPopup={() => {
+                  setShowPopup(true);
+                }}
+              />
             ))}
-          </tbody>
-        </table>
+          </div>
+        </div>
       </div>
     </div>
   );

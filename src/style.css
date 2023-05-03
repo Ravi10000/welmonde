@@ -78,6 +78,11 @@ td img {
     white-space: pre-wrap;
   }
 }
+@media (min-width: 1200px) {
+  .__tableContainer {
+    overflow-x: unset;
+  }
+}
 
 /* .PhoneInputCountry {
   display: flex;

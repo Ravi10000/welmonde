@@ -10,7 +10,10 @@ function CheckBox({ label, register, ...otherProps }) {
         type="checkbox"
         value={label.toLowerCase()}
         id={id}
-        onClick={() => setChecked((prevState) => !prevState)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setChecked((prevState) => !prevState);
+        }}
         {...register}
         {...otherProps}
       />

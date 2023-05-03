@@ -8,6 +8,9 @@ function Button({
   outlined,
   icon,
   danger,
+  destruct,
+  action,
+  iconOnly,
   hoverIcon,
   ...otherProps
 }) {
@@ -17,11 +20,15 @@ function Button({
     <button
       onMouseOver={() => setHover(true)}
       onMouseOut={() => setHover(false)}
-      style={{ width: fit ? "fit-content" : "100%" }}
+      // style={{ width: fit ? "fit-content" : "100%" }}
       disabled={isLoading}
       className={`
       ${styles.btn} 
+      ${fit ? styles.fit : ""} 
       ${outlined ? styles.outlined : ""} 
+      ${iconOnly ? styles.iconOnly : ""} 
+      ${action ? styles.action : ""} 
+      ${destruct ? styles.destruct : ""} 
       ${danger ? styles.danger : ""} 
       ${isLoading && styles.isLoading} 
       `}

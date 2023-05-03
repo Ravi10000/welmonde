@@ -9,20 +9,27 @@ import {
   updateClientDetails,
   addNewClient,
   fetchAllClients,
+  updateUserDetails,
+  EditClientDetails,
 } from "../../firebase/auth";
 import { useForm } from "react-hook-form";
 import { setFlash } from "../../redux/flash/flash.actions";
 import { connect } from "react-redux";
 import CheckBox from "../../components/check-box/check-box";
+import ClientRecord from "./client-record/client-record";
 
 function AllClientsPage({ setFlash }) {
+  const [clients, setClients] = useState([]);
+  const [clientToEdit, setClientToEdit] = useState(null);
   const {
     register,
     handleSubmit,
+    resetField,
     reset,
     watch,
     formState: { errors },
   } = useForm();
+
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [isUpdatingUser, setIsUpdatingUser] = useState(false);
 
@@ -30,45 +37,79 @@ function AllClientsPage({ setFlash }) {
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [userId, setUserId] = useState(null);
 
-  const [clients, setClients] = useState([]);
+  function closeInitialPopup() {
+    setShowInitialPopup(false);
+    resetField("fname");
+    resetField("lname");
+    resetField("email");
+  }
 
   async function handleFetchClients() {
     const clients = await fetchAllClients();
+    console.log(clients);
     setClients(clients);
   }
   async function handleClientCreation(data) {
     setIsAddingUser(true);
     try {
-      const userSnapshot = await addNewClient(data);
-      console.log({ userSnapshot: userSnapshot?.id });
-      if (userSnapshot) {
-        reset();
-        setUserId(userSnapshot?.id);
+      if (!clientToEdit) {
+        const userSnapshot = await addNewClient(data);
+        if (userSnapshot.id) {
+          reset();
+          setUserId(userSnapshot?.id);
+          setShowDetailsPopup(true);
+        }
+      } else {
+        const docRef = await EditClientDetails(clientToEdit, {
+          fname: data.fname || clientToEdit.fname,
+          lname: data.lname || clientToEdit.lname,
+          email: data.email || clientToEdit.email,
+        });
+        setShowInitialPopup(false);
         setShowDetailsPopup(true);
       }
     } catch (err) {
       console.log(err);
     } finally {
       setIsAddingUser(false);
-      setShowInitialPopup(false);
+      closeInitialPopup();
     }
   }
 
   async function handleClientDetailsUpdate(data) {
     setIsUpdatingUser(true);
+    console.log({ data, clientToEdit });
     try {
-      const res = await updateClientDetails(userId, data);
-      console.log({ res });
-      await handleFetchClients();
-      setFlash({
-        message: "Client Details Updated Successfully",
-        type: "success",
-      });
-      setShowDetailsPopup(false);
-      reset();
+      if (!clientToEdit) {
+        const snapshot = await updateClientDetails(userId, data);
+        await handleFetchClients();
+        setFlash({
+          message: "Client Details Updated Successfully",
+          type: "success",
+        });
+        setShowDetailsPopup(false);
+        reset();
+      } else {
+        const docRef = await EditClientDetails(clientToEdit, {
+          representativeName:
+            data.representativeName || clientToEdit.representativeName,
+          businessName: data.businessName || clientToEdit.businessName,
+          street: data.street || clientToEdit.street,
+          city: data.city || clientToEdit.city,
+          state: data.state || clientToEdit.state,
+          pincode: data.pincode || clientToEdit.pincode,
+          vertical: data.vertical || clientToEdit.vertical,
+        });
+        await handleFetchClients();
+        setFlash({
+          message: "Client Details Updated Successfully",
+          type: "success",
+        });
+      }
     } catch (err) {
       console.log(err);
     } finally {
+      setClientToEdit(null);
       setIsUpdatingUser(false);
       setShowDetailsPopup(false);
     }
@@ -85,13 +126,13 @@ function AllClientsPage({ setFlash }) {
           <Popup
             isLoading={isAddingUser}
             title={`Create New Client`}
-            closePopup={() => setShowInitialPopup(false)}
+            closePopup={closeInitialPopup}
           >
             <TextInput
               label="First Name"
               placeholder="Enter First Name"
               error={errors?.fname?.message}
-              defaultValue={"test"}
+              defaultValue={clientToEdit?.fname || ""}
               register={{
                 ...register("fname", {
                   required: "Enter First Name",
@@ -103,7 +144,7 @@ function AllClientsPage({ setFlash }) {
               }}
             />
             <TextInput
-              defaultValue={"test"}
+              defaultValue={clientToEdit?.lname || ""}
               label="Last Name"
               placeholder="Enter Last Name"
               error={errors?.lname?.message}
@@ -118,9 +159,9 @@ function AllClientsPage({ setFlash }) {
               }}
             />
             <TextInput
-              defaultValue={"test@mail.com"}
+              defaultValue={clientToEdit?.email || ""}
               label="Email"
-              placeholder="Enter Admin Email Id"
+              placeholder="Enter Client Email Id"
               error={errors?.email?.message}
               register={{
                 ...register("email", {
@@ -132,94 +173,86 @@ function AllClientsPage({ setFlash }) {
                 }),
               }}
             />
-            <NumInput
-              defaultValue={"909090123123"}
-              maxLength={10}
-              label="Mobile Number"
-              placeholder="Enter Admin Mobile Number"
-              error={errors?.mobile?.message}
-              register={{
-                ...register("mobile", {
-                  required: "Enter Mobile Number",
-                  minLength: {
-                    value: 10,
-                    message: "Mobile Number should be 10 digits",
-                  },
-                  maxLength: {
-                    value: 10,
-                    message: "Mobile Number should be 10 digits",
-                  },
-                }),
-              }}
-            />
+            {!clientToEdit && (
+              <NumInput
+                defaultValue={clientToEdit?.mobile || ""}
+                maxLength={10}
+                label="Mobile Number"
+                placeholder="Enter Admin Mobile Number"
+                error={errors?.mobile?.message}
+                register={{
+                  ...register("mobile", {
+                    required: "Enter Mobile Number",
+                    minLength: {
+                      value: 10,
+                      message: "Mobile Number should be 10 digits",
+                    },
+                    maxLength: {
+                      value: 10,
+                      message: "Mobile Number should be 10 digits",
+                    },
+                  }),
+                }}
+              />
+            )}
           </Popup>
         </form>
       )}
       {showDetailsPopup && (
         <form onSubmit={handleSubmit(handleClientDetailsUpdate)}>
           <Popup
-            defaultValue={"test"}
             isLoading={isUpdatingUser}
             title="Client Details"
             closePopup={() => setShowDetailsPopup(false)}
           >
             <TextInput
-              defaultValue={"test"}
-              name="representativeName"
+              defaultValue={clientToEdit?.representativeName || ""}
               label="Representative Name"
               placeholder="Enter Representative Name"
-              required={true}
               register={register("representativeName", { required: true })}
             />
             <TextInput
-              defaultValue={"test"}
-              name="businessName"
+              defaultValue={clientToEdit?.businessName || ""}
               label="Business Name"
               placeholder="Enter Business Name"
-              required={true}
               register={register("businessName", { required: true })}
             />
             <TextInput
-              defaultValue={"test"}
-              name="street"
+              defaultValue={clientToEdit?.street || ""}
               label="Street"
               placeholder="Enter Street"
               register={register("street", { required: true })}
             />
             <TextInput
-              defaultValue={"test"}
-              name="city"
+              defaultValue={clientToEdit?.city || ""}
               label="City"
               placeholder="Enter City"
-              required={true}
               register={register("city", { required: true })}
             />
             <TextInput
-              defaultValue={"test"}
-              name="state"
+              defaultValue={clientToEdit?.state || ""}
               label="State"
               placeholder="Enter State"
-              required={true}
               register={register("state", { required: true })}
             />
             <NumInput
-              defaultValue={"909090"}
+              defaultValue={clientToEdit?.pincode || ""}
               maxLength={6}
-              name="pincode"
               label="Pincode"
               placeholder="Enter Pincode"
-              required={true}
               register={register("pincode", { required: true })}
             />
             <div className={styles.vertical}>
               <p>Vertical</p>
               <div className={styles.list}>
                 <CheckBox
+                  defaultChecked={clientToEdit?.vertical?.includes("clinic")}
                   label="Clinic"
                   name="vertical"
                   {...register("vertical")}
                 />
                 <CheckBox
+                  defaultChecked={clientToEdit?.vertical?.includes("pharmacy")}
                   label="Pharmacy"
                   register={{ ...register("vertical") }}
                 />
@@ -228,18 +261,24 @@ function AllClientsPage({ setFlash }) {
                   register={{ ...register("vertical") }}
                 />
                 <CheckBox
+                  defaultChecked={clientToEdit?.vertical?.includes(
+                    "per clinic"
+                  )}
                   label="Pet Clinic"
                   register={{ ...register("vertical") }}
                 />
                 <CheckBox
+                  defaultChecked={clientToEdit?.vertical?.includes("ayurveda")}
                   label="Ayurveda"
                   register={{ ...register("vertical") }}
                 />
                 <CheckBox
+                  defaultChecked={clientToEdit?.vertical?.includes("fitness")}
                   label="Fitness"
                   register={{ ...register("vertical") }}
                 />
                 <CheckBox
+                  defaultChecked={clientToEdit?.vertical?.includes("welness")}
                   label="Wellness"
                   register={{ ...register("vertical") }}
                 />
@@ -278,54 +317,23 @@ function AllClientsPage({ setFlash }) {
         <table>
           <thead>
             <tr>
-              {/* <th>
-                <input type="checkbox" />
-              </th> */}
-              <th>
-                Client Name
-                <img src="/sorting.png" alt="sort" />
-              </th>
-              <th>
-                Business Name
-                <img src="/sorting.png" alt="sort" />
-              </th>
-              <th>
-                Client Email
-                <img src="/sorting.png" alt="sort" />
-              </th>
-              <th>
-                Client Phone
-                <img src="/sorting.png" alt="sort" />
-              </th>
-              <th>
-                Address
-                <img src="/sorting.png" alt="sort" />
-              </th>
-              <th>
-                Vertical
-                <img src="/sorting.png" alt="sort" />
-              </th>
+              <th>Client Name</th>
+              <th>Business Name</th>
+              <th>Client Email</th>
+              <th>Client Phone</th>
+              <th>Address</th>
+              <th>Vertical</th>
+              <th>Edit Client</th>
             </tr>
           </thead>
           <tbody>
             {clients?.map((client, i) => (
-              <tr key={i}>
-                {/* <td>
-                  <input type="checkbox" />
-                </td> */}
-                <td>{client?.representativeName}</td>
-                <td>{client?.businessName}</td>
-                <td>ravisince2k@gmail.com</td>
-                <td>{client?.mobile}</td>
-                <td>
-                  {client?.street}, {client?.city}, {client?.state},{" "}
-                  {client?.pincode}
-                </td>
-                <td className={styles.verticalData}>
-                  {client?.vertical &&
-                    client?.vertical?.map((v) => <p>{v}, </p>)}
-                </td>
-              </tr>
+              <ClientRecord
+                client={client}
+                key={i}
+                setClientToEdit={setClientToEdit}
+                openPopup={() => setShowInitialPopup(true)}
+              />
             ))}
           </tbody>
         </table>
