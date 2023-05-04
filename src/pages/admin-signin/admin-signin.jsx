@@ -1,7 +1,7 @@
 import styles from "./admin-signin.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { signInAdmin } from "../../firebase/auth";
+import { fetchUser, signInAdmin } from "../../firebase/auth";
 // components
 import Button from "../../components/button/button";
 import { connect } from "react-redux";
@@ -36,7 +36,12 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
           message: response.error,
         });
       }
-      if (response) navigate("/admins");
+      console.log({ response });
+      if (response) {
+        const user = await fetchUser(response.uid);
+        await setCurrentUser(user);
+        navigate("/admins");
+      }
     } catch (err) {
       console.log(err);
     } finally {

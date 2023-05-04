@@ -69,12 +69,12 @@ function EmployeePopup({
         await onSuccess();
         setFlash({ message: "Employee Details Updated", type: "success" });
       }
-      closePopup();
-      reset();
     } catch (err) {
       setFlash({ message: err.message, type: "error" });
       console.log(err);
     } finally {
+      closePopup();
+      reset();
       setIsLoading(false);
     }
   }

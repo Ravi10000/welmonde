@@ -28,7 +28,7 @@ function AllEmployeesPage({ setFlash }) {
 
   const [showPopup, setShowPopup] = useState(false);
   const [employees, setEmployees] = useState([]);
-  const [employeeToEdit, setEmployeeToEdit] = useState([]);
+  const [employeeToEdit, setEmployeeToEdit] = useState(null);
 
   async function handleFetchEmployees() {
     const employees = await fetchAllEmployees();

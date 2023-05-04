@@ -6,7 +6,7 @@ import LoadinPage from "../../pages/loading/loading";
 function IsAdmin({ currentUser, isLoading, children }) {
   console.log(currentUser?.usertype === "ADMIN");
   const navigate = useNavigate();
-
+  console.log({ currentUser });
   useEffect(() => {
     if (!isLoading && currentUser?.usertype !== "ADMIN") {
       navigate("/");
