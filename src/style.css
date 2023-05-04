@@ -121,3 +121,6 @@ td img {
   border-radius: 5px;
   outline: 1px solid var(--mainBrandColor);
 } */
+img {
+  object-fit: contain;
+}
