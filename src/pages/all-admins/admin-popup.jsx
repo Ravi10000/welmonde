@@ -94,7 +94,7 @@ function AdminPopup({
     <form onSubmit={handleSubmit(handleAdminCreation)} noValidate>
       <Popup
         isLoading={isLoading}
-        title="Create New Admin"
+        title={adminToEdit ? "Edit Admin Details" : "Create New Admin"}
         closePopup={closePopup}
       >
         <TextInput

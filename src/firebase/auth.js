@@ -146,8 +146,15 @@ export const EditClientDetails = async (clientToEdit, newData) => {
 export const deleteUser = async (id) => {
   console.log({ uid: id });
   try {
-    const snapshot = await deleteDoc(doc(db, "users", id));
-    console.log({ snapshot });
+    await deleteDoc(doc(db, "users", id));
+  } catch (err) {
+    console.log({ err });
+    return { error: err.message };
+  }
+};
+export const deleteClient = async (id) => {
+  try {
+    await deleteDoc(doc(db, "clients", id));
   } catch (err) {
     console.log({ err });
     return { error: err.message };

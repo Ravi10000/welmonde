@@ -1,8 +1,26 @@
 import styles from "./client-record.module.scss";
 
 import Button from "../../../components/button/button";
+import { setFlash } from "../../../redux/flash/flash.actions";
+import { connect } from "react-redux";
+import { deleteClient } from "../../../firebase/auth";
 
-function ClientRecord({ client, openPopup, setClientToEdit }) {
+function ClientRecord({
+  client,
+  openPopup,
+  setClientToEdit,
+  handleFetchClients,
+  setFlash,
+}) {
+  async function handleDelete() {
+    await deleteClient(client.id);
+    await handleFetchClients();
+    setFlash({ message: "Client deleted successfully", type: "success" });
+    try {
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <tr className={styles.clientRecord}>
       <td>{client?.representativeName}</td>
@@ -26,7 +44,7 @@ function ClientRecord({ client, openPopup, setClientToEdit }) {
         >
           <img src="/actions/edit.png" alt="" />
         </Button>
-        <Button iconOnly destruct>
+        <Button iconOnly destruct onClick={handleDelete}>
           <img src="/actions/delete.png" alt="" />
         </Button>
       </td>
@@ -34,4 +52,4 @@ function ClientRecord({ client, openPopup, setClientToEdit }) {
   );
 }
 
-export default ClientRecord;
+export default connect(null, { setFlash })(ClientRecord);

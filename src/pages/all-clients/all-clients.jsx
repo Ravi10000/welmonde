@@ -125,7 +125,7 @@ function AllClientsPage({ setFlash }) {
         <form onSubmit={handleSubmit(handleClientCreation)} noValidate>
           <Popup
             isLoading={isAddingUser}
-            title={`Create New Client`}
+            title={clientToEdit ? "Edit Client Details" : "Create New Client"}
             closePopup={closeInitialPopup}
           >
             <TextInput
@@ -202,7 +202,7 @@ function AllClientsPage({ setFlash }) {
         <form onSubmit={handleSubmit(handleClientDetailsUpdate)}>
           <Popup
             isLoading={isUpdatingUser}
-            title="Client Details"
+            title={clientToEdit ? "Edit Client Details" : "Client Details"}
             closePopup={() => setShowDetailsPopup(false)}
           >
             <TextInput
@@ -331,6 +331,7 @@ function AllClientsPage({ setFlash }) {
               <ClientRecord
                 client={client}
                 key={i}
+                handleFetchClients={handleFetchClients}
                 setClientToEdit={setClientToEdit}
                 openPopup={() => setShowInitialPopup(true)}
               />

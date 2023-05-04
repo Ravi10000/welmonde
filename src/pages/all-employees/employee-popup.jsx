@@ -83,7 +83,7 @@ function EmployeePopup({
     <form onSubmit={handleSubmit(handleEmployeeCreation)} noValidate>
       <Popup
         isLoading={isLoading}
-        title="Create New Employee"
+        title={employeeToEdit ? "Edit Employee Details" : "Create New Employee"}
         closePopup={closePopup}
       >
         <TextInput
