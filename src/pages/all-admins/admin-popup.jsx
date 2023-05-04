@@ -2,7 +2,7 @@ import Popup from "../../components/popup/popup";
 import TextInput from "../../components/text-input/text-input";
 import NumInput from "../../components/num-input/num-input";
 import { useForm } from "react-hook-form";
-import { createUserProfile } from "../../firebase/auth";
+import { createUserProfile, fetchAllAdmins } from "../../firebase/auth";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -37,7 +37,6 @@ function AdminPopup({
     },
   });
   const [isLoading, setIsLoading] = useState(false);
-
   useEffect(() => {
     return () => {
       reset();
@@ -61,29 +60,32 @@ function AdminPopup({
           mobile,
           usertype: "ADMIN",
         });
-        setFlash({ message: "Admin Created Successfully", type: "success" });
+        await onSuccess();
+        setFlash({
+          message: "Admin Created Successfully",
+          type: "success",
+        });
       } else {
         const docRef = await updateUserDetails(adminToEdit, {
           fname,
           lname,
           mobile,
         });
-        if (docRef.error) {
+        if (docRef?.error) {
           setFlash({ message: docRef.error, type: "error" });
         }
         await onSuccess();
         setFlash({
-          message: "Admin Details Updated",
           type: "success",
+          message: "Admin Details Updated",
         });
       }
-
-      closePopup();
-      reset();
     } catch (err) {
       setFlash({ message: err.message, type: "error" });
       console.log(err);
     } finally {
+      closePopup();
+      reset();
       setIsLoading(false);
     }
   }

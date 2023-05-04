@@ -71,12 +71,12 @@ export const createUserProfile = async (auth, additionalData) => {
 export const fetchAllAdmins = async () => {
   const q = query(collection(db, "users"), where("usertype", "==", "ADMIN"));
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => doc.data());
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
 export const fetchAllEmployees = async () => {
   const q = query(collection(db, "users"), where("usertype", "==", "EMPLOYEE"));
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => doc.data());
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
 
 export const fetchAllClients = async () => {
@@ -117,6 +117,7 @@ export const updateClientDetails = async (userId, clientData) => {
   }
 };
 export const updateUserDetails = async (userToEdit, userData) => {
+  console.log({ userToEdit, userData });
   try {
     const docRef = await setDoc(doc(db, "users", userToEdit.uid), {
       ...userToEdit,
@@ -142,10 +143,10 @@ export const EditClientDetails = async (clientToEdit, newData) => {
   }
 };
 
-export const deleteUser = async (uid) => {
-  console.log({ uid });
+export const deleteUser = async (id) => {
+  console.log({ uid: id });
   try {
-    const snapshot = await deleteDoc(doc(db, "users", uid));
+    const snapshot = await deleteDoc(doc(db, "users", id));
     console.log({ snapshot });
   } catch (err) {
     console.log({ err });

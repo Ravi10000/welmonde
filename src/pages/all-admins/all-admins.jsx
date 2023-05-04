@@ -11,15 +11,20 @@ function AllAdminsPage({ setFlash }) {
   const [showPopup, setShowPopup] = useState(false);
   const [admins, setAdmins] = useState([]);
   const [adminToEdit, setAdminToEdit] = useState(null);
+  const [adminsChanged, setAdminsChanged] = useState(0);
+
+  console.log({ adminsChanged });
 
   async function handleFetchAdmins() {
+    console.log("fetching admins");
     const admins = await fetchAllAdmins();
-    console.log(admins);
+    console.log({ admins });
     setAdmins(admins);
   }
+
   useEffect(() => {
     handleFetchAdmins();
-  }, []);
+  }, [adminsChanged]);
 
   return (
     <div className={styles.allAdmins}>
@@ -28,6 +33,7 @@ function AllAdminsPage({ setFlash }) {
           setAdminToEdit={setAdminToEdit}
           adminToEdit={adminToEdit}
           onSuccess={handleFetchAdmins}
+          adminsChanged={adminsChanged}
           closePopup={() => {
             setShowPopup(false);
           }}
