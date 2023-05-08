@@ -1,0 +1,55 @@
+.contractsPage {
+  .pageContent {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .agreementContainer {
+      display: grid;
+      gap: 10px;
+      text-transform: capitalize;
+      max-width: 500px;
+      .contract {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        justify-content: space-between;
+        .link {
+          cursor: pointer;
+          font-size: 0.9rem;
+          font-weight: 500;
+          color: var(--subBrandColor);
+        }
+      }
+    }
+  }
+  .pdfViewer {
+    // position: absolute;
+    height: 50vh;
+    // width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    iframe {
+      border-radius: 15px;
+      height: 90%;
+      width: 90%;
+      //   max-width: 800px;
+    }
+    .closeBtn {
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      z-index: 20000;
+      color: #fff;
+      background: #e5383b;
+      border-radius: 5px;
+    }
+  }
+  .check {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+}

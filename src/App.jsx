@@ -9,7 +9,7 @@ import AllAdminsPage from "./pages/all-admins/all-admins";
 import Sidebar from "./layouts/sidebar/sidebar";
 import AllEmployeesPage from "./pages/all-employees/all-employees";
 import AllClientsPage from "./pages/all-clients/all-clients";
-import AllContractsPage from "./pages/all-contracts/all-contracts";
+// import AllContractsPage from "./pages/all-contracts/all-contracts";
 import Header from "./layouts/header/header";
 
 import app from "./firebase/index";
@@ -28,6 +28,7 @@ import { fetchUser } from "./firebase/auth";
 import MyAgreementsPage from "./pages/employee/my-agreements/my-agreements";
 import IsEmployee from "./components/auth/is-employee";
 import AllAgreements from "./pages/all-agreements/all-agreements";
+import ContractsPage from "./pages/contracts/contracts-page";
 
 function App({ setCurrentUser, flash }) {
   const { pathname } = useLocation();
@@ -65,11 +66,14 @@ function App({ setCurrentUser, flash }) {
     // adminRoutes.forEach((route) => {
     //   pathname.includes(route) && setIsPostLogin(true);
     // });
+
     if (
       pathname.split("/")[1] === "admin" ||
       pathname.split("/")[1] === "employee"
-    )
+    ) {
+      if (pathname.includes("signin")) return setIsPostLogin(false);
       setIsPostLogin(true);
+    }
   }, [pathname]);
 
   return (
@@ -171,6 +175,15 @@ function App({ setCurrentUser, flash }) {
             element={
               <IsUser isLoading={fetchingUser}>
                 <ProfilePage />
+              </IsUser>
+            }
+          />
+          <Route
+            exact
+            path="/contracts/:agreementId"
+            element={
+              <IsUser isLoading={fetchingUser}>
+                <ContractsPage />
               </IsUser>
             }
           />

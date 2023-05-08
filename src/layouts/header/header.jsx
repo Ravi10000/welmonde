@@ -43,7 +43,7 @@ function Header({ currentUser }) {
             Get Started
           </Button>
           <Button fit onClick={() => navigate("/admin/signin")}>
-            Admin
+            Admin / Employee
           </Button>
         </div>
       )}

@@ -31,6 +31,10 @@ function AgreementRecord({ agreement, onSuccess, setFlash }) {
     setShowOptions(false);
     setIsloading(true);
     try {
+      if (status === "SENT TO CLIENT") {
+        const agreementLink = "/contracts/" + agreement?.id;
+        console.log({ agreementLink });
+      }
       const docRef = await updateAgreementStatus(agreement?.id, status);
       console.log({ docRef });
       await onSuccess();

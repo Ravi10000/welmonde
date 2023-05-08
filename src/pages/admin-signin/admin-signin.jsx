@@ -58,7 +58,7 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
         <div className={styles.content}>
           <img className={styles.logo} src="/logo-transparent.png" alt="" />
         </div>
-        <h1>Admin Sign in</h1>
+        <h1>Admin / Employee Sign in</h1>
         <form onSubmit={handleSubmit(handleSignInAdmin)} noValidate>
           <div className={styles.inputsContainer}>
             <TextInput

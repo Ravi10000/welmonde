@@ -8,7 +8,8 @@
     }
     .options {
       display: grid;
-      gap: 10px;
+      gap: 20px;
+      padding: 20px 20px 20px 10px;
       color: var(--textColor);
       font-weight: 500;
       list-style: none;
@@ -16,7 +17,6 @@
       background: #fff;
       left: -200%;
       min-width: 250px;
-      padding: 20px 20px 20px 10px;
       border-radius: 5px;
       background: #fff;
       z-index: 100;
