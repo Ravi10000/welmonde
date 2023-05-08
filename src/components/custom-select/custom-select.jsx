@@ -45,9 +45,10 @@ export default function CustomSelect({
         >
           <div>
             <p>
-              {selectedOption?.businessName +
+              {selectedOption?.businessName}
+              {/* {selectedOption?.businessName +
                 " / " +
-                selectedOption?.representativeName}
+                selectedOption?.representativeName} */}
             </p>
           </div>
           <img
@@ -70,7 +71,8 @@ export default function CustomSelect({
                 }}
               >
                 <p>
-                  {option?.businessName + " / " + option?.representativeName}
+                  {option?.businessName}
+                  {/* {option?.businessName + " / " + option?.representativeName} */}
                 </p>
               </div>
             );

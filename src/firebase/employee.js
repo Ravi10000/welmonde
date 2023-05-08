@@ -24,6 +24,18 @@ export const addAgreement = async (data) => {
     return docRef;
   } catch (error) {
     console.log(error);
-    return { error: error.message };
+  }
+};
+
+export const updateAgreementStatus = async (agreementId, status) => {
+  try {
+    const docRef = await setDoc(
+      doc(db, "agreements", agreementId),
+      { status },
+      { merge: true }
+    );
+    return docRef;
+  } catch (err) {
+    console.log(error);
   }
 };

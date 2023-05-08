@@ -27,6 +27,7 @@ import LoadinPage from "./pages/loading/loading";
 import { fetchUser } from "./firebase/auth";
 import MyAgreementsPage from "./pages/employee/my-agreements/my-agreements";
 import IsEmployee from "./components/auth/is-employee";
+import AllAgreements from "./pages/all-agreements/all-agreements";
 
 function App({ setCurrentUser, flash }) {
   const { pathname } = useLocation();
@@ -126,7 +127,7 @@ function App({ setCurrentUser, flash }) {
               path="/admin/contracts"
               element={
                 <IsAdmin isLoading={fetchingUser}>
-                  <AllContractsPage />
+                  <AllAgreements />
                 </IsAdmin>
               }
             />

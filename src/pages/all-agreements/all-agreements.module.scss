@@ -1,4 +1,4 @@
-.myAgreementsPage {
+.allAgreementsPage {
   h1,
   p {
     color: var(--textColor);
@@ -32,7 +32,7 @@
 }
 
 @media (min-width: 500px) {
-  .myAgreementsPage {
+  .allAgreementsPage {
     .pageContent {
       .head {
         padding: 0 50px;

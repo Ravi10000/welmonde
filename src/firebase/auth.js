@@ -159,3 +159,9 @@ export const deleteClient = async (id) => {
     return { error: err.message };
   }
 };
+
+export const fetchAllAgreements = async () => {
+  const q = query(collection(db, "agreements"));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+};

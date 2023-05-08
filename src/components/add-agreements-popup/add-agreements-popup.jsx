@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 
 import { setFlash } from "../../redux/flash/flash.actions";
 import { addAgreement } from "../../firebase/employee";
+import NumInput from "../num-input/num-input";
 
 function AddAgreementsPopup({
   showPopup,
@@ -81,6 +82,7 @@ function AddAgreementsPopup({
         "clientName",
         selectedClient?.fname + " " + selectedClient?.lname
       );
+      setValue("businessName", selectedClient?.businessName);
       setValue("representativeName", selectedClient?.representativeName);
       setValue(
         "clientAddress",
@@ -114,17 +116,17 @@ function AddAgreementsPopup({
           options={clientList}
         />
         <TextInput
+          label="Business Name"
+          error={errors?.businessName?.message}
+          register={{ ...register("businessName", { required: "Required" }) }}
+        />
+        <TextInput
           label="Client Name"
-          //   defaultValue={
-          //     selectedClient &&
-          //     selectedClient?.fname + " " + selectedClient?.lname
-          //   }
           error={errors?.clientName?.message}
           register={{ ...register("clientName", { required: "Required" }) }}
         />
         <TextInput
           label="Represntative Name"
-          //   defaultValue={selectedClient?.representativeName}
           error={errors?.representativeName?.message}
           register={{
             ...register("representativeName", { required: "Required" }),
@@ -132,16 +134,6 @@ function AddAgreementsPopup({
         />
         <TextInput
           label="Address"
-          //   defaultValue={
-          //     selectedClient &&
-          //     selectedClient?.street +
-          //       ", " +
-          //       selectedClient?.city +
-          //       ", " +
-          //       selectedClient?.state +
-          //       ", " +
-          //       selectedClient?.pincode
-          //   }
           error={errors?.clientAddress?.message}
           register={{
             ...register("clientAddress", {
@@ -149,12 +141,28 @@ function AddAgreementsPopup({
             }),
           }}
         />
+        {/* <TextInput
+          label="Email"
+          register={{
+            ...register("email", {
+              required: "Email ID Required",
+            }),
+          }}
+        />
+        <NumInput
+          label="Mobile"
+          maxLength={10}
+          register={{
+            ...register("mobile", {
+              required: "Mobile Number Required",
+            }),
+          }}
+        /> */}
         <p className={styles.label}>Contracts</p>
         <div className={styles.verticalsSelect}>
           {verticals?.map((vertical) => {
             return (
               <CheckBox
-                // defaultChecked={selectedClient?.vertical?.includes(vertical)}
                 label={vertical}
                 key={vertical}
                 register={{

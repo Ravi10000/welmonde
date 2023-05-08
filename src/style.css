@@ -36,10 +36,10 @@ table {
 td {
   border-bottom: 1px solid var(--fadeGray);
 }
-tr:hover {
+/* tr:hover {
   cursor: pointer;
   background-color: var(--fadeGray);
-}
+} */
 
 th,
 td {
@@ -48,8 +48,9 @@ td {
   width: max-content;
 }
 th {
-  position: sticky;
-  top: 0;
+  /* position: sticky; */
+  /* top: 0; */
+  background: #fff;
   color: var(--subBrandColor);
   border-bottom: 2px solid #edf0f2;
   letter-spacing: 1px;

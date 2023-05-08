@@ -4,6 +4,7 @@ import { fetchMyAgreements } from "../../../firebase/employee";
 import { connect } from "react-redux";
 import Button from "../../../components/button/button";
 import AddAgreementsPopup from "../../../components/add-agreements-popup/add-agreements-popup";
+import AgreementRecord from "./agreement-record/agreement-record";
 
 function MyAgreementsPage({ currentUser }) {
   const [agreements, setAgreements] = useState([]);
@@ -39,24 +40,24 @@ function MyAgreementsPage({ currentUser }) {
           <table>
             <thead>
               <tr>
+                <th>Business Name</th>
                 <th>Client Name</th>
+                <th>Representative Name</th>
                 <th>Client Address</th>
+                {/* <th>Mobile</th> */}
                 <th>Contracts</th>
+                <th>Added On</th>
+                <th>Status</th>
+                <th>Options</th>
               </tr>
             </thead>
             <tbody>
               {agreements.map((agreement, i) => (
-                <tr key={agreement?.id}>
-                  <td>{agreement?.clientName}</td>
-                  <td>{agreement?.clientAddress}</td>
-                  <td className={styles.contractNamesContainer}>
-                    {agreement?.contracts?.map((contract) => (
-                      <p key={contract} className={styles.contractName}>
-                        {contract}
-                      </p>
-                    ))}
-                  </td>
-                </tr>
+                <AgreementRecord
+                  onSuccess={handleFetchAgreements}
+                  key={agreement?.id}
+                  agreement={agreement}
+                />
               ))}
             </tbody>
           </table>
