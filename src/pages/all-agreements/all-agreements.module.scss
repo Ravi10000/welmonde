@@ -9,6 +9,19 @@
     gap: 25px;
     text-align: center;
     padding: 20px;
+    .cardsContainer {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      gap: 20px;
+      .card {
+        border-radius: 5px;
+        padding: 10px;
+        border: 1px solid var(--fadeGray);
+        color: var(--subBrandColor);
+      }
+    }
     .head {
       display: flex;
       gap: 20px;
@@ -23,7 +36,7 @@
       .contractName {
         background: var(--fadeGray);
         text-transform: capitalize;
-        border: 1px solid var(--fadeGray);
+        // border: 1px solid var(--fadeGray);
         text-align: center;
         padding: 5px;
       }
@@ -34,6 +47,9 @@
 @media (min-width: 500px) {
   .allAgreementsPage {
     .pageContent {
+      .cardsContainer {
+        justify-content: flex-start;
+      }
       .head {
         padding: 0 50px;
         justify-content: space-between;

@@ -37,6 +37,19 @@
       }
     }
   }
+  .contractNamesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 200px;
+    gap: 5px;
+    .contractName {
+      background: var(--fadeGray);
+      text-transform: capitalize;
+      // border: 1px solid var(--fadeGray);
+      text-align: center;
+      padding: 5px;
+    }
+  }
   .loader {
     border: 2px solid var(--mainBrandColor);
     border-top: 2px solid transparent;

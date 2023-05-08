@@ -31,7 +31,7 @@ export const updateAgreementStatus = async (agreementId, status) => {
   try {
     const docRef = await setDoc(
       doc(db, "agreements", agreementId),
-      { status },
+      { status, updatedAt: new Date().toISOString() },
       { merge: true }
     );
     return docRef;

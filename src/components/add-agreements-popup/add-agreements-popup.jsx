@@ -23,6 +23,7 @@ function AddAgreementsPopup({
   const [selectedClient, setSelectedClient] = useState(null);
   const [clientList, setClientList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [fetchingClients, setFetchingClients] = useState(false);
 
   const {
     register,
@@ -35,16 +36,17 @@ function AddAgreementsPopup({
   } = useForm();
 
   async function handleFetchClients() {
+    setFetchingClients(true);
     const clients = await fetchAllClients();
     console.log({ clients });
     setClientList(clients);
+    setFetchingClients(false);
   }
 
   async function handleAddAgreement(data) {
     setIsLoading(true);
     data.status = "ADDED";
     data.createdAt = new Date().toISOString();
-    data.udpatedAt = data.createdAt;
     data.clientId = selectedClient.id;
     data.employeeId = currentUser?.uid;
     data.verificationOtp = Math.floor(1000 + Math.random() * 9000);
@@ -109,39 +111,47 @@ function AddAgreementsPopup({
         title="Add New Agreement"
         isLoading={isLoading}
       >
-        <CustomSelect
-          label="Select Client"
-          setSelectedOption={setSelectedClient}
-          selectedOption={selectedClient}
-          options={clientList}
-        />
-        <TextInput
-          label="Business Name"
-          error={errors?.businessName?.message}
-          register={{ ...register("businessName", { required: "Required" }) }}
-        />
-        <TextInput
-          label="Client Name"
-          error={errors?.clientName?.message}
-          register={{ ...register("clientName", { required: "Required" }) }}
-        />
-        <TextInput
-          label="Represntative Name"
-          error={errors?.representativeName?.message}
-          register={{
-            ...register("representativeName", { required: "Required" }),
-          }}
-        />
-        <TextInput
-          label="Address"
-          error={errors?.clientAddress?.message}
-          register={{
-            ...register("clientAddress", {
-              required: "Client Address Required",
-            }),
-          }}
-        />
-        {/* <TextInput
+        {fetchingClients ? (
+          <div className={styles.loaderContainer}>
+            <div className={styles.loader}></div>
+          </div>
+        ) : (
+          <>
+            <CustomSelect
+              label="Select Client"
+              setSelectedOption={setSelectedClient}
+              selectedOption={selectedClient}
+              options={clientList}
+            />
+            <TextInput
+              label="Business Name"
+              error={errors?.businessName?.message}
+              register={{
+                ...register("businessName", { required: "Required" }),
+              }}
+            />
+            <TextInput
+              label="Client Name"
+              error={errors?.clientName?.message}
+              register={{ ...register("clientName", { required: "Required" }) }}
+            />
+            <TextInput
+              label="Represntative Name"
+              error={errors?.representativeName?.message}
+              register={{
+                ...register("representativeName", { required: "Required" }),
+              }}
+            />
+            <TextInput
+              label="Address"
+              error={errors?.clientAddress?.message}
+              register={{
+                ...register("clientAddress", {
+                  required: "Client Address Required",
+                }),
+              }}
+            />
+            {/* <TextInput
           label="Email"
           register={{
             ...register("email", {
@@ -158,25 +168,27 @@ function AddAgreementsPopup({
             }),
           }}
         /> */}
-        <p className={styles.label}>Contracts</p>
-        <div className={styles.verticalsSelect}>
-          {verticals?.map((vertical) => {
-            return (
-              <CheckBox
-                label={vertical}
-                key={vertical}
-                register={{
-                  ...register("contracts", {
-                    required: "select atleast one contract",
-                  }),
-                }}
-              />
-            );
-          })}
-          {errors?.contracts?.message && (
-            <p className={styles.errMsg}>{errors?.contracts?.message}</p>
-          )}
-        </div>
+            <p className={styles.label}>Contracts</p>
+            <div className={styles.verticalsSelect}>
+              {verticals?.map((vertical) => {
+                return (
+                  <CheckBox
+                    label={vertical}
+                    key={vertical}
+                    register={{
+                      ...register("contracts", {
+                        required: "select atleast one contract",
+                      }),
+                    }}
+                  />
+                );
+              })}
+              {errors?.contracts?.message && (
+                <p className={styles.errMsg}>{errors?.contracts?.message}</p>
+              )}
+            </div>
+          </>
+        )}
       </Popup>
     </form>
   );
