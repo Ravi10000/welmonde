@@ -39,8 +39,11 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
       console.log({ response });
       if (response) {
         const user = await fetchUser(response.uid);
+        console.log({ user });
         await setCurrentUser(user);
-        navigate("/admins");
+        if (user.usertype === "ADMIN") return navigate("/admin");
+        else if ((user.usertype = "EMPLOYEE")) return navigate("/employee");
+        navigate("/profile");
       }
     } catch (err) {
       console.log(err);

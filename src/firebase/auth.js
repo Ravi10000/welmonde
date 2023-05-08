@@ -1,4 +1,4 @@
-import app from "./index";
+import app, { db } from "./index";
 import {
   RecaptchaVerifier,
   getAuth,
@@ -19,7 +19,6 @@ import {
 } from "firebase/firestore";
 
 export const auth = getAuth();
-export const db = getFirestore();
 
 export async function signInAdmin(email, password) {
   try {

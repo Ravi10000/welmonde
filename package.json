@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "push": "git push origin master"
+    "push": "git push origin master",
+    "postpush": "npm run build"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",

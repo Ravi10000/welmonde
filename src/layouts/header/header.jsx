@@ -15,21 +15,34 @@ function Header({ currentUser }) {
         onClick={() => navigate("/")}
       />
       {currentUser ? (
-        currentUser?.usertype === "ADMIN" ? (
-          <Button fit outlined onClick={() => navigate("/admins")}>
-            Admin
-          </Button>
-        ) : (
-          <Button fit outlined onClick={() => navigate("/profile")}>
-            Profile
-          </Button>
-        )
+        // currentUser?.usertype === "ADMIN" ? (
+        <Button
+          fit
+          outlined
+          onClick={() =>
+            navigate(
+              currentUser?.usertype === "ADMIN"
+                ? "/admin"
+                : currentUser?.usertype === "EMPLOYEE"
+                ? "/employee"
+                : "/profile"
+            )
+          }
+        >
+          Dashboard
+        </Button>
       ) : (
+        // )
+        // : (
+        //   <Button fit outlined onClick={() => navigate("/profile")}>
+        //     Profile
+        //   </Button>
+        // )
         <div className={styles.btnsContainer}>
           <Button fit outlined onClick={() => navigate("/signin")}>
             Get Started
           </Button>
-          <Button fit onClick={() => navigate("/admin")}>
+          <Button fit onClick={() => navigate("/admin/signin")}>
             Admin
           </Button>
         </div>

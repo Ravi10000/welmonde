@@ -1,0 +1,19 @@
+.addAgreementPopup {
+  .verticalsSelect {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .label {
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: #a2a5b5;
+  }
+  .errMsg {
+    font-weight: 500;
+    color: #fb5607;
+    letter-spacing: 2px;
+    padding-left: 10px;
+    font-size: 0.75rem;
+  }
+}

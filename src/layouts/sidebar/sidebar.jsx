@@ -14,7 +14,7 @@ import { setCurrentUser } from "../../redux/user/user.actions";
 import { setFlash } from "../../redux/flash/flash.actions";
 import { connect } from "react-redux";
 
-const options = [
+const adminOptions = [
   {
     name: "admins",
     icon: "/page-icons/admin.png",
@@ -35,6 +35,17 @@ const options = [
     icon: "/page-icons/contract.png",
     iconDark: "/page-icons/contract-dark.png",
   },
+];
+
+const employeeOptions = [
+  {
+    name: "myagreements",
+    icon: "/page-icons/contract.png",
+    iconDark: "/page-icons/contract-dark.png",
+  },
+];
+
+const commonOptions = [
   {
     name: "signout",
     icon: "/page-icons/signout.png",
@@ -47,16 +58,14 @@ function Sidebar({
   setIsSidebarOpen,
   setFlash,
   setCurrentUser,
+  currentUser,
 }) {
   const auth = getAuth();
 
   const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState(false);
 
   const sidebarRef = useRef(null);
-  const { page } = useParams();
   const { pathname } = useLocation();
-  console.log({ pathname });
   const [selectedPage, setSelectedPage] = useState(pathname);
 
   useEffect(() => {
@@ -64,7 +73,6 @@ function Sidebar({
   }, [pathname]);
 
   useEffect(() => {
-    // if (currentUser?.usertype === "ADMIN") setIsAdmin(true);
     function handleMouseDown(e) {
       if (!sidebarRef.current.contains(e.target)) {
         setIsSidebarOpen(false);
@@ -94,11 +102,46 @@ function Sidebar({
       ref={sidebarRef}
     >
       <div className={styles.closeSidebar} onClick={() => navigate("/")}>
-        {/* <img src="/welmonde-logo.jpg" alt="<brand>" /> */}
         <img src="/logo-transparent.png" alt="<brand>" />
       </div>
       <div className={styles.optionsContainer}>
-        {options?.map((option) => (
+        {currentUser?.usertype === "ADMIN" &&
+          adminOptions?.map((option) => (
+            <SidebarOption
+              key={option.name}
+              name={option.name}
+              icon={
+                !selectedPage.includes(option.name)
+                  ? option.icon
+                  : option.iconDark
+              }
+              selected={selectedPage.includes(option.name)}
+              onClick={() => {
+                if (option.name === "signout") return handleSignOut();
+                setIsSidebarOpen(false);
+                navigate(`/admin/${option.name}`);
+              }}
+            />
+          ))}
+        {currentUser?.usertype === "EMPLOYEE" &&
+          employeeOptions?.map((option) => (
+            <SidebarOption
+              key={option.name}
+              name={option.name}
+              icon={
+                !selectedPage.includes(option.name)
+                  ? option.icon
+                  : option.iconDark
+              }
+              selected={selectedPage.includes(option.name)}
+              onClick={() => {
+                if (option.name === "signout") return handleSignOut();
+                setIsSidebarOpen(false);
+                navigate(`/employee/${option.name}`);
+              }}
+            />
+          ))}
+        {commonOptions?.map((option) => (
           <SidebarOption
             key={option.name}
             name={option.name}
@@ -115,30 +158,13 @@ function Sidebar({
             }}
           />
         ))}
-        {/* {isAdmin &&
-          adminOptions?.map((option) => (
-            <SidebarOption
-              key={option.name}
-              name={option.name}
-              icon={
-                !selectedPage.includes(option.name)
-                  ? option.icon
-                  : option.iconDark
-              }
-              selected={selectedPage.includes(option.name)}
-              onClick={() => {
-                setIsSidebarOpen(false);
-                navigate(`/${option.name}`);
-              }}
-            />
-          ))} */}
       </div>
     </section>
   );
 }
 
-// const mapStateToProps = createStructuredSelector({
-//   currentUser: selectCurrentUser,
-// });
+const mapState = (state) => ({
+  currentUser: state.user.currentUser,
+});
 // export default connect(mapStateToProps)(Sidebar);
-export default connect(null, { setCurrentUser, setFlash })(Sidebar);
+export default connect(mapState, { setCurrentUser, setFlash })(Sidebar);

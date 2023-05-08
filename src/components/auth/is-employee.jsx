@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import LoadinPage from "../../pages/loading/loading";
 
-function IsAdmin({ currentUser, isLoading, children }) {
-  console.log(currentUser?.usertype === "ADMIN");
+function IsEmployee({ currentUser, isLoading, children }) {
+  console.log(currentUser?.usertype === "EMPLOYEE");
   const navigate = useNavigate();
+  console.log({ currentUser });
   useEffect(() => {
-    if (!isLoading && currentUser?.usertype !== "ADMIN") {
-      console.log("not admin, redirecting to homepage");
+    if (!isLoading && currentUser?.usertype !== "EMPLOYEE") {
       navigate("/");
     }
   }, [isLoading, currentUser]);
@@ -20,4 +20,4 @@ const mapState = (state) => ({
   currentUser: state.user.currentUser,
 });
 
-export default connect(mapState)(IsAdmin);
+export default connect(mapState)(IsEmployee);

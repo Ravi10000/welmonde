@@ -25,9 +25,12 @@ import IsNotSignedIn from "./components/auth/is-not-signed-in";
 import Flash from "./components/flash/flash";
 import LoadinPage from "./pages/loading/loading";
 import { fetchUser } from "./firebase/auth";
+import MyAgreementsPage from "./pages/employee/my-agreements/my-agreements";
+import IsEmployee from "./components/auth/is-employee";
 
 function App({ setCurrentUser, flash }) {
   const { pathname } = useLocation();
+  console.log(pathname.split("/")[1]);
   const [fetchingUser, setFetchingUser] = useState(true);
 
   console.log({ pathname });
@@ -35,23 +38,15 @@ function App({ setCurrentUser, flash }) {
   const [isPostLogin, setIsPostLogin] = useState(false);
 
   const adminRoutes = ["/admins", "/employees", "/clients", "/contracts"];
-
-  // const auth = getAuth();
-  // const [userCredientials, loading, error] = useAuthState(auth);
-  // useEffect(() => {
-  //   if (userCredientials?.email) {
-  //     setCurrentUser({ email: userCredientials?.email, userType: "ADMIN" });
-  //   }
-  // }, [loading]);
-
   async function handleCheckAuth() {
     setFetchingUser(true);
     const auth = getAuth();
     onAuthStateChanged(auth, async (userSnapshot) => {
       if (userSnapshot) {
         await fetchUser(userSnapshot.uid).then((user) => {
-          if (user)
-            setCurrentUser({ email: user?.email, usertype: user?.usertype });
+          console.log({ user });
+          if (user) setCurrentUser({ ...user, createdAt: "" });
+          // setCurrentUser({ email: user?.email, usertype: user?.usertype });
           setFetchingUser(false);
         });
       } else {
@@ -66,9 +61,14 @@ function App({ setCurrentUser, flash }) {
     if (pathname === "/") {
       return setIsPostLogin(false);
     }
-    adminRoutes.forEach((route) => {
-      pathname.includes(route) && setIsPostLogin(true);
-    });
+    // adminRoutes.forEach((route) => {
+    //   pathname.includes(route) && setIsPostLogin(true);
+    // });
+    if (
+      pathname.split("/")[1] === "admin" ||
+      pathname.split("/")[1] === "employee"
+    )
+      setIsPostLogin(true);
   }, [pathname]);
 
   return (
@@ -92,45 +92,69 @@ function App({ setCurrentUser, flash }) {
       )}
       <div className={`${isPostLogin ? styles.page : ""}`}>
         <Routes>
-          <Route exact path="/admin" element={<AdminSigninPage />} />
-
-          <Route
-            exact
-            path="/admins"
-            element={
-              <IsAdmin isLoading={fetchingUser}>
-                <AllAdminsPage />
-              </IsAdmin>
-            }
-          />
-          <Route
-            exact
-            path="/employees"
-            element={
-              <IsAdmin isLoading={fetchingUser}>
-                <AllEmployeesPage />
-              </IsAdmin>
-            }
-          />
-          <Route
-            exact
-            path="/clients"
-            element={
-              <IsAdmin isLoading={fetchingUser}>
-                <AllClientsPage />
-              </IsAdmin>
-            }
-          />
-          <Route
-            exact
-            path="/contracts"
-            element={
-              <IsAdmin isLoading={fetchingUser}>
-                <AllContractsPage />
-              </IsAdmin>
-            }
-          />
-
+          <Route exact path="/admin/signin" element={<AdminSigninPage />} />
+          <>
+            <Route
+              exact
+              path="/admin/admins"
+              element={
+                <IsAdmin isLoading={fetchingUser}>
+                  <AllAdminsPage />
+                </IsAdmin>
+              }
+            />
+            <Route
+              exact
+              path="/admin/employees"
+              element={
+                <IsAdmin isLoading={fetchingUser}>
+                  <AllEmployeesPage />
+                </IsAdmin>
+              }
+            />
+            <Route
+              exact
+              path="/admin/clients"
+              element={
+                <IsAdmin isLoading={fetchingUser}>
+                  <AllClientsPage />
+                </IsAdmin>
+              }
+            />
+            <Route
+              exact
+              path="/admin/contracts"
+              element={
+                <IsAdmin isLoading={fetchingUser}>
+                  <AllContractsPage />
+                </IsAdmin>
+              }
+            />
+            <Route
+              path="/admin/:anythingElse"
+              element={<Navigate to="/admin/admins" />}
+            />
+            <Route path="/admin" element={<Navigate to="/admin/admins" />} />
+          </>
+          <>
+            <Route
+              exact
+              path="/employee/myagreements"
+              element={
+                <IsEmployee isLoading={fetchingUser}>
+                  <MyAgreementsPage />
+                </IsEmployee>
+              }
+            />
+            <Route
+              path="/employee"
+              element={<Navigate to="/employee/myagreements" />}
+            />
+            <Route
+              path="/employee/:anythingElse"
+              element={<Navigate to="/employee/myagreements" />}
+            />
+          </>
           <Route
             exact
             path="/signin"
