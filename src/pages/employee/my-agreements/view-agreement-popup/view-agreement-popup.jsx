@@ -6,7 +6,6 @@ import ScrollToTop from "../../../../components/scrollToTop";
 import PdfViewer from "../../../../components/pdf-viewer/pdf-viewer";
 
 function ViewAgreementPopup({ agreement, closeAgreement }) {
-  console.log(agreement);
   const [pdf, setPdf] = useState(false);
 
   return (

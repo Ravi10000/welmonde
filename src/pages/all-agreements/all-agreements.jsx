@@ -1,9 +1,12 @@
 import styles from "./all-agreements.module.scss";
 import { fetchAllAgreements } from "../../firebase/auth";
 import { useEffect, useState } from "react";
+import ViewAgreementPopup from "../employee/my-agreements/view-agreement-popup/view-agreement-popup";
 
 function AllAgreements() {
   const [agreements, setAgreements] = useState([]);
+  const [viewAgreement, setViewAgreement] = useState(false);
+
   let noOfVerifed = 0;
   let noOfDenied = 0;
   let noOfFollowedUp = 0;
@@ -34,6 +37,12 @@ function AllAgreements() {
   }, []);
   return (
     <div className={styles.allAgreementsPage}>
+      {viewAgreement && (
+        <ViewAgreementPopup
+          agreement={viewAgreement}
+          closeAgreement={() => setViewAgreement(null)}
+        />
+      )}
       <main className={styles.pageContent}>
         <section className={styles.cardsContainer}>
           <div className={styles.card}>
@@ -86,7 +95,11 @@ function AllAgreements() {
                   agreement?.createdAt
                 ).toLocaleTimeString();
                 return (
-                  <tr className={styles.agreementRecord} key={agreement?.id}>
+                  <tr
+                    className={styles.agreementRecord}
+                    key={agreement?.id}
+                    onClick={() => setViewAgreement(agreement)}
+                  >
                     <td>{agreement?.businessName}</td>
                     <td>{agreement?.clientName}</td>
                     <td>{agreement?.representativeName}</td>

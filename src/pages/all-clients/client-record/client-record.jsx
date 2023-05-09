@@ -33,6 +33,14 @@ function ClientRecord({
       <td className={styles.verticalData}>
         {client?.vertical && client?.vertical?.map((v) => <p key={v}>{v}, </p>)}
       </td>
+      {/* <td className={styles.contractNamesContainer}>
+        {client?.vertical &&
+          client?.vertical?.map((contract) => (
+            <p key={contract} className={styles.contractName}>
+              {contract}
+            </p>
+          ))}
+      </td> */}
       <td className={styles.actions}>
         <Button
           iconOnly
