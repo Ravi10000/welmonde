@@ -9,7 +9,7 @@
   &.active {
     border-color: var(--mainBrandColor);
   }
-  //   input {
-  //     display: none;
-  //   }
+  label {
+    text-transform: capitalize;
+  }
 }

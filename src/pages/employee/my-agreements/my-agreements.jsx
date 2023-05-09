@@ -5,12 +5,14 @@ import { connect } from "react-redux";
 import Button from "../../../components/button/button";
 import AddAgreementsPopup from "../../../components/add-agreements-popup/add-agreements-popup";
 import AgreementRecord from "./agreement-record/agreement-record";
+import ViewAgreementPopup from "./view-agreement-popup/view-agreement-popup";
 
 function MyAgreementsPage({ currentUser }) {
   const [agreements, setAgreements] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const openPopup = () => setShowPopup(true);
   const closePopup = () => setShowPopup(false);
+  const [viewAgreement, setViewAgreement] = useState(false);
 
   let noOfVerifed = 0;
   let noOfDenied = 0;
@@ -38,6 +40,12 @@ function MyAgreementsPage({ currentUser }) {
   }, []);
   return (
     <div className={styles.myAgreementsPage}>
+      {viewAgreement && (
+        <ViewAgreementPopup
+          agreement={viewAgreement}
+          closeAgreement={() => setViewAgreement(null)}
+        />
+      )}
       {showPopup && (
         <AddAgreementsPopup
           closePopup={closePopup}
@@ -92,6 +100,9 @@ function MyAgreementsPage({ currentUser }) {
             <tbody>
               {agreements.map((agreement, i) => (
                 <AgreementRecord
+                  openAgreement={() => {
+                    setViewAgreement(agreement);
+                  }}
                   onSuccess={handleFetchAgreements}
                   key={agreement?.id}
                   agreement={agreement}

@@ -50,6 +50,10 @@
       padding: 5px;
     }
   }
+  &:hover {
+    cursor: pointer;
+    background: var(--fadeGray);
+  }
   .loader {
     border: 2px solid var(--mainBrandColor);
     border-top: 2px solid transparent;

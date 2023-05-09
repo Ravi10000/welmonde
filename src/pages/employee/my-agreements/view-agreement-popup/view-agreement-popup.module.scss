@@ -1,0 +1,67 @@
+.viewAgreement {
+  background: #fff;
+  height: fit-content;
+  padding: 20px;
+  border-radius: 5px;
+  margin: auto;
+
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    margin-bottom: 20px;
+    .closeIcon {
+      height: 50px;
+      width: 50px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s aase-in-out;
+      &:hover {
+        cursor: pointer;
+        background: var(--fadeGray);
+      }
+      img {
+        height: 20px;
+        width: fit-content;
+      }
+    }
+  }
+  .agreementList {
+    display: grid;
+    gap: 5px;
+    .contract {
+      border-top: 1px solid var(--fadeGray);
+      padding: 5px 0 0 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 50px;
+      &:first-child {
+        border: none;
+      }
+      p:first-child {
+        text-transform: capitalize;
+        font-weight: 500;
+      }
+      .viewPdf {
+        padding: 5px 10px;
+        border-radius: 5px;
+        background: var(--fadeGray);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        p {
+          color: var(--subBrandColor);
+          font-weight: 500;
+        }
+        img {
+          height: 25px;
+          width: fit-content;
+        }
+      }
+    }
+  }
+}

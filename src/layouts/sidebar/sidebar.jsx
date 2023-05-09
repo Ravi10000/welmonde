@@ -43,6 +43,11 @@ const employeeOptions = [
     icon: "/page-icons/contract.png",
     iconDark: "/page-icons/contract-dark.png",
   },
+  {
+    name: "clients",
+    icon: "/page-icons/client.png",
+    iconDark: "/page-icons/client-dark.png",
+  },
 ];
 
 const commonOptions = [
@@ -117,7 +122,7 @@ function Sidebar({
               }
               selected={selectedPage.includes(option.name)}
               onClick={() => {
-                if (option.name === "signout") return handleSignOut();
+                // if (option.name === "signout") return handleSignOut();
                 setIsSidebarOpen(false);
                 navigate(`/admin/${option.name}`);
               }}
@@ -135,7 +140,7 @@ function Sidebar({
               }
               selected={selectedPage.includes(option.name)}
               onClick={() => {
-                if (option.name === "signout") return handleSignOut();
+                // if (option.name === "signout") return handleSignOut();
                 setIsSidebarOpen(false);
                 navigate(`/employee/${option.name}`);
               }}

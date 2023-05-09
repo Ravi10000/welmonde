@@ -116,11 +116,9 @@ export const updateClientDetails = async (userId, clientData) => {
   }
 };
 export const updateUserDetails = async (userToEdit, userData) => {
-  console.log({ userToEdit, userData });
   try {
-    const docRef = await setDoc(doc(db, "users", userToEdit.uid), {
-      ...userToEdit,
-      ...userData,
+    const docRef = await setDoc(doc(db, "users", userToEdit.uid), userData, {
+      merge: true,
     });
     return docRef;
   } catch (error) {
@@ -129,11 +127,9 @@ export const updateUserDetails = async (userToEdit, userData) => {
   }
 };
 export const EditClientDetails = async (clientToEdit, newData) => {
-  console.log({ clientToEdit, newData });
   try {
-    const docRef = await setDoc(doc(db, "clients", clientToEdit.id), {
-      ...clientToEdit,
-      ...newData,
+    const docRef = await setDoc(doc(db, "clients", clientToEdit.id), newData, {
+      merge: true,
     });
     return docRef;
   } catch (error) {

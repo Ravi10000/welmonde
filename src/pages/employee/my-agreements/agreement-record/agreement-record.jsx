@@ -5,7 +5,7 @@ import { updateAgreementStatus } from "../../../../firebase/employee";
 import { setFlash } from "../../../../redux/flash/flash.actions";
 import { connect } from "react-redux";
 
-function AgreementRecord({ agreement, onSuccess, setFlash }) {
+function AgreementRecord({ agreement, onSuccess, openAgreement, setFlash }) {
   const [showOptions, setShowOptions] = useState(false);
   const [isLoading, setIsloading] = useState(false);
 
@@ -32,7 +32,9 @@ function AgreementRecord({ agreement, onSuccess, setFlash }) {
     setIsloading(true);
     try {
       if (status === "SENT TO CLIENT") {
-        const agreementLink = "/contracts/" + agreement?.id;
+        const agreementLink = `${import.meta.env.VITE_SITE_URL}/contracts/${
+          agreement?.id
+        }`;
         console.log({ agreementLink });
       }
       const docRef = await updateAgreementStatus(agreement?.id, status);
@@ -54,7 +56,7 @@ function AgreementRecord({ agreement, onSuccess, setFlash }) {
   }
 
   return (
-    <tr className={styles.agreementRecord}>
+    <tr className={styles.agreementRecord} onClick={openAgreement}>
       <td>{agreement?.businessName}</td>
       <td>{agreement?.clientName}</td>
       <td>{agreement?.representativeName}</td>

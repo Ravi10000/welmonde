@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 
 import { setFlash } from "../../redux/flash/flash.actions";
-import { addAgreement } from "../../firebase/employee";
+import { addAgreement, fetchMyClients } from "../../firebase/employee";
 import NumInput from "../num-input/num-input";
 
 function AddAgreementsPopup({
@@ -37,7 +37,7 @@ function AddAgreementsPopup({
 
   async function handleFetchClients() {
     setFetchingClients(true);
-    const clients = await fetchAllClients();
+    const clients = await fetchMyClients(currentUser?.uid);
     console.log({ clients });
     setClientList(clients);
     setFetchingClients(false);

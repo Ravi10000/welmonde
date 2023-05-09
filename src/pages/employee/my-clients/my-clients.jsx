@@ -1,9 +1,9 @@
-import styles from "./all-clients.module.scss";
-import Button from "../../components/button/button";
+import styles from "./my-clients.module.scss";
+import Button from "../../../components/button/button";
 import { useState } from "react";
-import Popup from "../../components/popup/popup";
-import TextInput from "../../components/text-input/text-input";
-import NumInput from "../../components/num-input/num-input";
+import Popup from "../../../components/popup/popup";
+import TextInput from "../../../components/text-input/text-input";
+import NumInput from "../../../components/num-input/num-input";
 import { useEffect } from "react";
 import {
   updateClientDetails,
@@ -11,15 +11,16 @@ import {
   fetchAllClients,
   updateUserDetails,
   EditClientDetails,
-} from "../../firebase/auth";
+} from "../../../firebase/auth";
 import { useForm } from "react-hook-form";
-import { setFlash } from "../../redux/flash/flash.actions";
+import { setFlash } from "../../../redux/flash/flash.actions";
 import { connect } from "react-redux";
-import CheckBox from "../../components/check-box/check-box";
+import CheckBox from "../../../components/check-box/check-box";
 import ClientRecord from "./client-record/client-record";
-import { verticals } from "../../data/verticals";
+import { verticals } from "../../../data/verticals";
+import { fetchMyClients } from "../../../firebase/employee";
 
-function AllClientsPage({ setFlash, currentUser }) {
+function MyClientsPage({ setFlash, currentUser }) {
   const [clients, setClients] = useState([]);
   const [clientToEdit, setClientToEdit] = useState(null);
   const {
@@ -46,7 +47,8 @@ function AllClientsPage({ setFlash, currentUser }) {
   }
 
   async function handleFetchClients() {
-    const clients = await fetchAllClients();
+    // const clients = await fetchAllClients();
+    const clients = await fetchMyClients(currentUser?.uid);
     console.log(clients);
     setClients(clients);
   }
@@ -246,45 +248,6 @@ function AllClientsPage({ setFlash, currentUser }) {
             />
             <div className={styles.vertical}>
               <p>Vertical</p>
-              {/* <div className={styles.list}>
-                <CheckBox
-                  defaultChecked={clientToEdit?.vertical?.includes("clinic")}
-                  label="Clinic"
-                  name="vertical"
-                  {...register("vertical")}
-                />
-                <CheckBox
-                  defaultChecked={clientToEdit?.vertical?.includes("pharmacy")}
-                  label="Pharmacy"
-                  register={{ ...register("vertical") }}
-                />
-                <CheckBox
-                  label="Diagnostics"
-                  register={{ ...register("vertical") }}
-                />
-                <CheckBox
-                  defaultChecked={clientToEdit?.vertical?.includes(
-                    "per clinic"
-                  )}
-                  label="Pet Clinic"
-                  register={{ ...register("vertical") }}
-                />
-                <CheckBox
-                  defaultChecked={clientToEdit?.vertical?.includes("ayurveda")}
-                  label="Ayurveda"
-                  register={{ ...register("vertical") }}
-                />
-                <CheckBox
-                  defaultChecked={clientToEdit?.vertical?.includes("fitness")}
-                  label="Fitness"
-                  register={{ ...register("vertical") }}
-                />
-                <CheckBox
-                  defaultChecked={clientToEdit?.vertical?.includes("welness")}
-                  label="Wellness"
-                  register={{ ...register("vertical") }}
-                />
-              </div> */}
               <div className={styles.list}>
                 {verticals?.map((vertical) => {
                   return (
@@ -314,14 +277,14 @@ function AllClientsPage({ setFlash, currentUser }) {
             <p>{clients?.length}</p>
             <h4>Total Clients</h4>
           </div>
-          <div className={styles.card}>
+          {/* <div className={styles.card}>
             <p>1200</p>
             <h4>Contracts Signed</h4>
           </div>
           <div className={styles.card}>
             <p>120</p>
             <h4>OTP Verified</h4>
-          </div>
+          </div> */}
         </section>
         <Button
           outlined
@@ -366,4 +329,4 @@ function AllClientsPage({ setFlash, currentUser }) {
 const mapState = (state) => ({
   currentUser: state.user.currentUser,
 });
-export default connect(mapState, { setFlash })(AllClientsPage);
+export default connect(mapState, { setFlash })(MyClientsPage);

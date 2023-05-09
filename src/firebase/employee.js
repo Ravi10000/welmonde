@@ -36,6 +36,12 @@ export const updateAgreementStatus = async (agreementId, status) => {
     );
     return docRef;
   } catch (err) {
-    console.log(error);
+    console.log(err);
   }
+};
+
+export const fetchMyClients = async (uid) => {
+  const q = query(collection(db, "clients"), where("createdBy", "==", uid));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };

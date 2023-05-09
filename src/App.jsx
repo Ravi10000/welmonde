@@ -29,6 +29,9 @@ import MyAgreementsPage from "./pages/employee/my-agreements/my-agreements";
 import IsEmployee from "./components/auth/is-employee";
 import AllAgreements from "./pages/all-agreements/all-agreements";
 import ContractsPage from "./pages/contracts/contracts-page";
+import MyClientsPage from "./pages/employee/my-clients/my-clients";
+import SignoutPage from "./pages/signout/signout";
+import ScrollToTop from "./components/scrollToTop";
 
 function App({ setCurrentUser, flash }) {
   const { pathname } = useLocation();
@@ -47,7 +50,11 @@ function App({ setCurrentUser, flash }) {
       if (userSnapshot) {
         await fetchUser(userSnapshot.uid).then((user) => {
           console.log({ user });
-          if (user) setCurrentUser({ ...user, createdAt: "" });
+          if (user)
+            setCurrentUser({
+              ...user,
+              createdAt: new Date(user?.createdAt?.seconds).toString(),
+            });
           // setCurrentUser({ email: user?.email, usertype: user?.usertype });
           setFetchingUser(false);
         });
@@ -78,6 +85,7 @@ function App({ setCurrentUser, flash }) {
 
   return (
     <div className={`${isPostLogin ? styles.postLoginPage : ""}`}>
+      <ScrollToTop />
       {flash && <Flash type={flash.type} message={flash.message} />}
       {!isPostLogin && <Header />}
       {isPostLogin && (
@@ -152,6 +160,15 @@ function App({ setCurrentUser, flash }) {
               }
             />
             <Route
+              exact
+              path="/employee/clients"
+              element={
+                <IsEmployee isLoading={fetchingUser}>
+                  <MyClientsPage />
+                </IsEmployee>
+              }
+            />
+            <Route
               path="/employee"
               element={<Navigate to="/employee/myagreements" />}
             />
@@ -187,6 +204,8 @@ function App({ setCurrentUser, flash }) {
               </IsUser>
             }
           />
+          {/* <Route path="admin/signout" element={<SignoutPage />} /> */}
+          {/* <Route path="employee/signout" element={<SignoutPage />} /> */}
           <Route exact path="/" element={<HomePage />} />
           <Route exact path="/:id" element={<Navigate to="/" />} />
         </Routes>

@@ -40,7 +40,10 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
       if (response) {
         const user = await fetchUser(response.uid);
         console.log({ user });
-        await setCurrentUser(user);
+        await setCurrentUser({
+          ...user,
+          createdAt: new Date(user?.createdAt?.seconds).toString(),
+        });
         if (user.usertype === "ADMIN") return navigate("/admin");
         else if ((user.usertype = "EMPLOYEE")) return navigate("/employee");
         navigate("/profile");
