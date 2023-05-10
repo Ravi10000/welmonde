@@ -20,7 +20,7 @@ import ClientRecord from "./client-record/client-record";
 import { verticals } from "../../../data/verticals";
 import { fetchMyClients } from "../../../firebase/employee";
 
-function MyClientsPage({ setFlash, currentUser }) {
+function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
   const [clients, setClients] = useState([]);
   const [clientToEdit, setClientToEdit] = useState(null);
   const {
@@ -48,7 +48,9 @@ function MyClientsPage({ setFlash, currentUser }) {
 
   async function handleFetchClients() {
     // const clients = await fetchAllClients();
-    const clients = await fetchMyClients(currentUser?.uid);
+    const clients = await fetchMyClients(
+      adminPrivilages ? null : currentUser?.uid
+    );
     console.log(clients);
     setClients(clients);
   }
@@ -270,14 +272,13 @@ function MyClientsPage({ setFlash, currentUser }) {
           </Popup>
         </form>
       )}
-      <h1 className="__pageHeading __subColorHeading">All Clients</h1>
-      <div className={styles.cardsAndBtn}>
-        <section className={styles.cardsContainer}>
-          <div className={styles.card}>
-            <p>{clients?.length}</p>
-            <h4>Total Clients</h4>
-          </div>
-          {/* <div className={styles.card}>
+
+      <section className={styles.cardsContainer}>
+        <div className={styles.card}>
+          <p>{clients?.length}</p>
+          <h4>Total Clients</h4>
+        </div>
+        {/* <div className={styles.card}>
             <p>1200</p>
             <h4>Contracts Signed</h4>
           </div>
@@ -285,7 +286,11 @@ function MyClientsPage({ setFlash, currentUser }) {
             <p>120</p>
             <h4>OTP Verified</h4>
           </div> */}
-        </section>
+      </section>
+      <div className={styles.cardsAndBtn}>
+        <h1 className="__pageHeading __subColorHeading">
+          {adminPrivilages ? "All" : "My"} Clients
+        </h1>
         <Button
           outlined
           fit

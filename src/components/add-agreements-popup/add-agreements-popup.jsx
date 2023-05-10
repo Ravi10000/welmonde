@@ -19,6 +19,7 @@ function AddAgreementsPopup({
   onSuccess,
   currentUser,
   setFlash,
+  adminPrivilages,
 }) {
   const [selectedClient, setSelectedClient] = useState(null);
   const [clientList, setClientList] = useState([]);
@@ -37,7 +38,9 @@ function AddAgreementsPopup({
 
   async function handleFetchClients() {
     setFetchingClients(true);
-    const clients = await fetchMyClients(currentUser?.uid);
+    const clients = await fetchMyClients(
+      adminPrivilages ? null : currentUser?.uid
+    );
     console.log({ clients });
     setClientList(clients);
     setFetchingClients(false);

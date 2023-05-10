@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 // components
 import Button from "../../components/button/button";
-import OTPInput from "../../components/otp-input/otp-input";
+import OTPInput from "../../components/otp-group/otp-input/otp-input";
 import { sendOtp } from "../../firebase/auth";
 import { setCurrentUser } from "../../redux/user/user.actions";
 import { connect } from "react-redux";

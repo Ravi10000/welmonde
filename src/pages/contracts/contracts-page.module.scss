@@ -19,7 +19,7 @@
         .contractName {
           font-weight: 500;
         }
-        .link {
+        .showPdf {
           background: var(--fadeGray);
           padding: 5px 10px;
           border-radius: 5px;
@@ -27,6 +27,13 @@
           font-size: 0.9rem;
           font-weight: 500;
           color: var(--subBrandColor);
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          img {
+            height: 25px;
+            width: fit-content;
+          }
         }
       }
     }
@@ -47,6 +54,18 @@
       display: grid;
       place-items: center;
       gap: 10px;
+    }
+    .buttons {
+      display: grid;
+      gap: 15px;
+    }
+    .rejectedMessage {
+      color: var(--errorClr);
+      font-weight: 500;
+    }
+    .verified {
+      color: var(--mainBrandColor);
+      font-weight: 500;
     }
   }
 }

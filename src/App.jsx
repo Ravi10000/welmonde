@@ -130,7 +130,7 @@ function App({ setCurrentUser, flash }) {
               path="/admin/clients"
               element={
                 <IsAdmin isLoading={fetchingUser}>
-                  <AllClientsPage />
+                  <MyClientsPage adminPrivilages />
                 </IsAdmin>
               }
             />
@@ -139,7 +139,8 @@ function App({ setCurrentUser, flash }) {
               path="/admin/contracts"
               element={
                 <IsAdmin isLoading={fetchingUser}>
-                  <AllAgreements />
+                  {/* <AllAgreements /> */}
+                  <MyAgreementsPage adminPrivilages />
                 </IsAdmin>
               }
             />

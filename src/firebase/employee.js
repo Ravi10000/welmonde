@@ -13,7 +13,9 @@ import {
 } from "firebase/firestore";
 
 export const fetchMyAgreements = async (uid) => {
-  const q = query(collection(db, "agreements"), where("employeeId", "==", uid));
+  let q = query(collection(db, "agreements"));
+  if (uid)
+    q = query(collection(db, "agreements"), where("employeeId", "==", uid));
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
@@ -36,12 +38,14 @@ export const updateAgreementStatus = async (agreementId, status) => {
     );
     return docRef;
   } catch (err) {
+    return { error: err.message };
     console.log(err);
   }
 };
 
 export const fetchMyClients = async (uid) => {
-  const q = query(collection(db, "clients"), where("createdBy", "==", uid));
+  let q = query(collection(db, "clients"));
+  if (uid) q = query(collection(db, "clients"), where("createdBy", "==", uid));
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };

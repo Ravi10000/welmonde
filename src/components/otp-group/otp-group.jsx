@@ -5,7 +5,7 @@ import {
   useState,
   useImperativeHandle,
 } from "react";
-import OTPInput from "../otp-input/otp-input";
+import OTPInput from "./otp-input/otp-input";
 import styles from "./otp-group.module.scss";
 
 const OtpGroup = forwardRef((props, ref) => {

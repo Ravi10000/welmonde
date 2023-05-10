@@ -7,7 +7,7 @@ import AddAgreementsPopup from "../../../components/add-agreements-popup/add-agr
 import AgreementRecord from "./agreement-record/agreement-record";
 import ViewAgreementPopup from "./view-agreement-popup/view-agreement-popup";
 
-function MyAgreementsPage({ currentUser }) {
+function MyAgreementsPage({ currentUser, adminPrivilages }) {
   const [agreements, setAgreements] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const openPopup = () => setShowPopup(true);
@@ -31,13 +31,20 @@ function MyAgreementsPage({ currentUser }) {
     }
   });
   async function handleFetchAgreements() {
-    const agreements = await fetchMyAgreements(currentUser.uid);
-    console.log(agreements);
-    setAgreements(agreements);
+    try {
+      const agreements = await fetchMyAgreements(
+        adminPrivilages ? null : currentUser.uid
+      );
+      console.log(agreements);
+      setAgreements(agreements);
+    } catch (err) {
+      console.log(err);
+    }
   }
   useEffect(() => {
     handleFetchAgreements();
   }, []);
+
   return (
     <div className={styles.myAgreementsPage}>
       {viewAgreement && (
@@ -48,6 +55,7 @@ function MyAgreementsPage({ currentUser }) {
       )}
       {showPopup && (
         <AddAgreementsPopup
+          adminPrivilages={adminPrivilages}
           closePopup={closePopup}
           onSuccess={handleFetchAgreements}
         />
@@ -77,7 +85,9 @@ function MyAgreementsPage({ currentUser }) {
           </div>
         </section>
         <div className={styles.head}>
-          <h1>My Agreements</h1>
+          <h1 className={styles.title}>
+            {adminPrivilages ? "All" : "My"} Agreements
+          </h1>
           <Button outlined fit onClick={openPopup}>
             Add New Agreement
           </Button>
