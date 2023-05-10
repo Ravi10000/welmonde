@@ -125,3 +125,30 @@ td img {
 img {
   object-fit: contain;
 }
+
+.__loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.__loader {
+  width: 30px;
+  aspect-ratio: 1 / 1;
+  border: 3px solid #eaeef2;
+  border-top: 3px solid var(--mainBrandColor);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}

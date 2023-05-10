@@ -49,3 +49,9 @@ export const fetchMyClients = async (uid) => {
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
+export const fetchClientById = async (id) => {
+  console.log({ id });
+  const docRef = doc(db, "clients", id);
+  const docSnap = await getDoc(docRef);
+  return docSnap.data();
+};
