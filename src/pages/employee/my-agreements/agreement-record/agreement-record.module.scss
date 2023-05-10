@@ -1,10 +1,22 @@
 .agreementRecord {
   .optionsContainer {
     position: relative;
-    .optionsToggle {
-      height: 25px;
-      width: fit-content;
-      cursor: pointer;
+    .optionsDiv {
+      height: 50px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50px;
+      transition: all 0.2s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .optionsToggle {
+        height: 25px;
+        width: fit-content;
+        cursor: pointer;
+      }
+      &:hover {
+        background: #fff;
+      }
     }
     .options {
       display: grid;
@@ -53,6 +65,12 @@
   &:hover {
     cursor: pointer;
     background: var(--fadeGray);
+    .contractNamesContainer {
+      .contractName {
+        background: var(--mainBrandColor);
+        color: #fff;
+      }
+    }
   }
   .loader {
     border: 2px solid var(--mainBrandColor);

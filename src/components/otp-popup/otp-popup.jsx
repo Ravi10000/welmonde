@@ -46,7 +46,7 @@ function OtpPopup({ setShowOtpPopup, agreement, onSuccess, setFlash }) {
     <Backdrop>
       <div className={styles.otpPopup}>
         <div className={styles.head}>
-          <h2 className={styles.title}>Verify With OTP</h2>
+          <h2 className={styles.title}>Enter Verification OTP</h2>
           <img
             className={styles.closeIcon}
             src="/close.png"

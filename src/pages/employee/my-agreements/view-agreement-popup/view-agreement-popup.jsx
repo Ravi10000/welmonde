@@ -6,14 +6,17 @@ import ScrollToTop from "../../../../components/scrollToTop";
 import PdfViewer from "../../../../components/pdf-viewer/pdf-viewer";
 
 function ViewAgreementPopup({ agreement, closeAgreement }) {
-  const [pdf, setPdf] = useState(false);
-
+  const [contract, setContract] = useState(false);
+  console.log({ pdf: contract });
   return (
     <>
-      {pdf && (
+      {contract && (
         <PdfViewer
-          pdfLink="http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&navpanes=0&scrollbar=0"
-          closePdf={() => setPdf(null)}
+          contract={contract}
+          closePdf={() => {
+            setContract(null);
+            console.log("close pdf");
+          }}
         />
       )}
       <Backdrop>
@@ -26,11 +29,13 @@ function ViewAgreementPopup({ agreement, closeAgreement }) {
           </div>
           <div className={styles.agreementList}>
             {agreement?.contracts?.map((contract) => (
-              <div className={styles.contract}>
+              <div className={styles.contract} key={contract}>
                 <p key={contract}>{contract}</p>
                 <div
                   className={styles.viewPdf}
-                  onClick={() => setPdf(contract)}
+                  onClick={() =>
+                    setContract({ agreement, contractName: contract })
+                  }
                 >
                   <img src="/pdf.png" alt="" />
                   <p>view</p>

@@ -11,7 +11,7 @@ const Flash = ({ message, type, clearFlash }) => {
     const clearFlashTimeout = setTimeout(function () {
       clearFlash();
       // console.log("cleared");
-    }, 10000);
+    }, 5000);
     return () => {
       clearTimeout(clearFlashTimeout);
     };
@@ -28,7 +28,7 @@ const Flash = ({ message, type, clearFlash }) => {
       {message && (
         <>
           <div className={styles.main}>
-            <img src={`/${type}.png`} alt={type} />
+            <img src={`/flash-icons/${type}.png`} alt={type} />
             <p>{message}</p>
           </div>
           <button
@@ -37,7 +37,7 @@ const Flash = ({ message, type, clearFlash }) => {
               clearFlash();
             }}
           >
-            <img src={`/close-${type}.png`} alt="" />
+            <img src={`/flash-icons/close-${type}.png`} alt="" />
           </button>
         </>
       )}

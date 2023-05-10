@@ -87,6 +87,7 @@ function App({ setCurrentUser, flash }) {
     <div className={`${isPostLogin ? styles.postLoginPage : ""}`}>
       <ScrollToTop />
       {flash && <Flash type={flash.type} message={flash.message} />}
+      {/* <Flash type={"warning"} message={"This is a test flash message."} /> */}
       {!isPostLogin && <Header />}
       {isPostLogin && (
         <>

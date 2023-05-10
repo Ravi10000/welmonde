@@ -37,19 +37,24 @@ function AgreementRecord({
     setShowOptions(false);
     setIsloading(true);
     try {
+      const docRef = await updateAgreementStatus(agreement?.id, status);
+      await onSuccess();
       if (status === "SENT TO CLIENT") {
         const agreementLink = `${import.meta.env.VITE_SITE_URL}/contracts/${
           agreement?.id
         }`;
         console.log({ agreementLink });
+        return setFlash({
+          message: "Agreement sent to client successfully",
+          type: "success",
+        });
       }
-      const docRef = await updateAgreementStatus(agreement?.id, status);
-      console.log({ docRef });
-      await onSuccess();
-      setFlash({
-        message: "Agreement status updated successfully to " + status + ".",
-        type: "success",
-      });
+      if (status === "FOLLOWED UP") {
+        return setFlash({
+          message: "Agreement status changed to followed up successfully",
+          type: "success",
+        });
+      }
     } catch (err) {
       console.log(err);
       setFlash({
@@ -79,9 +84,9 @@ function AgreementRecord({
         {addedOnDate}, {addedOnTime}
       </td>
       <td>{agreement?.status}</td>
-      {agreement?.status === "FOLLOWED UP" && <td>followed up</td>}
-      {agreement?.status === "OTP VERIFIED" ? (
-        <td>verified</td>
+      {agreement?.status === "FOLLOWED UP" ||
+      agreement?.status === "OTP VERIFIED" ? (
+        <td>N/A</td>
       ) : (
         ["ADDED", "SENT TO CLIENT", "DENIED"].includes(agreement?.status) && (
           <td
@@ -91,12 +96,14 @@ function AgreementRecord({
             {isLoading ? (
               <div className={styles.loader}></div>
             ) : (
-              <img
-                src="/3dots.png"
-                alt="options"
-                className={styles.optionsToggle}
-                onClick={() => setShowOptions(true)}
-              />
+              <div className={styles.optionsDiv}>
+                <img
+                  src="/3dots.png"
+                  alt="options"
+                  className={styles.optionsToggle}
+                  onClick={() => setShowOptions(true)}
+                />
+              </div>
             )}
             {showOptions && (
               <nav className={styles.options} ref={optionsRef}>

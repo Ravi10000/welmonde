@@ -7,22 +7,32 @@
   font-weight: 500;
   z-index: 4000000;
   width: 100%;
-  color: #0aa06e;
+  color: #2196f3;
   display: flex;
   gap: 50px;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 2px 4px 4px 5px rgba(57, 57, 57, 0.25);
   transition: all 0.2s ease-in-out;
   animation: animateFlash 0.2s ease-in-out forwards;
-  border: 1px solid #0aa06e;
-  border-radius: 8px;
+  border: 2px solid var(--fadeGray);
+  overflow-x: hidden;
+  // position: relative;
+  &::after {
+    position: absolute;
+    content: "";
+    height: 3px;
+    width: 100%;
+    background: #2196f3;
+    bottom: 0;
+    left: 0;
+    animation: timeout 5s ease-in-out forwards;
+  }
   .main {
     display: flex;
     align-items: center;
     img {
-      width: 20px;
-      aspect-ratio: 1/1;
+      height: 25px;
+      width: fit-content;
       margin-right: 10px;
     }
   }
@@ -31,17 +41,27 @@
     padding: 10px;
     background: transparent;
     cursor: pointer;
+    img {
+      height: 16px;
+      width: fit-content;
+    }
   }
 }
 
 .flash.error {
-  border-color: #fc476e;
-  color: #fc476e;
+  // border-color: #fc476e;
+  color: #f74850;
+  &::after {
+    background: #f74850;
+  }
 }
 
 .flash.warning {
-  border-color: #ffc048;
-  color: #ffc048;
+  // border-color: #ffc048;
+  color: #ffb703;
+  &::after {
+    background: #ffb703;
+  }
 }
 
 @media (min-width: 800px) {
@@ -56,5 +76,11 @@
 @keyframes animateFlash {
   to {
     top: 10%;
+  }
+}
+
+@keyframes timeout {
+  to {
+    transform: translateX(-100%);
   }
 }
