@@ -5,7 +5,13 @@ import { updateAgreementStatus } from "../../../../firebase/employee";
 import { setFlash } from "../../../../redux/flash/flash.actions";
 import { connect } from "react-redux";
 
-function AgreementRecord({ agreement, onSuccess, openAgreement, setFlash }) {
+function AgreementRecord({
+  agreement,
+  onSuccess,
+  openAgreement,
+  setFlash,
+  openVerificationPopup,
+}) {
   const [showOptions, setShowOptions] = useState(false);
   const [isLoading, setIsloading] = useState(false);
 
@@ -78,7 +84,10 @@ function AgreementRecord({ agreement, onSuccess, openAgreement, setFlash }) {
         <td>verified</td>
       ) : (
         ["ADDED", "SENT TO CLIENT", "DENIED"].includes(agreement?.status) && (
-          <td className={styles.optionsContainer}>
+          <td
+            className={styles.optionsContainer}
+            onClick={(e) => e.stopPropagation()}
+          >
             {isLoading ? (
               <div className={styles.loader}></div>
             ) : (
@@ -109,11 +118,7 @@ function AgreementRecord({ agreement, onSuccess, openAgreement, setFlash }) {
                     >
                       <img src="/down.png" alt="" /> Send to client via phone
                     </li>
-                    <li
-                      onClick={() => {
-                        alert("send otp to client");
-                      }}
-                    >
+                    <li onClick={() => openVerificationPopup(agreement)}>
                       <img src="/down.png" alt="" />
                       verify with OTP
                     </li>

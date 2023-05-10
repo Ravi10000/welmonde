@@ -6,6 +6,7 @@ import Button from "../../../components/button/button";
 import AddAgreementsPopup from "../../../components/add-agreements-popup/add-agreements-popup";
 import AgreementRecord from "./agreement-record/agreement-record";
 import ViewAgreementPopup from "./view-agreement-popup/view-agreement-popup";
+import OtpPopup from "../../../components/otp-popup/otp-popup";
 
 function MyAgreementsPage({ currentUser, adminPrivilages }) {
   const [agreements, setAgreements] = useState([]);
@@ -13,6 +14,8 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
   const openPopup = () => setShowPopup(true);
   const closePopup = () => setShowPopup(false);
   const [viewAgreement, setViewAgreement] = useState(false);
+  const [showOtpPopup, setShowOtpPopup] = useState(false);
+  const [agreementToEdit, setAgreementToEdit] = useState(null);
 
   let noOfVerifed = 0;
   let noOfDenied = 0;
@@ -41,6 +44,12 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
       console.log(err);
     }
   }
+
+  function openVerificationPopup(agreement) {
+    setAgreementToEdit(agreement);
+    setShowOtpPopup(true);
+  }
+  console.log({ agreementToEdit });
   useEffect(() => {
     handleFetchAgreements();
   }, []);
@@ -51,6 +60,13 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
         <ViewAgreementPopup
           agreement={viewAgreement}
           closeAgreement={() => setViewAgreement(null)}
+        />
+      )}
+      {showOtpPopup && (
+        <OtpPopup
+          onSuccess={handleFetchAgreements}
+          setShowOtpPopup={setShowOtpPopup}
+          agreement={agreementToEdit}
         />
       )}
       {showPopup && (
@@ -110,6 +126,8 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
             <tbody>
               {agreements.map((agreement, i) => (
                 <AgreementRecord
+                  openVerificationPopup={openVerificationPopup}
+                  setShowOtpPopup={setShowOtpPopup}
                   openAgreement={() => {
                     setViewAgreement(agreement);
                   }}
