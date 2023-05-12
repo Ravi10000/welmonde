@@ -6,7 +6,6 @@ import {
   StyleSheet,
   PDFViewer,
   Link,
-  Font,
 } from "@react-pdf/renderer";
 
 // Font.register({ family: "Times-New-Roman", src: "/fonts/times.ttf" });
