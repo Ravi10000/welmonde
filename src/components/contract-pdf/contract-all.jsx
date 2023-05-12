@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: "10px",
   },
+  captilaze: {
+    textTransform: "capitalize",
+  },
 });
 
 function ContractAll({ client, contract }) {
@@ -52,16 +55,6 @@ function ContractAll({ client, contract }) {
                 SERVICE AGREEMENT
               </Text>
             </View>
-            {/* <Text>contract Type: {contract?.contractName}</Text>
-    <Text>client Name: {contract?.agreement?.clientName}</Text>
-    <Text>Business Name: {contract?.agreement?.businessName}</Text>
-    <Text>
-      Representative Name: {contract?.agreement?.representativeName}
-    </Text>
-    <Text>Client Address: {contract?.agreement?.clientAddress}</Text>
-    <Text>
-      Date & Time: {date}, {time}
-    </Text> */}
             <Text>
               This Agreement was entered into on the{" "}
               {" " + new Date().toDateString()}, by and between:
@@ -78,9 +71,15 @@ function ContractAll({ client, contract }) {
             <Text style={{ ...styles.center, ...styles.margin }}>And</Text>
             <Text>
               {client?.businessName}, is located at
-              {" " + contract?.agreement?.clientAddress}, Represented by
-              {" " + contract?.agreement?.representativeName}, authorized
-              Signatory and herein after referred to as second Party.
+              <Text style={styles.captilaze}>
+                {" " + contract?.agreement?.clientAddress}
+              </Text>
+              , Represented by
+              <Text style={styles.captilaze}>
+                {" " + contract?.agreement?.representativeName}
+              </Text>
+              , authorized Signatory and herein after referred to as second
+              Party.
             </Text>
             <Text style={styles.margin}>
               Definitions: Unless repugnant to the context or meaning thereof,
