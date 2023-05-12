@@ -7,7 +7,7 @@ import PdfViewer from "../../../../components/pdf-viewer/pdf-viewer";
 
 function ViewAgreementPopup({ agreement, closeAgreement }) {
   const [contract, setContract] = useState(false);
-  console.log({ pdf: contract });
+  console.log({ contract });
   return (
     <>
       {contract && (

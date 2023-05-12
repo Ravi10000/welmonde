@@ -70,7 +70,8 @@ function ContractAll({ client, contract }) {
             </Text>
             <Text style={{ ...styles.center, ...styles.margin }}>And</Text>
             <Text>
-              {client?.businessName}, is located at
+              <Text style={styles.captilaze}>{client?.businessName}</Text>, is
+              located at
               <Text style={styles.captilaze}>
                 {" " + contract?.agreement?.clientAddress}
               </Text>

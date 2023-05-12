@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 function ContractsPage({ setFlash }) {
   const { agreementId } = useParams();
   const [agreement, setAgreement] = useState({});
-  const [pdf, setPdf] = useState(false);
+  const [contract, setContract] = useState(false);
   const [agree, setAgree] = useState(false);
   const [showOtpInput, setShowOtpInput] = useState(false);
   const [otpString, setOtpString] = useState("");
@@ -86,17 +86,17 @@ function ContractsPage({ setFlash }) {
     <div className={styles.contractsPage}>
       <div className={styles.pageContent}>
         <h1>My Contracts</h1>
-        {pdf && (
-          <PdfViewer
-            pdfLink="http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&navpanes=0&scrollbar=0"
-            closePdf={() => setPdf(null)}
-          />
+        {contract && (
+          <PdfViewer contract={contract} closePdf={() => setContract(null)} />
         )}
         <div className={styles.agreementContainer}>
-          {agreement?.contracts?.map((contract) => (
-            <div className={styles.contract} key={contract}>
-              <h3 className={styles.contractName}>{contract}</h3>
-              <div className={styles.showPdf} onClick={() => setPdf(contract)}>
+          {agreement?.contracts?.map((contractName) => (
+            <div className={styles.contract} key={contractName}>
+              <h3 className={styles.contractName}>{contractName}</h3>
+              <div
+                className={styles.showPdf}
+                onClick={() => setContract({ agreement, contractName })}
+              >
                 <img src="/pdf.png" alt="" />
                 <p>show pdf</p>
               </div>
