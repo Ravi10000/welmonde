@@ -10,18 +10,26 @@ import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 
 import { setFlash } from "../../redux/flash/flash.actions";
-import { addAgreement, fetchMyClients } from "../../firebase/employee";
+import {
+  addAgreement,
+  fetchMyClients,
+  upateAgreementDetails,
+} from "../../firebase/employee";
 import NumInput from "../num-input/num-input";
 
 function AddAgreementsPopup({
-  showPopup,
   closePopup,
   onSuccess,
   currentUser,
   setFlash,
   adminPrivilages,
+  agreementToUpdate,
+  setAgreementToUpdate,
 }) {
-  const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedClient, setSelectedClient] = useState(
+    agreementToUpdate || null
+  );
+  console.log({ selectedClient });
   const [clientList, setClientList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [fetchingClients, setFetchingClients] = useState(false);
@@ -31,7 +39,6 @@ function AddAgreementsPopup({
     handleSubmit,
     resetField,
     reset,
-    watch,
     setValue,
     formState: { errors },
   } = useForm();
@@ -76,19 +83,60 @@ function AddAgreementsPopup({
       setIsLoading(false);
     }
   }
+  async function handleUpdateAgreementDetails(data) {
+    setIsLoading(true);
+    console.log("updating agreement details");
+    data.updatedAt = new Date().toISOString();
+    data.updatedBy = currentUser?.uid;
+    // data.employeeId = currentUser?.uid;
+    // data.verificationOtp = Math.floor(1000 + Math.random() * 9000);
+
+    console.log(data);
+    try {
+      const res = await upateAgreementDetails(agreementToUpdate.id, data);
+      if (res.status === "success") {
+        await onSuccess();
+        setFlash({
+          type: "success",
+          message: "Agreement Updated Successfully",
+        });
+        return reset();
+      }
+      setFlash({
+        type: "error",
+        message: "Something went wrong",
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      closePopup();
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
     handleFetchClients();
+    return () => {
+      setAgreementToUpdate(null);
+      reset();
+    };
   }, []);
 
   useEffect(() => {
-    if (selectedClient) {
+    if (!selectedClient) return;
+    setValue("businessName", selectedClient?.businessName);
+    setValue("representativeName", selectedClient?.representativeName);
+
+    if (selectedClient?.clientId) {
+      setValue("clientName", selectedClient?.clientName);
+      setValue("clientAddress", selectedClient?.clientAddress);
+      setValue("contracts", selectedClient?.contracts);
+    } else {
+      setValue("contracts", selectedClient?.vertical);
       setValue(
         "clientName",
         selectedClient?.fname + " " + selectedClient?.lname
       );
-      setValue("businessName", selectedClient?.businessName);
-      setValue("representativeName", selectedClient?.representativeName);
       setValue(
         "clientAddress",
         selectedClient &&
@@ -100,18 +148,19 @@ function AddAgreementsPopup({
             ", " +
             selectedClient?.pincode
       );
-      setValue("contracts", selectedClient?.vertical);
     }
   }, [selectedClient]);
   return (
     <form
       className={styles.addAgreementPopup}
-      onSubmit={handleSubmit(handleAddAgreement)}
+      onSubmit={handleSubmit(
+        agreementToUpdate ? handleUpdateAgreementDetails : handleAddAgreement
+      )}
       noValidate
     >
       <Popup
         closePopup={closePopup}
-        title="Add New Agreement"
+        title={agreementToUpdate ? "Update Agreement" : "Add Agreement"}
         isLoading={isLoading}
       >
         {fetchingClients ? (

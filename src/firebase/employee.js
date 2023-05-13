@@ -28,6 +28,17 @@ export const addAgreement = async (data) => {
     console.log(error);
   }
 };
+export const upateAgreementDetails = async (agreementId, data) => {
+  console.log({ agreementId, data });
+  try {
+    await setDoc(doc(db, "agreements", agreementId), data, {
+      merge: true,
+    });
+    return { status: "success" };
+  } catch (err) {
+    return { status: "error", error: err.message };
+  }
+};
 
 export const updateAgreementStatus = async (agreementId, status) => {
   try {
@@ -40,6 +51,14 @@ export const updateAgreementStatus = async (agreementId, status) => {
   } catch (err) {
     return { error: err.message };
     console.log(err);
+  }
+};
+
+export const deleteAgreement = async (agreementId) => {
+  try {
+    await deleteDoc(doc(db, "agreements", agreementId));
+  } catch (err) {
+    return { error: err.message };
   }
 };
 

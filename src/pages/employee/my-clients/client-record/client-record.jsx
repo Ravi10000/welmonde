@@ -12,6 +12,7 @@ function ClientRecord({
   handleFetchClients,
   setFlash,
 }) {
+  console.log({ client });
   async function handleDelete() {
     await deleteClient(client.id);
     await handleFetchClients();
@@ -31,7 +32,9 @@ function ClientRecord({
         {client?.street}, {client?.city}, {client?.state}, {client?.pincode}
       </td>
       <td className={styles.verticalData}>
-        {client?.vertical && client?.vertical?.map((v) => <p key={v}>{v}, </p>)}
+        <ul className={styles.verticalList}>
+          {client?.vertical && client?.vertical?.map((v) => <p key={v}>{v}</p>)}
+        </ul>
       </td>
       <td className={styles.actions}>
         <Button

@@ -16,6 +16,8 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
   const [viewAgreement, setViewAgreement] = useState(false);
   const [showOtpPopup, setShowOtpPopup] = useState(false);
   const [agreementToEdit, setAgreementToEdit] = useState(null);
+  const [updateAgreement, setUpdateAgreement] = useState(false);
+  console.log({ updateAgreement });
 
   let noOfVerifed = 0;
   let noOfDenied = 0;
@@ -49,7 +51,7 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
     setAgreementToEdit(agreement);
     setShowOtpPopup(true);
   }
-  console.log({ agreementToEdit });
+  // console.log({ agreementToEdit });
   useEffect(() => {
     handleFetchAgreements();
   }, []);
@@ -71,6 +73,8 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
       )}
       {showPopup && (
         <AddAgreementsPopup
+          agreementToUpdate={updateAgreement}
+          setAgreementToUpdate={setUpdateAgreement}
           adminPrivilages={adminPrivilages}
           closePopup={closePopup}
           onSuccess={handleFetchAgreements}
@@ -121,11 +125,16 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
                 <th>Added On</th>
                 <th>Status</th>
                 <th>Options</th>
+                <th>Manage</th>
               </tr>
             </thead>
             <tbody>
               {agreements.map((agreement, i) => (
                 <AgreementRecord
+                  triggerUpdateAgreement={() => {
+                    setUpdateAgreement(agreement);
+                    setShowPopup(true);
+                  }}
                   openVerificationPopup={openVerificationPopup}
                   setShowOtpPopup={setShowOtpPopup}
                   openAgreement={() => {

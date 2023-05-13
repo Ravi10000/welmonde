@@ -34,8 +34,8 @@ function EmployeeRecord({
       </div>
       <div className={styles.recordData}>{employee?.email}</div>
       <div className={styles.recordData}>{employee?.mobile}</div>
-      <div className={styles.recordData}>102</div>
-      <div className={styles.recordData}>102</div>
+      <div className={styles.recordData}>{employee?.contractsGenerated}</div>
+      <div className={styles.recordData}>{employee?.contractsVerified}</div>
       <div className={`${styles.recordData} ${styles.actions}`}>
         <Button
           fit

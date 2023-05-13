@@ -19,12 +19,12 @@ import { connect } from "react-redux";
 import IsAdmin from "./components/auth/is-admin";
 // import { checkUserAuth } from "./firebase/auth";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import ProfilePage from "./pages/profile/profile";
+import ClientDashboard from "./pages/client-dashboard/client-dashboard";
 import IsUser from "./components/auth/is-user";
 import IsNotSignedIn from "./components/auth/is-not-signed-in";
 import Flash from "./components/flash/flash";
 import LoadinPage from "./pages/loading/loading";
-import { fetchUser } from "./firebase/auth";
+import { fetchClienDetails, fetchUser } from "./firebase/auth";
 import MyAgreementsPage from "./pages/employee/my-agreements/my-agreements";
 import IsEmployee from "./components/auth/is-employee";
 import AllAgreements from "./pages/all-agreements/all-agreements";
@@ -47,17 +47,17 @@ function App({ setCurrentUser, flash }) {
     setFetchingUser(true);
     const auth = getAuth();
     onAuthStateChanged(auth, async (userSnapshot) => {
+      console.log({ userSnapshot });
       if (userSnapshot) {
-        await fetchUser(userSnapshot.uid).then((user) => {
-          console.log({ user });
-          if (user)
-            setCurrentUser({
-              ...user,
-              createdAt: new Date(user?.createdAt?.seconds).toString(),
-            });
-          // setCurrentUser({ email: user?.email, usertype: user?.usertype });
-          setFetchingUser(false);
-        });
+        let user = await fetchUser(userSnapshot.uid);
+        if (!user) user = await fetchClienDetails(userSnapshot.uid);
+        if (user)
+          setCurrentUser({
+            ...user,
+            uid: userSnapshot?.uid,
+            createdAt: new Date(user?.createdAt?.seconds).toString(),
+          });
+        setFetchingUser(false);
       } else {
         setFetchingUser(false);
       }
@@ -190,10 +190,10 @@ function App({ setCurrentUser, flash }) {
           />
           <Route
             exact
-            path="/profile"
+            path="/dashboard"
             element={
               <IsUser isLoading={fetchingUser}>
-                <ProfilePage />
+                <ClientDashboard />
               </IsUser>
             }
           />

@@ -6,25 +6,56 @@ import { connect } from "react-redux";
 import { fetchAllAdmins } from "../../firebase/auth";
 import AdminRecord from "./admin-record/admin-record";
 import AdminPopup from "./admin-popup";
+import { fetchMyAgreements } from "../../firebase/employee";
 
 function AllAdminsPage({ setFlash }) {
   const [showPopup, setShowPopup] = useState(false);
   const [admins, setAdmins] = useState([]);
   const [adminToEdit, setAdminToEdit] = useState(null);
-  const [adminsChanged, setAdminsChanged] = useState(0);
 
-  console.log({ adminsChanged });
+  const [totalContractsVerified, setTotalContractsVerified] = useState(0);
+  const [totalContractsGenerated, setTotalContractsGenerated] = useState(0);
+
+  console.log({ admins });
+  useEffect(() => {
+    let verified = 0;
+    let generated = 0;
+    admins?.forEach((admin) => {
+      generated += admin?.contractsGenerated;
+      verified += admin?.contractsVerified;
+    });
+    setTotalContractsGenerated(generated);
+    setTotalContractsVerified(verified);
+  }, [admins]);
 
   async function handleFetchAdmins() {
     console.log("fetching admins");
-    const admins = await fetchAllAdmins();
-    console.log({ admins });
-    setAdmins(admins);
+    let admins = await fetchAllAdmins();
+    const updatedAdmins = await Promise.all(
+      admins.map(async (admin) => {
+        const res = await fetchMyAgreements(admin.uid);
+        console.log({ res });
+        let verified = 0;
+        let generated = 0;
+        res?.forEach((agreement) => {
+          generated++;
+          if (agreement?.status === "OTP VERIFIED") verified++;
+          console.log(agreement?.status);
+        });
+        admin.contractsVerified = verified;
+        admin.contractsGenerated = generated;
+        return admin;
+        console.log({ verified, generated });
+        // console.log({ status: res?.status });
+      })
+    );
+    console.log({ updatedAdmins });
+    setAdmins(updatedAdmins);
   }
 
   useEffect(() => {
     handleFetchAdmins();
-  }, [adminsChanged]);
+  }, []);
 
   return (
     <div className={styles.allAdmins}>
@@ -33,7 +64,6 @@ function AllAdminsPage({ setFlash }) {
           setAdminToEdit={setAdminToEdit}
           adminToEdit={adminToEdit}
           onSuccess={handleFetchAdmins}
-          adminsChanged={adminsChanged}
           closePopup={() => {
             setShowPopup(false);
           }}
@@ -47,11 +77,11 @@ function AllAdminsPage({ setFlash }) {
             <h4>Total Admins</h4>
           </div>
           <div className={styles.card}>
-            <p>1200</p>
+            <p>{totalContractsGenerated}</p>
             <h4>Contracts Generated</h4>
           </div>
           <div className={styles.card}>
-            <p>120</p>
+            <p>{totalContractsVerified}</p>
             <h4>Contracts Signed</h4>
           </div>
         </section>

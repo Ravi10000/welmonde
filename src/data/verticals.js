@@ -5,5 +5,6 @@ export const verticals = [
   "pet clinic",
   "ayurveda",
   "fitness",
-  "wellness",
+  "spa(wellness)",
+  "saloon(wellness)",
 ];

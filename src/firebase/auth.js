@@ -90,6 +90,12 @@ export const fetchUser = async (uid) => {
   return docSnap.data();
 };
 
+export const fetchClienDetails = async (uid) => {
+  const docRef = doc(db, "clients", uid);
+  const docSnap = await getDoc(docRef);
+  return docSnap.data();
+};
+
 export const addNewClient = async (clientData) => {
   try {
     const docRef = await addDoc(collection(db, "clients"), clientData);

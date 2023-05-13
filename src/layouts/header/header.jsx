@@ -25,7 +25,7 @@ function Header({ currentUser }) {
                 ? "/admin"
                 : currentUser?.usertype === "EMPLOYEE"
                 ? "/employee"
-                : "/profile"
+                : "/dashboard"
             )
           }
         >

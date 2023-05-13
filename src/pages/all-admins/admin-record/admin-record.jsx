@@ -21,8 +21,8 @@ function AdminRecord({
       </div>
       <div className={styles.recordData}>{admin?.email}</div>
       <div className={styles.recordData}>{admin?.mobile}</div>
-      <div className={styles.recordData}>102</div>
-      <div className={styles.recordData}>102</div>
+      <div className={styles.recordData}>{admin?.contractsGenerated}</div>
+      <div className={styles.recordData}>{admin?.contractsVerified}</div>
       <div className={`${styles.recordData} ${styles.actions}`}>
         <Button
           action

@@ -1,61 +1,56 @@
 import styles from "./all-employees.module.scss";
 import Button from "../../components/button/button";
-import { useRef, useState, useEffect } from "react";
-import Backdrop from "../../components/backdrop/backdrop";
-import Contract from "../all-contracts/contract/contract";
-import Popup from "../../components/popup/popup";
-import TextInput from "../../components/text-input/text-input";
-import NumInput from "../../components/num-input/num-input";
+import { useState, useEffect } from "react";
 import { setFlash } from "../../redux/flash/flash.actions";
 import { connect } from "react-redux";
 import { fetchAllEmployees } from "../../firebase/auth";
-import { useForm } from "react-hook-form";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, createUserProfile } from "../../firebase/auth";
 import EmployeeRecord from "./employee-record/employee-record";
 import EmployeePopup from "./employee-popup";
+import { fetchMyAgreements } from "../../firebase/employee";
 
 function AllEmployeesPage({ setFlash }) {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm();
-  const [showContracts, setShowContracts] = useState(false);
-  const popupRef = useRef();
-
   const [showPopup, setShowPopup] = useState(false);
   const [employees, setEmployees] = useState([]);
   const [employeeToEdit, setEmployeeToEdit] = useState(null);
+  const [totalContractsVerified, setTotalContractsVerified] = useState(0);
+  const [totalContractsGenerated, setTotalContractsGenerated] = useState(0);
 
   async function handleFetchEmployees() {
     const employees = await fetchAllEmployees();
     console.log(employees);
-    setEmployees(employees);
+
+    const updatedEmployees = await Promise.all(
+      employees.map(async (employee) => {
+        const res = await fetchMyAgreements(employee.uid);
+        console.log({ res });
+        let verified = 0;
+        let generated = 0;
+        res?.forEach((agreement) => {
+          generated++;
+          if (agreement?.status === "OTP VERIFIED") verified++;
+        });
+        employee.contractsVerified = verified;
+        employee.contractsGenerated = generated;
+        return employee;
+      })
+    );
+    setEmployees(updatedEmployees);
   }
   useEffect(() => {
     handleFetchEmployees();
   }, []);
 
-  const contract = {
-    name: "Contract Title",
-    employee: "some employee",
-    status: "pending",
-    client: "some client",
-  };
   useEffect(() => {
-    function handleClosePopup(e) {
-      if (popupRef.current && !popupRef.current.contains(e.target)) {
-        setShowContracts(false);
-      }
-    }
-    addEventListener("mousedown", handleClosePopup);
-    return () => {
-      removeEventListener("mousedown", handleClosePopup);
-    };
-  }, [popupRef]);
+    let verified = 0;
+    let generated = 0;
+    employees?.forEach((admin) => {
+      generated += admin?.contractsGenerated;
+      verified += admin?.contractsVerified;
+    });
+    setTotalContractsGenerated(generated);
+    setTotalContractsVerified(verified);
+  }, [employees]);
+
   return (
     <div className={styles.allEmployees}>
       {showPopup && (
@@ -66,33 +61,6 @@ function AllEmployeesPage({ setFlash }) {
           employeeToEdit={employeeToEdit}
         />
       )}
-      {showContracts && (
-        <Backdrop>
-          <div className={styles.contractPopup} ref={popupRef}>
-            <table>
-              <thead>
-                <tr>
-                  <th>
-                    <input type="checkbox" />
-                  </th>
-                  <th>Contract Name</th>
-                  <th>Employee</th>
-                  <th>Status</th>
-                  <th>Client</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array(25)
-                  .fill()
-                  .map((_, i) => (
-                    <Contract contract={contract} />
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        </Backdrop>
-      )}
       <h1 className="__pageHeading __subColorHeading">All Employees</h1>
       <div className={styles.cardsAndBtn}>
         <section className={styles.cardsContainer}>
@@ -101,11 +69,11 @@ function AllEmployeesPage({ setFlash }) {
             <h4>Total Employees</h4>
           </div>
           <div className={styles.card}>
-            <p>1200</p>
+            <p>{totalContractsGenerated}</p>
             <h4>Contracts Generated</h4>
           </div>
           <div className={styles.card}>
-            <p>120</p>
+            <p>{totalContractsVerified}</p>
             <h4>Contracts Signed</h4>
           </div>
         </section>

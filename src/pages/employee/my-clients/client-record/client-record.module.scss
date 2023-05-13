@@ -1,6 +1,17 @@
-.clientRecord{
-    .actions{
-        display: flex;
-        gap: 10px;
+.clientRecord {
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
+  .verticalList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    p {
+      text-transform: capitalize;
+      padding: 5px 10px;
+      border-radius: 5px;
+      background: var(--fadeGray);
     }
+  }
 }

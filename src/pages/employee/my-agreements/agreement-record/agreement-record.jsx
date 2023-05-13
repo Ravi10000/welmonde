@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import styles from "./agreement-record.module.scss";
 import { useRef } from "react";
-import { updateAgreementStatus } from "../../../../firebase/employee";
+import {
+  deleteAgreement,
+  updateAgreementStatus,
+} from "../../../../firebase/employee";
 import { setFlash } from "../../../../redux/flash/flash.actions";
 import { connect } from "react-redux";
+import Button from "../../../../components/button/button";
 
 function AgreementRecord({
   agreement,
@@ -11,9 +15,11 @@ function AgreementRecord({
   openAgreement,
   setFlash,
   openVerificationPopup,
+  triggerUpdateAgreement,
 }) {
   const [showOptions, setShowOptions] = useState(false);
   const [isLoading, setIsloading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const optionsRef = useRef(null);
 
@@ -65,6 +71,21 @@ function AgreementRecord({
       setIsloading(false);
     }
   }
+  async function handleDeleteAgreement() {
+    setIsDeleting(true);
+    const res = await deleteAgreement(agreement.id);
+    if (res?.error)
+      return setFlash({
+        type: "error",
+        message: "Something went wrong",
+      });
+    await onSuccess();
+    setFlash({
+      type: "success",
+      message: "Agreement deleted successfully",
+    });
+    setIsDeleting(false);
+  }
 
   return (
     <tr className={styles.agreementRecord} onClick={openAgreement}>
@@ -72,7 +93,6 @@ function AgreementRecord({
       <td>{agreement?.clientName}</td>
       <td>{agreement?.representativeName}</td>
       <td>{agreement?.clientAddress}</td>
-      {/* <td>{agreement?.mobile}</td> */}
       <td className={styles.contractNamesContainer}>
         {agreement?.contracts?.map((contract) => (
           <p key={contract} className={styles.contractName}>
@@ -149,6 +169,25 @@ function AgreementRecord({
           </td>
         )
       )}
+      <td onClick={(e) => e.stopPropagation()}>
+        {agreement?.status === "OTP VERIFIED" ? (
+          <p>N/A</p>
+        ) : (
+          <nav className={styles.actions}>
+            <Button action iconOnly onClick={() => triggerUpdateAgreement()}>
+              <img src="/actions/edit.png" alt="" />
+            </Button>
+            <Button
+              isLoading={isDeleting}
+              destruct
+              iconOnly
+              onClick={handleDeleteAgreement}
+            >
+              <img src="/actions/delete.png" alt="" />
+            </Button>
+          </nav>
+        )}
+      </td>
     </tr>
   );
 }

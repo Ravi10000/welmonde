@@ -45,13 +45,17 @@ function SigninPage({ setCurrentUser, setFlash }) {
     const userCredientials = await validate.confirm(otp);
     console.log(userCredientials);
     if (userCredientials?.user) {
-      setCurrentUser({ phone: userCredientials.user.phoneNumber });
+      // setCurrentUser(userCredientials?.user);
+      setCurrentUser({
+        phone: userCredientials.user.phoneNumber,
+        uid: userCredientials.user.uid,
+      });
       setFlash({
         type: "success",
         message: "Successfully Signed In",
       });
       setVerifingOtp(false);
-      navigate("/");
+      navigate("/dashboard");
       console.log(userCredientials);
     }
   }
