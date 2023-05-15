@@ -12,7 +12,6 @@ function ClientRecord({
   handleFetchClients,
   setFlash,
 }) {
-  console.log({ client });
   async function handleDelete() {
     await deleteClient(client.id);
     await handleFetchClients();
@@ -36,6 +35,8 @@ function ClientRecord({
           {client?.vertical && client?.vertical?.map((v) => <p key={v}>{v}</p>)}
         </ul>
       </td>
+      <td>{client?.contractsGenerated}</td>
+      <td>{client?.contractsVerified}</td>
       <td className={styles.actions}>
         <Button
           iconOnly

@@ -130,7 +130,7 @@ function AddAgreementsPopup({
     if (selectedClient?.clientId) {
       setValue("clientName", selectedClient?.clientName);
       setValue("clientAddress", selectedClient?.clientAddress);
-      setValue("contracts", selectedClient?.contracts);
+      // setValue("contracts", selectedClient?.contracts);
     } else {
       setValue("contracts", selectedClient?.vertical);
       setValue(
@@ -225,6 +225,9 @@ function AddAgreementsPopup({
               {verticals?.map((vertical) => {
                 return (
                   <CheckBox
+                    defaultChecked={agreementToUpdate?.contracts?.includes(
+                      vertical
+                    )}
                     label={vertical}
                     key={vertical}
                     register={{

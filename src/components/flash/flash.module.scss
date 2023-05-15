@@ -15,6 +15,7 @@
   transition: all 0.2s ease-in-out;
   animation: animateFlash 0.2s ease-in-out forwards;
   border: 2px solid var(--fadeGray);
+  border-bottom: none;
   overflow-x: hidden;
   // position: relative;
   &::after {

@@ -246,45 +246,6 @@ function AllClientsPage({ setFlash, currentUser }) {
             />
             <div className={styles.vertical}>
               <p>Vertical</p>
-              {/* <div className={styles.list}>
-                <CheckBox
-                  defaultChecked={clientToEdit?.vertical?.includes("clinic")}
-                  label="Clinic"
-                  name="vertical"
-                  {...register("vertical")}
-                />
-                <CheckBox
-                  defaultChecked={clientToEdit?.vertical?.includes("pharmacy")}
-                  label="Pharmacy"
-                  register={{ ...register("vertical") }}
-                />
-                <CheckBox
-                  label="Diagnostics"
-                  register={{ ...register("vertical") }}
-                />
-                <CheckBox
-                  defaultChecked={clientToEdit?.vertical?.includes(
-                    "per clinic"
-                  )}
-                  label="Pet Clinic"
-                  register={{ ...register("vertical") }}
-                />
-                <CheckBox
-                  defaultChecked={clientToEdit?.vertical?.includes("ayurveda")}
-                  label="Ayurveda"
-                  register={{ ...register("vertical") }}
-                />
-                <CheckBox
-                  defaultChecked={clientToEdit?.vertical?.includes("fitness")}
-                  label="Fitness"
-                  register={{ ...register("vertical") }}
-                />
-                <CheckBox
-                  defaultChecked={clientToEdit?.vertical?.includes("welness")}
-                  label="Wellness"
-                  register={{ ...register("vertical") }}
-                />
-              </div> */}
               <div className={styles.list}>
                 {verticals?.map((vertical) => {
                   return (

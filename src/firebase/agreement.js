@@ -15,7 +15,7 @@ export const fetchMyAgreements = async (agreementId) => {
 };
 
 export const fetchAgreementsByClientId = async (clientId) => {
-  console.log({ clientId });
+  // console.log({ clientId });
   const q = query(
     collection(db, "agreements"),
     where("clientId", "==", clientId)

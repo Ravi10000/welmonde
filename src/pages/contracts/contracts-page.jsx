@@ -73,6 +73,25 @@ function ContractsPage({ setFlash }) {
       setIsRejecting(false);
     }
   }
+  async function handleSendOtp() {
+    console.log("send otp");
+    console.log({ otp: agreement?.verificationOtp });
+    setFlash({
+      type: "success",
+      message: "OTP Sent",
+    });
+    setShowOtpInput(true);
+  }
+  async function handleResendOtp() {
+    console.log("resend otp");
+    otpRef.current.resetOtpInputs();
+    console.log({ otp: agreement?.verificationOtp });
+    setFlash({
+      type: "success",
+      message: "OTP Sent",
+    });
+    setShowOtpInput(true);
+  }
 
   useEffect(() => {
     handleFetchAgreement();
@@ -133,9 +152,12 @@ function ContractsPage({ setFlash }) {
                   >
                     Verify
                   </Button>
+                  <p className={styles.resendOtp} onClick={handleResendOtp}>
+                    Didn't get OTP? <span>resend OTP</span>
+                  </p>
                 </div>
               ) : (
-                <Button disabled={!agree} onClick={() => setShowOtpInput(true)}>
+                <Button disabled={!agree} onClick={handleSendOtp}>
                   Send OTP to verify
                 </Button>
               )}

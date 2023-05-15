@@ -67,5 +67,11 @@
       color: var(--mainBrandColor);
       font-weight: 500;
     }
+    .resendOtp {
+      cursor: pointer;
+      span {
+        color: var(--mainBrandColor);
+      }
+    }
   }
 }

@@ -5,11 +5,24 @@
   gap: 10px;
   align-items: center;
   border: 2px solid var(--fadeGray);
-  border-radius: 2px;
+  cursor: pointer;
   &.active {
     border-color: var(--mainBrandColor);
   }
+  input[type="checkbox"] {
+    display: none;
+  }
   label {
+    cursor: pointer;
     text-transform: capitalize;
+  }
+}
+
+.check {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--fadeGray);
+  &.active {
+    background: var(--mainBrandColor);
   }
 }

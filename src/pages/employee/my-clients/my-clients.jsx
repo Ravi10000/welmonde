@@ -18,7 +18,8 @@ import { connect } from "react-redux";
 import CheckBox from "../../../components/check-box/check-box";
 import ClientRecord from "./client-record/client-record";
 import { verticals } from "../../../data/verticals";
-import { fetchMyClients } from "../../../firebase/employee";
+import { fetchMyAgreements, fetchMyClients } from "../../../firebase/employee";
+import { fetchAgreementsByClientId } from "../../../firebase/agreement";
 
 function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
   const [clients, setClients] = useState([]);
@@ -51,8 +52,23 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
     const clients = await fetchMyClients(
       adminPrivilages ? null : currentUser?.uid
     );
-    console.log(clients);
-    setClients(clients);
+
+    const updatedClients = await Promise.all(
+      clients.map(async (client) => {
+        const res = await fetchAgreementsByClientId(client.id);
+        let verified = 0;
+        let generated = 0;
+        res?.forEach((agreement) => {
+          generated++;
+          if (agreement?.status === "OTP VERIFIED") verified++;
+        });
+        client.contractsVerified = verified;
+        client.contractsGenerated = generated;
+        return client;
+      })
+    );
+    console.log({ updatedClients });
+    setClients(updatedClients);
   }
   async function handleClientCreation(data) {
     setIsAddingUser(true);
@@ -311,6 +327,8 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
               <th>Client Phone</th>
               <th>Address</th>
               <th>Vertical</th>
+              <th>Contracts Generated</th>
+              <th>Contracts Signed</th>
               <th>Edit Client</th>
             </tr>
           </thead>
