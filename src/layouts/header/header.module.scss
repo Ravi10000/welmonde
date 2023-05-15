@@ -6,11 +6,11 @@ header {
   gap: 10px;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 20px 20px;
   background: var(--fadeGray);
   .logo {
     cursor: pointer;
-    width: 100px;
+    width: 150px;
     height: fit-content;
   }
   .btnsContainer {
@@ -22,5 +22,10 @@ header {
 @media (min-width: 500px) {
   header {
     flex-direction: row;
+  }
+}
+@media (min-width: 1000px) {
+  header {
+    padding: 20px 80px;
   }
 }

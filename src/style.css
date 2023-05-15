@@ -10,7 +10,9 @@ body {
 body,
 input,
 button {
-  font-family: "Pathway Extreme", sans-serif;
+  /* font-family: "Pathway Extreme", sans-serif; */
+  font-family: "Quicksand", sans-serif;
+  font-weight: 500;
 }
 
 .__pageHeading {
@@ -96,7 +98,7 @@ td img {
 .PhoneInputInput {
   width: 100%;
   padding: 10px 15px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   border: 1px solid #edf0f2;
   /* &::placeholder {
       color: #959595;
@@ -108,7 +110,7 @@ td img {
 
 .PhoneInputCountrySelect {
   padding: 10px 15px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   border: 1px solid #edf0f2;
 }
 .PhoneInputCountrySelect:focus {
