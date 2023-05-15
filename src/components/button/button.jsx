@@ -34,7 +34,7 @@ function Button({
       `}
       {...otherProps}
     >
-      {icon && <img src={hover ? hoverIcon : icon} alt="" />}
+      {icon && <img src={hover && hoverIcon ? hoverIcon : icon} alt="" />}
       {children}
       {isLoading && <div className={styles.loader}></div>}
     </button>

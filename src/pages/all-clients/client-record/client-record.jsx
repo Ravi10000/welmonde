@@ -12,13 +12,17 @@ function ClientRecord({
   handleFetchClients,
   setFlash,
 }) {
+  const [isDeleting, setIsDeleting] = useState(false);
   async function handleDelete() {
-    await deleteClient(client.id);
-    await handleFetchClients();
-    setFlash({ message: "Client deleted successfully", type: "success" });
+    setIsDeleting(true);
     try {
+      await deleteClient(client.id);
+      await handleFetchClients();
+      setFlash({ message: "Client deleted successfully", type: "success" });
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsDeleting(false);
     }
   }
   return (
@@ -42,7 +46,7 @@ function ClientRecord({
           ))}
       </td> */}
       <td className={styles.actions}>
-        <Button
+        {/* <Button
           iconOnly
           action
           onClick={() => {
@@ -54,7 +58,15 @@ function ClientRecord({
         </Button>
         <Button iconOnly destruct onClick={handleDelete}>
           <img src="/actions/delete.png" alt="" />
-        </Button>
+        </Button> */}
+        <Actions
+          handleDelete={handleDelete}
+          handleEdit={() => {
+            setClientToEdit(client);
+            openPopup();
+          }}
+          isDeleting={isDeleting}
+        />
       </td>
     </tr>
   );

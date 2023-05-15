@@ -7,6 +7,8 @@ import { setFlash } from "../../redux/flash/flash.actions";
 import { updateAgreementStatus } from "../../firebase/employee";
 import { connect } from "react-redux";
 import { useEffect } from "react";
+import { sendOtpViaEmail } from "../../firebase/mail";
+import { fetchClienDetails } from "../../firebase/auth";
 
 function OtpPopup({ setShowOtpPopup, agreement, onSuccess, setFlash }) {
   console.log("verification OTP: ", agreement?.verificationOtp);
@@ -38,6 +40,22 @@ function OtpPopup({ setShowOtpPopup, agreement, onSuccess, setFlash }) {
       setIsLoading(false);
     }
   }
+
+  async function sendOtp() {
+    try {
+      const client = await fetchClienDetails(agreement?.clientId);
+      await sendOtpViaEmail(client?.email, agreement?.verificationOtp);
+      setFlash({
+        type: "success",
+        message: "OTP Sent Successfully",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  useEffect(() => {
+    sendOtp();
+  }, []);
 
   useEffect(() => {
     otp.length === 4 ? setValidOtp(true) : setValidOtp(false);

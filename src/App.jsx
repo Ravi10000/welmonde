@@ -8,11 +8,9 @@ import AdminSigninPage from "./pages/admin-signin/admin-signin";
 import AllAdminsPage from "./pages/all-admins/all-admins";
 import Sidebar from "./layouts/sidebar/sidebar";
 import AllEmployeesPage from "./pages/all-employees/all-employees";
-import AllClientsPage from "./pages/all-clients/all-clients";
 // import AllContractsPage from "./pages/all-contracts/all-contracts";
 import Header from "./layouts/header/header";
 
-import app from "./firebase/index";
 // import { useAuthState } from "react-firebase-hooks/auth";
 import { setCurrentUser } from "./redux/user/user.actions";
 import { connect } from "react-redux";
@@ -27,10 +25,8 @@ import LoadinPage from "./pages/loading/loading";
 import { fetchClienDetails, fetchUser } from "./firebase/auth";
 import MyAgreementsPage from "./pages/employee/my-agreements/my-agreements";
 import IsEmployee from "./components/auth/is-employee";
-import AllAgreements from "./pages/all-agreements/all-agreements";
 import ContractsPage from "./pages/contracts/contracts-page";
 import MyClientsPage from "./pages/employee/my-clients/my-clients";
-import SignoutPage from "./pages/signout/signout";
 import ScrollToTop from "./components/scrollToTop";
 
 function App({ setCurrentUser, flash }) {

@@ -3,6 +3,7 @@ import Button from "../../../components/button/button";
 import { connect } from "react-redux";
 import { deleteUser } from "../../../firebase/auth";
 import { setFlash } from "../../../redux/flash/flash.actions";
+import { useState } from "react";
 
 function EmployeeRecord({
   employee,
@@ -11,8 +12,10 @@ function EmployeeRecord({
   setFlash,
   handleFetchEmployees,
 }) {
-  console.log(employee?.uid);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   async function handleDeleteEmployee() {
+    setIsDeleting(true);
     try {
       await deleteUser(employee?.uid);
       setFlash({

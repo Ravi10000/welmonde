@@ -8,6 +8,12 @@ import {
 import { setFlash } from "../../../../redux/flash/flash.actions";
 import { connect } from "react-redux";
 import Button from "../../../../components/button/button";
+import { fetchClienDetails } from "../../../../firebase/auth";
+import {
+  sendAgreementViaEmail,
+  sendOtpViaEmail,
+} from "../../../../firebase/mail";
+import Actions from "../../../../components/actions/actions";
 
 function AgreementRecord({
   agreement,
@@ -39,17 +45,25 @@ function AgreementRecord({
     };
   }, []);
 
-  async function handleUpdateStatus(status) {
+  async function handleUpdateStatus(status, method) {
     setShowOptions(false);
     setIsloading(true);
+
+    if (status === "SENT TO CLIENT" && method === "email") {
+      const agreementLink = `${import.meta.env.VITE_SITE_URL}/contracts/${
+        agreement?.id
+      }`;
+      const client = await fetchClienDetails(agreement?.clientId);
+      await sendAgreementViaEmail(client?.email, agreementLink);
+    }
     try {
-      const docRef = await updateAgreementStatus(agreement?.id, status);
+      await updateAgreementStatus(agreement?.id, status);
       await onSuccess();
       if (status === "SENT TO CLIENT") {
-        const agreementLink = `${import.meta.env.VITE_SITE_URL}/contracts/${
-          agreement?.id
-        }`;
-        console.log({ agreementLink });
+        // const agreementLink = `${import.meta.env.VITE_SITE_URL}/contracts/${
+        //   agreement?.id
+        // }`;
+        // console.log({ agreementLink });
         return setFlash({
           message: "Agreement sent to client successfully",
           type: "success",
@@ -132,7 +146,7 @@ function AgreementRecord({
                     <li
                       onClick={() => {
                         if (isLoading) return;
-                        handleUpdateStatus("SENT TO CLIENT");
+                        handleUpdateStatus("SENT TO CLIENT", "email");
                       }}
                     >
                       <img src="/down.png" alt="" /> Send to client via email
@@ -140,7 +154,7 @@ function AgreementRecord({
                     <li
                       onClick={() => {
                         if (isLoading) return;
-                        handleUpdateStatus("SENT TO CLIENT");
+                        handleUpdateStatus("SENT TO CLIENT", "phone");
                       }}
                     >
                       <img src="/down.png" alt="" /> Send to client via phone
@@ -173,19 +187,38 @@ function AgreementRecord({
         {agreement?.status === "OTP VERIFIED" ? (
           <p>N/A</p>
         ) : (
-          <nav className={styles.actions}>
-            <Button action iconOnly onClick={() => triggerUpdateAgreement()}>
-              <img src="/actions/edit.png" alt="" />
-            </Button>
-            <Button
-              isLoading={isDeleting}
-              destruct
-              iconOnly
-              onClick={handleDeleteAgreement}
-            >
-              <img src="/actions/delete.png" alt="" />
-            </Button>
-          </nav>
+          // <nav className={styles.actions}>
+          //   {/* <Button action iconOnly onClick={() => triggerUpdateAgreement()}>
+          //     <img src="/actions/edit-colored.png" alt="" />
+          //   </Button> */}
+          //   <span className={styles.edit}>
+          //     <img
+          //       onClick={() => triggerUpdateAgreement()}
+          //       src="/actions/pencil.png"
+          //       alt=""
+          //     />
+          //   </span>
+          //   <span className={styles.edit}>
+          //     <img
+          //       src="/actions/delete-black.png"
+          //       alt=""
+          //       onClick={handleDeleteAgreement}
+          //     />
+          //   </span>
+          //   {/* <Button
+          //     isLoading={isDeleting}
+          //     destruct
+          //     iconOnly
+          //     onClick={handleDeleteAgreement}
+          //   >
+          //     <img src="/actions/delete-colored.png" alt="" />
+          //   </Button> */}
+          // </nav>
+          <Actions
+            handleEdit={triggerUpdateAgreement}
+            handleDelete={handleDeleteAgreement}
+            isDeleting={isDeleting}
+          />
         )}
       </td>
     </tr>

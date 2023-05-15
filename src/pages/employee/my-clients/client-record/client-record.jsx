@@ -4,6 +4,8 @@ import Button from "../../../../components/button/button";
 import { setFlash } from "../../../../redux/flash/flash.actions";
 import { connect } from "react-redux";
 import { deleteClient } from "../../../../firebase/auth";
+import { useState } from "react";
+import Actions from "../../../../components/actions/actions";
 
 function ClientRecord({
   client,
@@ -12,13 +14,17 @@ function ClientRecord({
   handleFetchClients,
   setFlash,
 }) {
+  const [isDeleting, setIsDeleting] = useState(false);
   async function handleDelete() {
-    await deleteClient(client.id);
-    await handleFetchClients();
-    setFlash({ message: "Client deleted successfully", type: "success" });
+    setIsDeleting(true);
     try {
+      await deleteClient(client.id);
+      await handleFetchClients();
+      setFlash({ message: "Client deleted successfully", type: "success" });
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsDeleting(false);
     }
   }
   return (
@@ -38,7 +44,7 @@ function ClientRecord({
       <td>{client?.contractsGenerated}</td>
       <td>{client?.contractsVerified}</td>
       <td className={styles.actions}>
-        <Button
+        {/* <Button
           iconOnly
           action
           onClick={() => {
@@ -50,7 +56,15 @@ function ClientRecord({
         </Button>
         <Button iconOnly destruct onClick={handleDelete}>
           <img src="/actions/delete.png" alt="" />
-        </Button>
+        </Button> */}
+        <Actions
+          handleDelete={handleDelete}
+          handleEdit={() => {
+            setClientToEdit(client);
+            openPopup();
+          }}
+          isDeleting={isDeleting}
+        />
       </td>
     </tr>
   );

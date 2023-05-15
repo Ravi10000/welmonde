@@ -72,6 +72,7 @@ export const fetchAllAdmins = async () => {
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
+
 export const fetchAllEmployees = async () => {
   const q = query(collection(db, "users"), where("usertype", "==", "EMPLOYEE"));
   const snapshot = await getDocs(q);
@@ -91,6 +92,7 @@ export const fetchUser = async (uid) => {
 };
 
 export const fetchClienDetails = async (uid) => {
+  console.log({ uid });
   const docRef = doc(db, "clients", uid);
   const docSnap = await getDoc(docRef);
   return docSnap.data();

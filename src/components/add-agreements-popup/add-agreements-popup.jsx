@@ -34,6 +34,8 @@ function AddAgreementsPopup({
   const [isLoading, setIsLoading] = useState(false);
   const [fetchingClients, setFetchingClients] = useState(false);
 
+  console.log({ selectedClient });
+
   const {
     register,
     handleSubmit,
@@ -118,6 +120,7 @@ function AddAgreementsPopup({
     handleFetchClients();
     return () => {
       setAgreementToUpdate(null);
+      setSelectedClient(null);
       reset();
     };
   }, []);
@@ -132,7 +135,7 @@ function AddAgreementsPopup({
       setValue("clientAddress", selectedClient?.clientAddress);
       // setValue("contracts", selectedClient?.contracts);
     } else {
-      setValue("contracts", selectedClient?.vertical);
+      // setValue("contracts", selectedClient?.vertical);
       setValue(
         "clientName",
         selectedClient?.fname + " " + selectedClient?.lname

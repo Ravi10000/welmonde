@@ -91,7 +91,7 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
               }}
             />
             <p className={styles.fp}>forgot password?</p>
-            <Button fit isLoading={verifing}>
+            <Button fit isLoading={verifing} icon="/login.png">
               Sign in
             </Button>
           </div>

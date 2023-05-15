@@ -1,0 +1,31 @@
+.actions {
+  display: flex;
+  gap: 5px;
+  .actionItem {
+    list-style: none;
+    height: 45px;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      height: 15px;
+      width: fit-content;
+    }
+    .loader {
+      width: 15px;
+      height: 15px;
+      border: 2px solid var(--errorClr);
+      border-radius: 50px;
+      border-top-color: transparent;
+      border-right-color: transparent;
+      animation: spinLoader 0.35s linear infinite;
+    }
+  }
+}
+
+@keyframes spinLoader {
+  to {
+    transform: rotate(360deg);
+  }
+}
