@@ -3,6 +3,12 @@
   p {
     color: var(--textColor);
   }
+  .head {
+    margin: 10px 0;
+    button {
+      margin: 0 auto;
+    }
+  }
   .pageContent {
     display: flex;
     flex-direction: column;

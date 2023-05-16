@@ -37,6 +37,7 @@ function App({ setCurrentUser, flash }) {
   console.log({ pathname });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isPostLogin, setIsPostLogin] = useState(false);
+  const [hideHeader, setHideHeader] = useState(false);
 
   const adminRoutes = ["/admins", "/employees", "/clients", "/contracts"];
   async function handleCheckAuth() {
@@ -64,7 +65,10 @@ function App({ setCurrentUser, flash }) {
   }, []);
   useEffect(() => {
     if (pathname === "/") {
+      setHideHeader(true);
       return setIsPostLogin(false);
+    } else {
+      setHideHeader(false);
     }
     // adminRoutes.forEach((route) => {
     //   pathname.includes(route) && setIsPostLogin(true);
@@ -84,7 +88,7 @@ function App({ setCurrentUser, flash }) {
       <ScrollToTop />
       {flash && <Flash type={flash.type} message={flash.message} />}
       {/* <Flash type={"warning"} message={"This is a test flash message."} /> */}
-      {!isPostLogin && <Header />}
+      {!isPostLogin && !hideHeader && <Header />}
       {isPostLogin && (
         <>
           <div className={styles.toggleSideBar}>
@@ -204,7 +208,15 @@ function App({ setCurrentUser, flash }) {
           />
           {/* <Route path="admin/signout" element={<SignoutPage />} /> */}
           {/* <Route path="employee/signout" element={<SignoutPage />} /> */}
-          <Route exact path="/" element={<HomePage />} />
+          <Route
+            exact
+            path="/"
+            element={
+              <IsNotSignedIn>
+                <HomePage />
+              </IsNotSignedIn>
+            }
+          />
           <Route exact path="/:id" element={<Navigate to="/" />} />
         </Routes>
       </div>

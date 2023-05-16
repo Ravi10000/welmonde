@@ -7,7 +7,9 @@ function IsNotSignedIn({ currentUser, isLoading, children }) {
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLoading && currentUser) {
-      navigate("/");
+      if (currentUser.usertype === "ADMIN") return navigate("/admin");
+      if (currentUser.usertype === "EMPLOYEE") return navigate("/employee");
+      navigate("/dashboard");
     }
   }, [isLoading, currentUser]);
 
