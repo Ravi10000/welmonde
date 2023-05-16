@@ -6,9 +6,9 @@
   .pageContent {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    // gap: 25px;
     text-align: center;
-    padding: 20px;
+    padding: 10px;
     .cardsContainer {
       display: flex;
       justify-content: center;
@@ -37,8 +37,6 @@
 
 @media (min-width: 1000px) {
   .myAgreementsPage {
-    .pageContent {
-    }
     .head {
       width: 100%;
       display: flex;

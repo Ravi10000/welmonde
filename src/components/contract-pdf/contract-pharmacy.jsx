@@ -70,6 +70,9 @@ const styles = StyleSheet.create({
 });
 
 function ContractPharmacy({ client, contract }) {
+  const addedOnDate = new Date(
+    contract?.agreement?.createdAt
+  ).toLocaleDateString();
   return (
     <PDFViewer>
       <Document>
@@ -87,8 +90,8 @@ function ContractPharmacy({ client, contract }) {
               </Text>
             </View>
             <Text>
-              This Agreement was entered into on the{" "}
-              {" " + new Date().toDateString()}, by and between:
+              This Agreement was entered into on the {" " + addedOnDate}, by and
+              between:
             </Text>
             <Text style={styles.margin}>
               <Text style={styles.highlight}>

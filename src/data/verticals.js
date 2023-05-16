@@ -8,5 +8,6 @@ export const verticals = [
   "gym(fitness)",
   "spa(wellness)",
   "saloon(wellness)",
-  "hospital",
+  "hospital(mou)",
+  "international service",
 ];

@@ -93,9 +93,9 @@ function AllEmployeesPage({ setFlash }) {
             <th>Employee Name</th>
             <th>Employee Email</th>
             <th>Employee Phone</th>
-            <th>Total Contracts Generated</th>
-            <th>Total Contracts Signed</th>
-            <th>Edit Employee</th>
+            <th>Contracts Generated</th>
+            <th>Contracts Signed</th>
+            <th>Actions</th>
           </thead>
           <tbody>
             {employees?.map((employee, i) => (

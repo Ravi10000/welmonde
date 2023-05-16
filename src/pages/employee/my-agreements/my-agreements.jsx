@@ -125,7 +125,7 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
                 {/* <th>Added On</th> */}
                 <th>Status</th>
                 <th>Options</th>
-                <th>Manage</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>

@@ -101,8 +101,8 @@ function AllAdminsPage({ setFlash }) {
             <th>Admin Name</th>
             <th>Admin Email</th>
             <th>Admin Phone</th>
-            <th>Total Contracts Generated</th>
-            <th>Total Contracts Signed</th>
+            <th>Contracts Generated</th>
+            <th>Contracts Signed</th>
             <th>Actions</th>
           </thead>
           <tbody>
