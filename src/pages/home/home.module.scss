@@ -50,5 +50,10 @@
 @media (min-width: 500px) {
   .hero {
     background-position: center;
+    .heroContent {
+      .btnsContainer {
+        flex-direction: row;
+      }
+    }
   }
 }
