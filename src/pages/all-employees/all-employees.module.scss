@@ -1,67 +1,64 @@
 .allEmployees {
   padding: 10px;
-  .cardsAndBtn {
+  .head {
     margin: 10px 0;
     button {
       margin: 0 auto;
     }
-    .cardsContainer {
-      display: flex;
-      margin-bottom: 10px;
-      gap: 20px;
-      .card {
-        text-align: center;
-        border-radius: 5px;
-        padding: 10px;
-        border: 1px solid var(--fadeGray);
-        color: var(--subBrandColor);
-      }
+  }
+  .cardsContainer {
+    display: flex;
+    margin-bottom: 10px;
+    gap: 20px;
+    .card {
+      text-align: center;
+      border-radius: 5px;
+      padding: 10px;
+      border: 1px solid var(--fadeGray);
+      color: var(--subBrandColor);
     }
   }
-  .table {
-    display: grid;
-    grid-template-columns: 1fr;
-    width: fit-content;
-    border: 2px solid rgba(218, 218, 218, 0.612);
-    .tableHead {
-      display: grid;
-      // overflow-x: scroll;
-      width: fit-content;
-      padding: 20px;
-      border-bottom: 2px solid rgba(218, 218, 218, 0.612);
-      // border-top: none;
-      grid-template-columns: repeat(6, 1fr);
-      .columnTitle {
-        font-weight: 600;
-        color: var(--subBrandColor);
-        // width: fit-content;
-        padding: 0 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 200px;
-      }
-    }
+  // .table {
+  //   display: grid;
+  //   grid-template-columns: 1fr;
+  //   width: fit-content;
+  //   border: 2px solid rgba(218, 218, 218, 0.612);
+  //   .tableHead {
+  //     display: grid;
+  //     // overflow-x: scroll;
+  //     width: fit-content;
+  //     padding: 20px;
+  //     border-bottom: 2px solid rgba(218, 218, 218, 0.612);
+  //     // border-top: none;
+  //     grid-template-columns: repeat(6, 1fr);
+  //     .columnTitle {
+  //       font-weight: 600;
+  //       color: var(--subBrandColor);
+  //       // width: fit-content;
+  //       padding: 0 20px;
+  //       display: flex;
+  //       align-items: center;
+  //       justify-content: center;
+  //       width: 200px;
+  //     }
+  //   }
 
-    .tableBody {
-      display: grid;
-      // overflow-x: scroll;
-      width: fit-content;
-    }
-  }
+  //   .tableBody {
+  //     display: grid;
+  //     // overflow-x: scroll;
+  //     width: fit-content;
+  //   }
+  // }
 }
 
 .contractPopup {
   background: #fff;
   height: fit-content;
-  th {
-    background: #fff;
-  }
 }
 
 @media (min-width: 1000px) {
   .allEmployees {
-    .cardsAndBtn {
+    .head {
       display: flex;
       align-items: center;
       justify-content: space-between;

@@ -69,22 +69,22 @@ function AllAdminsPage({ setFlash }) {
           }}
         />
       )}
-      <h1 className="__pageHeading __subColorHeading">All Admins</h1>
-      <div className={styles.cardsAndBtn}>
-        <section className={styles.cardsContainer}>
-          <div className={styles.card}>
-            <p>{admins?.length}</p>
-            <h4>Total Admins</h4>
-          </div>
-          <div className={styles.card}>
-            <p>{totalContractsGenerated}</p>
-            <h4>Contracts Generated</h4>
-          </div>
-          <div className={styles.card}>
-            <p>{totalContractsVerified}</p>
-            <h4>Contracts Signed</h4>
-          </div>
-        </section>
+      <section className={styles.cardsContainer}>
+        <div className={styles.card}>
+          <p>{admins?.length}</p>
+          <h4>Total Admins</h4>
+        </div>
+        <div className={styles.card}>
+          <p>{totalContractsGenerated}</p>
+          <h4>Contracts Generated</h4>
+        </div>
+        <div className={styles.card}>
+          <p>{totalContractsVerified}</p>
+          <h4>Contracts Signed</h4>
+        </div>
+      </section>
+      <div className={styles.head}>
+        <h1 className="__pageHeading __subColorHeading">All Admins</h1>
         <Button
           outlined
           fit
@@ -96,16 +96,16 @@ function AllAdminsPage({ setFlash }) {
         </Button>
       </div>
       <div className="__tableContainer">
-        <div className={styles.table}>
-          <div className={styles.tableHead}>
-            <div className={styles.columnTitle}>Admin Name</div>
-            <div className={styles.columnTitle}>Admin Email</div>
-            <div className={styles.columnTitle}>Admin Phone</div>
-            <div className={styles.columnTitle}>Total Contracts Generated</div>
-            <div className={styles.columnTitle}>Total Contracts Signed</div>
-            <div className={styles.columnTitle}>Edit Admins</div>
-          </div>
-          <div className={styles.tableBody}>
+        <table>
+          <thead>
+            <th>Admin Name</th>
+            <th>Admin Email</th>
+            <th>Admin Phone</th>
+            <th>Total Contracts Generated</th>
+            <th>Total Contracts Signed</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>
             {admins?.map((admin, i) => (
               <AdminRecord
                 handleFetchAdmins={handleFetchAdmins}
@@ -115,8 +115,8 @@ function AllAdminsPage({ setFlash }) {
                 openPopup={() => setShowPopup(true)}
               />
             ))}
-          </div>
-        </div>
+          </tbody>
+        </table>
       </div>
     </div>
   );

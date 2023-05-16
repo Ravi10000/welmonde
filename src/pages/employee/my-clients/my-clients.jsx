@@ -321,15 +321,15 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
         <table>
           <thead>
             <tr>
-              <th>Client Name</th>
-              <th>Business Name</th>
-              <th>Client Email</th>
-              <th>Client Phone</th>
-              <th>Address</th>
-              <th>Vertical</th>
+              <th>Client</th>
+              <th>Business</th>
+              <th>Email</th>
+              <th>Phone</th>
+              {/* <th>Address</th> */}
+              {/* <th>Vertical</th> */}
               <th>Contracts Generated</th>
               <th>Contracts Signed</th>
-              <th>Edit Client</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>

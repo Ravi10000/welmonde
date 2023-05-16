@@ -105,7 +105,7 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
           </div>
         </section>
         <div className={styles.head}>
-          <h1 className={styles.title}>
+          <h1 className="__pageHeading __subColorHeading">
             {adminPrivilages ? "All" : "My"} Agreements
           </h1>
           <Button outlined fit onClick={openPopup}>
@@ -119,10 +119,10 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
                 <th>Business Name</th>
                 <th>Client Name</th>
                 <th>Representative Name</th>
-                <th>Client Address</th>
+                {/* <th>Client Address</th> */}
                 {/* <th>Mobile</th> */}
-                <th>Contracts</th>
-                <th>Added On</th>
+                {/* <th>Contracts</th> */}
+                {/* <th>Added On</th> */}
                 <th>Status</th>
                 <th>Options</th>
                 <th>Manage</th>

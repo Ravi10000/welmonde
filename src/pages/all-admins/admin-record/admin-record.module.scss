@@ -1,21 +1,21 @@
-.adminRecord {
-  display: grid;
-  //   width: 100vw;
-  padding: 5px 20px;
-  width: fit-content;
-  border-bottom: 2px solid rgba(218, 218, 218, 0.612);
-//   border-top: none;
-  grid-template-columns: repeat(6, 200px);
-  .recordData {
-    // width: fit-content;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 200px;
-  }
-  .actions {
-    display: flex;
-    gap: 10px;
-  }
-}
+// .adminRecord {
+//   display: grid;
+//   //   width: 100vw;
+//   padding: 5px 20px;
+//   width: fit-content;
+//   border-bottom: 2px solid rgba(218, 218, 218, 0.612);
+// //   border-top: none;
+//   grid-template-columns: repeat(6, 200px);
+//   .recordData {
+//     // width: fit-content;
+//     padding: 0 20px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     width: 200px;
+//   }
+//   .actions {
+//     display: flex;
+//     gap: 10px;
+//   }
+// }

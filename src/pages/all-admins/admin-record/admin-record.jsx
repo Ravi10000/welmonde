@@ -4,6 +4,7 @@ import { deleteUser } from "../../../firebase/auth";
 import { useState } from "react";
 import { setFlash } from "../../../redux/flash/flash.actions";
 import { connect } from "react-redux";
+import Actions from "../../../components/actions/actions";
 
 function AdminRecord({
   admin,
@@ -13,50 +14,42 @@ function AdminRecord({
   handleFetchAdmins,
 }) {
   const [isDeleting, setIsDeleting] = useState(false);
-
+  async function handleDeleteAdmin() {
+    setIsDeleting(true);
+    try {
+      await deleteUser(admin?.uid);
+      await handleFetchAdmins();
+      setFlash({
+        message: "Admin deleted successfully",
+        type: "success",
+      });
+    } catch (err) {
+      setFlash({
+        message: err.message,
+        type: "error",
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  }
   return (
-    <div className={styles.adminRecord}>
-      <div className={styles.recordData}>
-        {admin?.fname + " " + admin?.lname}
-      </div>
-      <div className={styles.recordData}>{admin?.email}</div>
-      <div className={styles.recordData}>{admin?.mobile}</div>
-      <div className={styles.recordData}>{admin?.contractsGenerated}</div>
-      <div className={styles.recordData}>{admin?.contractsVerified}</div>
-      <div className={`${styles.recordData} ${styles.actions}`}>
-        <Button
-          action
-          iconOnly
-          onClick={() => {
+    <tr>
+      <td className={styles.recordData}>{admin?.fname + " " + admin?.lname}</td>
+      <td className={styles.recordData}>{admin?.email}</td>
+      <td className={styles.recordData}>{admin?.mobile}</td>
+      <td className={styles.recordData}>{admin?.contractsGenerated}</td>
+      <td className={styles.recordData}>{admin?.contractsVerified}</td>
+      <td className={`${styles.recordData} ${styles.actions}`}>
+        <Actions
+          handleDelete={handleDeleteAdmin}
+          handleEdit={() => {
             setAdminToEdit(admin);
             openPopup();
           }}
-        >
-          <img src="/actions/edit.png" alt="" />
-        </Button>
-        <Button
-          destruct
-          iconOnly
-          onClick={async () => {
-            try {
-              await deleteUser(admin?.uid);
-              setFlash({
-                message: "Admin deleted successfully",
-                type: "success",
-              });
-              await handleFetchAdmins();
-            } catch (err) {
-              setFlash({
-                message: err.message,
-                type: "error",
-              });
-            }
-          }}
-        >
-          <img src="/actions/delete.png" alt="" />
-        </Button>
-      </div>
-    </div>
+          isDeleting={isDeleting}
+        />
+      </td>
+    </tr>
   );
 }
 

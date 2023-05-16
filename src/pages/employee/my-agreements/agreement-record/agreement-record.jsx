@@ -28,7 +28,6 @@ function AgreementRecord({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const optionsRef = useRef(null);
-
   const addedOnDate = new Date(agreement?.createdAt).toDateString();
   const addedOnTime = new Date(agreement?.createdAt).toLocaleTimeString();
 
@@ -103,20 +102,23 @@ function AgreementRecord({
 
   return (
     <tr className={styles.agreementRecord} onClick={openAgreement}>
-      <td>{agreement?.businessName}</td>
+      <td>
+        <span>{agreement?.businessName}</span>
+      </td>
       <td>{agreement?.clientName}</td>
       <td>{agreement?.representativeName}</td>
-      <td>{agreement?.clientAddress}</td>
-      <td className={styles.contractNamesContainer}>
+      {/* <td>{agreement?.clientAddress}</td> */}
+      {/* <td className={styles.contractNamesContainer}>
         {agreement?.contracts?.map((contract) => (
           <p key={contract} className={styles.contractName}>
             {contract}
           </p>
         ))}
-      </td>
-      <td>
+      </td> */}
+      {/* <td>{agreement?.contracts?.map((contract) => contract)}</td> */}
+      {/* <td>
         {addedOnDate}, {addedOnTime}
-      </td>
+      </td> */}
       <td>{agreement?.status}</td>
       {agreement?.status === "FOLLOWED UP" ||
       agreement?.status === "OTP VERIFIED" ? (
@@ -130,12 +132,15 @@ function AgreementRecord({
             {isLoading ? (
               <div className={styles.loader}></div>
             ) : (
-              <div className={styles.optionsDiv}>
+              <div
+                className={styles.optionsDiv}
+                onClick={() => setShowOptions(true)}
+              >
                 <img
                   src="/3dots.png"
                   alt="options"
                   className={styles.optionsToggle}
-                  onClick={() => setShowOptions(true)}
+                  // onClick={() => setShowOptions(true)}
                 />
               </div>
             )}
@@ -187,33 +192,6 @@ function AgreementRecord({
         {agreement?.status === "OTP VERIFIED" ? (
           <p>N/A</p>
         ) : (
-          // <nav className={styles.actions}>
-          //   {/* <Button action iconOnly onClick={() => triggerUpdateAgreement()}>
-          //     <img src="/actions/edit-colored.png" alt="" />
-          //   </Button> */}
-          //   <span className={styles.edit}>
-          //     <img
-          //       onClick={() => triggerUpdateAgreement()}
-          //       src="/actions/pencil.png"
-          //       alt=""
-          //     />
-          //   </span>
-          //   <span className={styles.edit}>
-          //     <img
-          //       src="/actions/delete-black.png"
-          //       alt=""
-          //       onClick={handleDeleteAgreement}
-          //     />
-          //   </span>
-          //   {/* <Button
-          //     isLoading={isDeleting}
-          //     destruct
-          //     iconOnly
-          //     onClick={handleDeleteAgreement}
-          //   >
-          //     <img src="/actions/delete-colored.png" alt="" />
-          //   </Button> */}
-          // </nav>
           <Actions
             handleEdit={triggerUpdateAgreement}
             handleDelete={handleDeleteAgreement}

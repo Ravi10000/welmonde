@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { deleteUser } from "../../../firebase/auth";
 import { setFlash } from "../../../redux/flash/flash.actions";
 import { useState } from "react";
+import Actions from "../../../components/actions/actions";
 
 function EmployeeRecord({
   employee,
@@ -31,31 +32,23 @@ function EmployeeRecord({
     }
   }
   return (
-    <div className={styles.employeeRecord}>
-      <div className={styles.recordData}>
-        {employee?.fname + " " + employee?.lname}
-      </div>
-      <div className={styles.recordData}>{employee?.email}</div>
-      <div className={styles.recordData}>{employee?.mobile}</div>
-      <div className={styles.recordData}>{employee?.contractsGenerated}</div>
-      <div className={styles.recordData}>{employee?.contractsVerified}</div>
-      <div className={`${styles.recordData} ${styles.actions}`}>
-        <Button
-          fit
-          action
-          iconOnly
-          onClick={() => {
+    <tr>
+      <td>{employee?.fname + " " + employee?.lname}</td>
+      <td>{employee?.email}</td>
+      <td>{employee?.mobile}</td>
+      <td>{employee?.contractsGenerated}</td>
+      <td>{employee?.contractsVerified}</td>
+      <td>
+        <Actions
+          handleDelete={handleDeleteEmployee}
+          handleEdit={() => {
             setEmployeeToEdit(employee);
             openPopup();
           }}
-        >
-          <img src="/actions/edit.png" alt="" />
-        </Button>
-        <Button fit destruct iconOnly onClick={handleDeleteEmployee}>
-          <img src="/actions/delete.png" alt="" />
-        </Button>
-      </div>
-    </div>
+          isDeleting={isDeleting}
+        />
+      </td>
+    </tr>
   );
 }
 

@@ -1,21 +1,21 @@
 .allAdmins {
   padding: 10px;
-  .cardsAndBtn {
+  .head {
     margin: 10px 0;
     button {
       margin: 0 auto;
     }
-    .cardsContainer {
-      display: flex;
-      margin-bottom: 10px;
-      gap: 20px;
-      .card {
-        text-align: center;
-        border-radius: 5px;
-        padding: 10px;
-        border: 1px solid var(--fadeGray);
-        color: var(--subBrandColor);
-      }
+  }
+  .cardsContainer {
+    display: flex;
+    margin-bottom: 10px;
+    gap: 20px;
+    .card {
+      text-align: center;
+      border-radius: 5px;
+      padding: 10px;
+      border: 1px solid var(--fadeGray);
+      color: var(--subBrandColor);
     }
   }
   .table {
@@ -51,7 +51,7 @@
 
 @media (min-width: 1000px) {
   .allAdmins {
-    .cardsAndBtn {
+    .head {
       width: 100%;
       display: flex;
       align-items: center;

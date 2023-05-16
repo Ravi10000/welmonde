@@ -33,16 +33,16 @@ function ClientRecord({
       <td>{client?.businessName}</td>
       <td>{client?.email}</td>
       <td>{client?.mobile}</td>
-      <td>
+      {/* <td>
         {client?.street}, {client?.city}, {client?.state}, {client?.pincode}
-      </td>
-      <td className={styles.verticalData}>
+      </td> */}
+      {/* <td className={styles.verticalData}>
         <ul className={styles.verticalList}>
           {client?.vertical && client?.vertical?.map((v) => <p key={v}>{v}</p>)}
         </ul>
-      </td>
-      <td>{client?.contractsGenerated}</td>
-      <td>{client?.contractsVerified}</td>
+      </td> */}
+      <td className="textCenter">{client?.contractsGenerated}</td>
+      <td className="textCenter">{client?.contractsVerified}</td>
       <td className={styles.actions}>
         {/* <Button
           iconOnly

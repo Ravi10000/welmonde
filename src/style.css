@@ -48,17 +48,20 @@ td {
   text-align: left;
   padding: 10px 20px;
   width: max-content;
+  /* overflow: hidden; */
 }
 th {
   /* position: sticky; */
   /* top: 0; */
   background: #fff;
-  color: var(--subBrandColor);
-  border-bottom: 2px solid #edf0f2;
+  /* color: var(--subBrandColor); */
+  border: 2px solid var(--mainBrandColor);
   letter-spacing: 1px;
-  font-weight: 600;
+  /* font-weight: 700; */
   white-space: nowrap;
   cursor: pointer;
+  background: var(--mainBrandColor);
+  color: #fff;
 }
 
 th img {
@@ -66,11 +69,25 @@ th img {
   height: fit-content;
 }
 
+.textCenter{
+  text-align: center;
+}
+
 td img {
   width: 20px;
   height: fit-content;
   cursor: pointer;
 }
+
+/* td {
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 130px;
+  /* height: 30px; */
+/* width: 180px; */
+/* height: 30px; */
+/* text-overflow: ellipsis; */
+/* } */
 
 .__subColorHeading {
   color: var(--subBrandColor);
