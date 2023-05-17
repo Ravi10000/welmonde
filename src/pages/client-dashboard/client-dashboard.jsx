@@ -30,7 +30,11 @@ function ClientDashboard({ currentUser, setCurrentUser, setFlash }) {
 
   async function handleFetchMyAgreements() {
     console.log("fetching agreements");
-    const agreements = await fetchAgreementsByClientId(currentUser.uid);
+    // const agreements = await fetchAgreementsByClientId(currentUser.uid);
+    const agreements = await fetchAgreementsByClientId(
+      currentUser.uid,
+      currentUser.phone
+    );
     setAgreements(agreements);
   }
 
