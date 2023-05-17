@@ -69,10 +69,7 @@ export const createUserProfile = async (auth, additionalData) => {
 
 export const createClientProfile = async (uid, additionalData) => {
   try {
-    const newClient = await setDoc(
-      doc(db, "users", uid),
-      additionalData
-    );
+    const newClient = await setDoc(doc(db, "users", uid), additionalData);
     return newClient;
   } catch (err) {
     console.log(err);
@@ -182,4 +179,35 @@ export const fetchAllAgreements = async () => {
   const q = query(collection(db, "agreements"));
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+};
+
+export const fetchClientByPhone = async (phone) => {
+  try {
+    const q = query(collection(db, "clients"), where("mobile", "==", phone));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  } catch (err) {
+    console.log({ err });
+    return { error: err.message };
+  }
+};
+export const updateClientsUserId = async (clienId, uid) => {
+  try {
+    const q = query(doc(db, "clients", clienId));
+    const updatedClient = await setDoc(q, { userId: uid }, { merge: true });
+    return updatedClient;
+  } catch (err) {
+    console.log({ err });
+    return { error: err.message };
+  }
+};
+export const fetchUserByPhone = async (phone) => {
+  try {
+    const q = query(collection(db, "users"), where("mobile", "==", phone));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  } catch (err) {
+    console.log({ err });
+    return { error: err.message };
+  }
 };

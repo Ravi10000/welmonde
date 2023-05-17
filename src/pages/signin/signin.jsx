@@ -9,7 +9,13 @@ import { useNavigate } from "react-router-dom";
 // components
 import Button from "../../components/button/button";
 import OTPInput from "../../components/otp-group/otp-input/otp-input";
-import { createClientProfile, fetchUser, sendOtp } from "../../firebase/auth";
+import {
+  createClientProfile,
+  fetchClientByPhone,
+  fetchUser,
+  sendOtp,
+  updateClientsUserId,
+} from "../../firebase/auth";
 import { setCurrentUser } from "../../redux/user/user.actions";
 import { connect } from "react-redux";
 import { setFlash } from "../../redux/flash/flash.actions";
@@ -49,10 +55,13 @@ function SigninPage({ setCurrentUser, setFlash }) {
       console.log({ user });
       if (!user) {
         user = await createClientProfile(userCredientials.user.uid, {
-          phone: userCredientials.user.phoneNumber,
+          mobile: userCredientials.user.phoneNumber,
           usertype: "CLIENT",
         });
-        console.log({ newUser: user });
+        const clients = await fetchClientByPhone(
+          userCredientials.user.phoneNumber
+        );
+        await updateClientsUserId(clients[0].id, userCredientials.user.uid);
       }
       // setCurrentUser(userCredientials?.user);
       setCurrentUser({

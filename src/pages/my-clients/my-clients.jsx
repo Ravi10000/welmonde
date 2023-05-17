@@ -9,6 +9,8 @@ import {
   updateClientDetails,
   addNewClient,
   EditClientDetails,
+  fetchUser,
+  fetchUserByPhone,
 } from "../../firebase/auth";
 import { useForm } from "react-hook-form";
 import { setFlash } from "../../redux/flash/flash.actions";
@@ -73,6 +75,10 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
     try {
       if (!clientToEdit) {
         data.createdBy = currentUser?.uid;
+        const clients = await fetchUserByPhone(data.mobile);
+        if (clients.length) {
+          data.userId = clients[0]?.id;
+        }
         const userSnapshot = await addNewClient(data);
         if (userSnapshot.id) {
           reset();
