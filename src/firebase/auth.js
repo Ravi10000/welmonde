@@ -67,6 +67,19 @@ export const createUserProfile = async (auth, additionalData) => {
   return adminDocRef;
 };
 
+export const createClientProfile = async (uid, additionalData) => {
+  try {
+    const newClient = await setDoc(
+      doc(db, "users", uid),
+      additionalData
+    );
+    return newClient;
+  } catch (err) {
+    console.log(err);
+    return { error: err.message };
+  }
+};
+
 // //
 // export const fetchAllAdmins = async () => {
 //   const q = query(collection(db, "users"), where("usertype", "==", "ADMIN"));

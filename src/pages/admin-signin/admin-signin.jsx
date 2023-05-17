@@ -15,12 +15,13 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      email: "admin@gmail.com",
-      password: "password",
-    },
-  });
+  } = useForm();
+  // {
+  //   defaultValues: {
+  //     email: "admin@gmail.com",
+  //     password: "password",
+  //   },
+  // }
 
   const navigate = useNavigate();
   const [verifing, setVerifing] = useState(false);

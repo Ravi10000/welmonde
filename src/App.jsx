@@ -47,7 +47,7 @@ function App({ setCurrentUser, flash }) {
       console.log({ userSnapshot });
       if (userSnapshot) {
         let user = await fetchUser(userSnapshot.uid);
-        if (!user) user = await fetchClienDetails(userSnapshot.uid);
+        // if (!user) user = await fetchClienDetails(userSnapshot.uid);
         if (user)
           setCurrentUser({
             ...user,

@@ -22,16 +22,17 @@ function EmployeePopup({
     watch,
     reset,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      fname: employeeToEdit?.fname || "test",
-      lname: employeeToEdit?.lname || "test",
-      email: employeeToEdit?.email || "test@email.com",
-      mobile: employeeToEdit?.mobile || "0000000000",
-      password: employeeToEdit?.password || "password",
-      confirmPassword: employeeToEdit?.confirmPassword || "password",
-    },
-  });
+  } = useForm();
+  // {
+  //   defaultValues: {
+  //     fname: employeeToEdit?.fname || "test",
+  //     lname: employeeToEdit?.lname || "test",
+  //     email: employeeToEdit?.email || "test@email.com",
+  //     mobile: employeeToEdit?.mobile || "0000000000",
+  //     password: employeeToEdit?.password || "password",
+  //     confirmPassword: employeeToEdit?.confirmPassword || "password",
+  //   },
+  // }
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

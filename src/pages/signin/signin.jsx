@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 // components
 import Button from "../../components/button/button";
 import OTPInput from "../../components/otp-group/otp-input/otp-input";
-import { sendOtp } from "../../firebase/auth";
+import { createClientProfile, fetchUser, sendOtp } from "../../firebase/auth";
 import { setCurrentUser } from "../../redux/user/user.actions";
 import { connect } from "react-redux";
 import { setFlash } from "../../redux/flash/flash.actions";
@@ -45,6 +45,15 @@ function SigninPage({ setCurrentUser, setFlash }) {
     const userCredientials = await validate.confirm(otp);
     console.log(userCredientials);
     if (userCredientials?.user) {
+      let user = await fetchUser(userCredientials.user.uid);
+      console.log({ user });
+      if (!user) {
+        user = await createClientProfile(userCredientials.user.uid, {
+          phone: userCredientials.user.phoneNumber,
+          usertype: "CLIENT",
+        });
+        console.log({ newUser: user });
+      }
       // setCurrentUser(userCredientials?.user);
       setCurrentUser({
         phone: userCredientials.user.phoneNumber,

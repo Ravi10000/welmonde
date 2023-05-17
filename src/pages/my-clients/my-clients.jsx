@@ -198,7 +198,7 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
                 defaultValue={clientToEdit?.mobile || ""}
                 maxLength={16}
                 label="Mobile Number(with country code)"
-                placeholder="Enter Admin Mobile Number"
+                placeholder="Enter Client Mobile Number"
                 error={errors?.mobile?.message}
                 register={{
                   ...register("mobile", {

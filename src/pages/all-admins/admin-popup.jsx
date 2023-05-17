@@ -24,16 +24,17 @@ function AdminPopup({
     watch,
     reset,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      fname: adminToEdit?.fname || "test",
-      lname: adminToEdit?.lname || "test",
-      email: adminToEdit?.email || "test@email.com",
-      mobile: adminToEdit?.mobile || "0000000000",
-      password: adminToEdit ? "" : "password",
-      confirmPassword: adminToEdit ? "" : "password",
-    },
-  });
+  } = useForm();
+  // {
+  //   defaultValues: {
+  //     fname: adminToEdit?.fname || "test",
+  //     lname: adminToEdit?.lname || "test",
+  //     email: adminToEdit?.email || "test@email.com",
+  //     mobile: adminToEdit?.mobile || "0000000000",
+  //     password: adminToEdit ? "" : "password",
+  //     confirmPassword: adminToEdit ? "" : "password",
+  //   },
+  // }
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     return () => {
