@@ -16,7 +16,7 @@ export default function NumInput({ label, error, register, ...otherProps }) {
         inputMode="numeric"
         {...register}
         onInput={(e) =>
-          (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
+          (e.target.value = e.target.value.replace(/[^0-9+]+/g, ""))
         }
         {...otherProps}
       />

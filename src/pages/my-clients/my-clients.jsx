@@ -196,21 +196,13 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
             {!clientToEdit && (
               <NumInput
                 defaultValue={clientToEdit?.mobile || ""}
-                maxLength={10}
-                label="Mobile Number"
+                maxLength={16}
+                label="Mobile Number(with country code)"
                 placeholder="Enter Admin Mobile Number"
                 error={errors?.mobile?.message}
                 register={{
                   ...register("mobile", {
                     required: "Enter Mobile Number",
-                    minLength: {
-                      value: 10,
-                      message: "Mobile Number should be 10 digits",
-                    },
-                    maxLength: {
-                      value: 10,
-                      message: "Mobile Number should be 10 digits",
-                    },
                   }),
                 }}
               />

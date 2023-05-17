@@ -7,7 +7,10 @@ import {
   updateAgreementStatus,
 } from "../../../firebase/employee";
 import { fetchClienDetails } from "../../../firebase/auth";
-import { sendAgreementViaEmail } from "../../../firebase/mail";
+import {
+  sendAgreementViaEmail,
+  sendAgreementViaPhone,
+} from "../../../firebase/mail";
 import Actions from "../../../components/actions/actions";
 
 function AgreementRecord({
@@ -49,6 +52,14 @@ function AgreementRecord({
       }`;
       const client = await fetchClienDetails(agreement?.clientId);
       await sendAgreementViaEmail(client?.email, agreementLink);
+    }
+    if (status === "SENT TO CLIENT" && method === "phone") {
+      const agreementLink = `${import.meta.env.VITE_SITE_URL}/contracts/${
+        agreement?.id
+      }`;
+      const client = await fetchClienDetails(agreement?.clientId);
+      console.log({ client });
+      await sendAgreementViaPhone(client?.mobile, agreementLink);
     }
     try {
       await updateAgreementStatus(agreement?.id, status);

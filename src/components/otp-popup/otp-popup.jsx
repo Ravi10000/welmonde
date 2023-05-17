@@ -7,7 +7,7 @@ import { setFlash } from "../../redux/flash/flash.actions";
 import { updateAgreementStatus } from "../../firebase/employee";
 import { connect } from "react-redux";
 import { useEffect } from "react";
-import { sendOtpViaEmail } from "../../firebase/mail";
+import { sendOtpViaEmail, sendOtpViaPhone } from "../../firebase/mail";
 import { fetchClienDetails } from "../../firebase/auth";
 
 function OtpPopup({ setShowOtpPopup, agreement, onSuccess, setFlash }) {
@@ -45,6 +45,7 @@ function OtpPopup({ setShowOtpPopup, agreement, onSuccess, setFlash }) {
     try {
       const client = await fetchClienDetails(agreement?.clientId);
       await sendOtpViaEmail(client?.email, agreement?.verificationOtp);
+      await sendOtpViaPhone(client?.mobile, agreement?.verificationOtp);
       setFlash({
         type: "success",
         message: "OTP Sent Successfully",

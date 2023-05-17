@@ -8,7 +8,7 @@ import OtpGroup from "../../components/otp-group/otp-group";
 import { updateAgreementStatus } from "../../firebase/employee";
 import { setFlash } from "../../redux/flash/flash.actions";
 import { connect } from "react-redux";
-import { sendOtpViaEmail } from "../../firebase/mail";
+import { sendOtpViaEmail, sendOtpViaPhone } from "../../firebase/mail";
 import { fetchClienDetails } from "../../firebase/auth";
 
 function ContractsPage({ setFlash }) {
@@ -84,6 +84,7 @@ function ContractsPage({ setFlash }) {
     try {
       const client = await fetchClienDetails(agreement?.clientId);
       await sendOtpViaEmail(client?.email, agreement?.verificationOtp);
+      await sendOtpViaPhone(client?.mobile, agreement?.verificationOtp);
 
       setFlash({
         type: "success",
@@ -102,6 +103,7 @@ function ContractsPage({ setFlash }) {
     try {
       const client = await fetchClienDetails(agreement?.clientId);
       await sendOtpViaEmail(client?.email, agreement?.verificationOtp);
+      await sendOtpViaPhone(client?.mobile, agreement?.verificationOtp);
       setFlash({
         type: "success",
         message: "OTP Sent",
