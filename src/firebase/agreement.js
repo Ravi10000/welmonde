@@ -6,7 +6,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import app, { db } from "./index";
+import { db } from "./index";
 
 export const fetchMyAgreements = async (agreementId) => {
   const q = doc(db, "agreements", agreementId);

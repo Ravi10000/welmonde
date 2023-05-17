@@ -1,25 +1,23 @@
 import styles from "./my-clients.module.scss";
-import Button from "../../../components/button/button";
-import { useState } from "react";
-import Popup from "../../../components/popup/popup";
-import TextInput from "../../../components/text-input/text-input";
-import NumInput from "../../../components/num-input/num-input";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+
+import Button from "../../components/button/button";
+import Popup from "../../components/popup/popup";
+import TextInput from "../../components/text-input/text-input";
+import NumInput from "../../components/num-input/num-input";
 import {
   updateClientDetails,
   addNewClient,
-  fetchAllClients,
-  updateUserDetails,
   EditClientDetails,
-} from "../../../firebase/auth";
+} from "../../firebase/auth";
 import { useForm } from "react-hook-form";
-import { setFlash } from "../../../redux/flash/flash.actions";
+import { setFlash } from "../../redux/flash/flash.actions";
 import { connect } from "react-redux";
-import CheckBox from "../../../components/check-box/check-box";
+import CheckBox from "../../components/check-box/check-box";
 import ClientRecord from "./client-record/client-record";
-import { verticals } from "../../../data/verticals";
-import { fetchMyAgreements, fetchMyClients } from "../../../firebase/employee";
-import { fetchAgreementsByClientId } from "../../../firebase/agreement";
+import { verticals } from "../../data/verticals";
+import { fetchMyClients } from "../../firebase/employee";
+import { fetchAgreementsByClientId } from "../../firebase/agreement";
 
 function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
   const [clients, setClients] = useState([]);

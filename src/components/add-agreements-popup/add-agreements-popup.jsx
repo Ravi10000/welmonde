@@ -5,7 +5,7 @@ import { verticals } from "../../data/verticals";
 import CheckBox from "../check-box/check-box";
 import CustomSelect from "../custom-select/custom-select";
 import { useEffect, useState } from "react";
-import { fetchAllClients } from "../../firebase/auth";
+// import { fetchAllClients } from "../../firebase/auth";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 

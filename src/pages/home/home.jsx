@@ -13,6 +13,7 @@ function HomePage() {
               className={styles.signin}
               onClick={() => navigate("/signin")}
             >
+              {/* <div className={styles.circle}></div> */}
               Get Started
             </button>
             <button

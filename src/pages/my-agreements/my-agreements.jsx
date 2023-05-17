@@ -1,12 +1,13 @@
 import styles from "./my-agreements.module.scss";
 import { useEffect, useState } from "react";
-import { fetchMyAgreements } from "../../../firebase/employee";
+import { fetchMyAgreements } from "../../firebase/employee";
 import { connect } from "react-redux";
-import Button from "../../../components/button/button";
-import AddAgreementsPopup from "../../../components/add-agreements-popup/add-agreements-popup";
+
+import Button from "../../components/button/button";
 import AgreementRecord from "./agreement-record/agreement-record";
+import AddAgreementsPopup from "../../components/add-agreements-popup/add-agreements-popup";
 import ViewAgreementPopup from "./view-agreement-popup/view-agreement-popup";
-import OtpPopup from "../../../components/otp-popup/otp-popup";
+import OtpPopup from "../../components/otp-popup/otp-popup";
 
 function MyAgreementsPage({ currentUser, adminPrivilages }) {
   const [agreements, setAgreements] = useState([]);
@@ -51,7 +52,6 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
     setAgreementToEdit(agreement);
     setShowOtpPopup(true);
   }
-  // console.log({ agreementToEdit });
   useEffect(() => {
     handleFetchAgreements();
   }, []);

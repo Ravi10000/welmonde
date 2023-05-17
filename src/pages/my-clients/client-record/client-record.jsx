@@ -1,11 +1,11 @@
 import styles from "./client-record.module.scss";
 
-import Button from "../../../../components/button/button";
-import { setFlash } from "../../../../redux/flash/flash.actions";
+import Button from "../../../components/button/button";
+import { setFlash } from "../../../redux/flash/flash.actions";
 import { connect } from "react-redux";
-import { deleteClient } from "../../../../firebase/auth";
+import { deleteClient } from "../../../firebase/auth";
 import { useState } from "react";
-import Actions from "../../../../components/actions/actions";
+import Actions from "../../../components/actions/actions";
 
 function ClientRecord({
   client,

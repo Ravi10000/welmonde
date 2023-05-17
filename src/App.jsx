@@ -23,10 +23,10 @@ import IsNotSignedIn from "./components/auth/is-not-signed-in";
 import Flash from "./components/flash/flash";
 import LoadinPage from "./pages/loading/loading";
 import { fetchClienDetails, fetchUser } from "./firebase/auth";
-import MyAgreementsPage from "./pages/employee/my-agreements/my-agreements";
+import MyAgreementsPage from "./pages/my-agreements/my-agreements";
 import IsEmployee from "./components/auth/is-employee";
 import ContractsPage from "./pages/contracts/contracts-page";
-import MyClientsPage from "./pages/employee/my-clients/my-clients";
+import MyClientsPage from "./pages/my-clients/my-clients";
 import ScrollToTop from "./components/scrollToTop";
 
 function App({ setCurrentUser, flash }) {

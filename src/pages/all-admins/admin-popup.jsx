@@ -2,11 +2,9 @@ import Popup from "../../components/popup/popup";
 import TextInput from "../../components/text-input/text-input";
 import NumInput from "../../components/num-input/num-input";
 import { useForm } from "react-hook-form";
-import { createUserProfile, fetchAllAdmins } from "../../firebase/auth";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { createUserProfile } from "../../firebase/auth";
+
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setFlash } from "../../redux/flash/flash.actions";
 import { detatchAuth } from "../../firebase";
 import { connect } from "react-redux";

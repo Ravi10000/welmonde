@@ -1,9 +1,8 @@
 import styles from "./view-agreement-popup.module.scss";
-
-import Backdrop from "../../../../components/backdrop/backdrop";
 import { useState } from "react";
-import ScrollToTop from "../../../../components/scrollToTop";
-import PdfViewer from "../../../../components/pdf-viewer/pdf-viewer";
+
+import Backdrop from "../../../components/backdrop/backdrop";
+import PdfViewer from "../../../components/pdf-viewer/pdf-viewer";
 
 function ViewAgreementPopup({ agreement, closeAgreement }) {
   const [contract, setContract] = useState(false);

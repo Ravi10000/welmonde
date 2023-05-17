@@ -8,6 +8,9 @@ import OtpGroup from "../../components/otp-group/otp-group";
 import { updateAgreementStatus } from "../../firebase/employee";
 import { setFlash } from "../../redux/flash/flash.actions";
 import { connect } from "react-redux";
+import { sendOtpViaEmail } from "../../firebase/mail";
+import { fetchClienDetails } from "../../firebase/auth";
+
 function ContractsPage({ setFlash }) {
   const { agreementId } = useParams();
   const [agreement, setAgreement] = useState({});
@@ -18,6 +21,7 @@ function ContractsPage({ setFlash }) {
   const [isOtpValid, setIsOtpValid] = useState(false);
   const [isRejecting, setIsRejecting] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
   const otpRef = useRef();
 
   async function handleFetchAgreement() {
@@ -74,23 +78,39 @@ function ContractsPage({ setFlash }) {
     }
   }
   async function handleSendOtp() {
+    setIsSendingOtp(true);
     console.log("send otp");
     console.log({ otp: agreement?.verificationOtp });
-    setFlash({
-      type: "success",
-      message: "OTP Sent",
-    });
-    setShowOtpInput(true);
+    try {
+      const client = await fetchClienDetails(agreement?.clientId);
+      await sendOtpViaEmail(client?.email, agreement?.verificationOtp);
+
+      setFlash({
+        type: "success",
+        message: "OTP Sent",
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsSendingOtp(false);
+      setShowOtpInput(true);
+    }
   }
   async function handleResendOtp() {
-    console.log("resend otp");
     otpRef.current.resetOtpInputs();
-    console.log({ otp: agreement?.verificationOtp });
-    setFlash({
-      type: "success",
-      message: "OTP Sent",
-    });
-    setShowOtpInput(true);
+    setIsSendingOtp(true);
+    try {
+      const client = await fetchClienDetails(agreement?.clientId);
+      await sendOtpViaEmail(client?.email, agreement?.verificationOtp);
+      setFlash({
+        type: "success",
+        message: "OTP Sent",
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsSendingOtp(false);
+    }
   }
 
   useEffect(() => {
@@ -153,11 +173,20 @@ function ContractsPage({ setFlash }) {
                     Verify
                   </Button>
                   <p className={styles.resendOtp} onClick={handleResendOtp}>
-                    Didn't get OTP? <span>resend OTP</span>
+                    Didn't get OTP?{" "}
+                    {isSendingOtp ? (
+                      <div className={styles.loader}></div>
+                    ) : (
+                      <span>resend OTP</span>
+                    )}
                   </p>
                 </div>
               ) : (
-                <Button disabled={!agree} onClick={handleSendOtp}>
+                <Button
+                  isLoading={isSendingOtp}
+                  disabled={!agree}
+                  onClick={handleSendOtp}
+                >
                   Send OTP to verify
                 </Button>
               )}

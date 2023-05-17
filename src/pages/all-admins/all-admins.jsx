@@ -3,7 +3,7 @@ import Button from "../../components/button/button";
 import { useState, useEffect } from "react";
 import { setFlash } from "../../redux/flash/flash.actions";
 import { connect } from "react-redux";
-import { fetchAllAdmins } from "../../firebase/auth";
+import { fetchAllAdmins } from "../../firebase/admin";
 import AdminRecord from "./admin-record/admin-record";
 import AdminPopup from "./admin-popup";
 import { fetchMyAgreements } from "../../firebase/employee";

@@ -1,19 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./agreement-record.module.scss";
-import { useRef } from "react";
+import { connect } from "react-redux";
+import { setFlash } from "../../../redux/flash/flash.actions";
 import {
   deleteAgreement,
   updateAgreementStatus,
-} from "../../../../firebase/employee";
-import { setFlash } from "../../../../redux/flash/flash.actions";
-import { connect } from "react-redux";
-import Button from "../../../../components/button/button";
-import { fetchClienDetails } from "../../../../firebase/auth";
-import {
-  sendAgreementViaEmail,
-  sendOtpViaEmail,
-} from "../../../../firebase/mail";
-import Actions from "../../../../components/actions/actions";
+} from "../../../firebase/employee";
+import { fetchClienDetails } from "../../../firebase/auth";
+import { sendAgreementViaEmail } from "../../../firebase/mail";
+import Actions from "../../../components/actions/actions";
 
 function AgreementRecord({
   agreement,
@@ -28,8 +23,8 @@ function AgreementRecord({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const optionsRef = useRef(null);
-  const addedOnDate = new Date(agreement?.createdAt).toDateString();
-  const addedOnTime = new Date(agreement?.createdAt).toLocaleTimeString();
+  // const addedOnDate = new Date(agreement?.createdAt).toDateString();
+  // const addedOnTime = new Date(agreement?.createdAt).toLocaleTimeString();
 
   useEffect(() => {
     function handleOutsideClick(e) {
@@ -59,10 +54,6 @@ function AgreementRecord({
       await updateAgreementStatus(agreement?.id, status);
       await onSuccess();
       if (status === "SENT TO CLIENT") {
-        // const agreementLink = `${import.meta.env.VITE_SITE_URL}/contracts/${
-        //   agreement?.id
-        // }`;
-        // console.log({ agreementLink });
         return setFlash({
           message: "Agreement sent to client successfully",
           type: "success",
@@ -140,7 +131,6 @@ function AgreementRecord({
                   src="/3dots.png"
                   alt="options"
                   className={styles.optionsToggle}
-                  // onClick={() => setShowOptions(true)}
                 />
               </div>
             )}

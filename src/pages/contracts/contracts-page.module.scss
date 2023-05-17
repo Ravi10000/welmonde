@@ -68,10 +68,27 @@
       font-weight: 500;
     }
     .resendOtp {
+      display: flex;
+      align-items: center;
+      gap: 5px;
       cursor: pointer;
       span {
         color: var(--mainBrandColor);
       }
     }
+    .loader {
+      border: 2px solid var(--mainBrandColor);
+      border-top: 2px solid transparent;
+      border-right: 2px solid transparent;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      animation: spinLoader 0.5s linear infinite;
+    }
+  }
+}
+@keyframes spinLoader {
+  to {
+    transform: rotate(360deg);
   }
 }

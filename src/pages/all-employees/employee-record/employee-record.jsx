@@ -20,7 +20,7 @@ function EmployeeRecord({
     try {
       await deleteUser(employee?.uid);
       setFlash({
-        message: "Admin deleted successfully",
+        message: "Employee deleted successfully",
         type: "success",
       });
       await handleFetchEmployees();
@@ -29,6 +29,8 @@ function EmployeeRecord({
         message: err.message,
         type: "error",
       });
+    } finally {
+      setIsDeleting(false);
     }
   }
   return (

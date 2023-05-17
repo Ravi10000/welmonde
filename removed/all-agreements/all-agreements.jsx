@@ -1,7 +1,7 @@
 import styles from "./all-agreements.module.scss";
-import { fetchAllAgreements } from "../../firebase/auth";
+import { fetchAllAgreements } from "../../src/firebase/auth";
 import { useEffect, useState } from "react";
-import ViewAgreementPopup from "../employee/my-agreements/view-agreement-popup/view-agreement-popup";
+import ViewAgreementPopup from "../../src/pages/employee/my-agreements/view-agreement-popup/view-agreement-popup";
 
 function AllAgreements() {
   const [agreements, setAgreements] = useState([]);
