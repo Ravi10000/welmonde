@@ -63,20 +63,6 @@ function AllEmployeesPage({ setFlash }) {
           employeeToEdit={employeeToEdit}
         />
       )}
-      {/* <section className={styles.cardsContainer}>
-        <div className={styles.card}>
-          <p>{employees?.length}</p>
-          <h4>Total Employees</h4>
-        </div>
-        <div className={styles.card}>
-          <p>{totalContractsGenerated}</p>
-          <h4>Contracts Generated</h4>
-        </div>
-        <div className={styles.card}>
-          <p>{totalContractsVerified}</p>
-          <h4>Contracts Signed</h4>
-        </div>
-      </section> */}
       <DataCardList>
         <DataCard
           data={employees?.length}

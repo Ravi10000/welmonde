@@ -288,36 +288,12 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
         </form>
       )}
 
-      {/* <section className={styles.cardsContainer}>
-        <div className={styles.card}>
-          <p>{clients?.length}</p>
-          <h4>Total Clients</h4>
-        </div>
-        <div className={styles.card}>
-            <p>1200</p>
-            <h4>Contracts Signed</h4>
-          </div>
-          <div className={styles.card}>
-            <p>120</p>
-            <h4>OTP Verified</h4>
-          </div>
-      </section> */}
       <DataCardList>
         <DataCard
           data={clients?.length}
           title="No. of Clients"
           icon="/card-icons/user (1).png"
         />
-        {/* <DataCard
-          data={totalContractsGenerated}
-          title="Contracts Generated"
-          icon="/card-icons/copy.png"
-        />
-        <DataCard
-          data={totalContractsVerified}
-          title="Contracts Verified"
-          icon="/card-icons/verify.png"
-        /> */}
       </DataCardList>
       <div className={styles.cardsAndBtn}>
         <h1 className="__pageHeading __subColorHeading">
@@ -328,7 +304,10 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
           fit
           icon={"/add-user.png"}
           hoverIcon={"/add-user-hover.png"}
-          onClick={() => setShowInitialPopup(true)}
+          onClick={() => {
+            setClientToEdit(null);
+            setShowInitialPopup(true);
+          }}
         >
           <p>Add Client</p>
         </Button>

@@ -83,29 +83,6 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
         />
       )}
       <main className={styles.pageContent}>
-        {/* <section className={styles.cardsContainer}>
-          <div className={styles.card}>
-            <p>{agreements?.length}</p>
-            <h4>Total Agreements</h4>
-          </div>
-          <div className={styles.card}>
-            <p>{noOfVerifed}</p>
-            <h4>Agreements Verified</h4>
-          </div>
-
-          <div className={styles.card}>
-            <p>{noOfSent}</p>
-            <h4>Agreements Sent to Client</h4>
-          </div>
-          <div className={styles.card}>
-            <p>{noOfFollowedUp}</p>
-            <h4>Agreements Followed Up</h4>
-          </div>
-          <div className={styles.card}>
-            <p>{noOfDenied}</p>
-            <h4>Agreements Denied</h4>
-          </div>
-        </section> */}
         <DataCardList>
           <DataCard
             data={agreements?.length}
@@ -114,29 +91,24 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
           />
           <DataCard
             data={noOfVerifed}
-            title="Agreement Verified"
+            title="Agreements Verified"
             icon="/card-icons/file.png"
           />
           <DataCard
             data={noOfSent}
-            title="Agreement Sent to Client"
-            icon="/card-icons/file.png"
+            title="Agreements Sent to Client"
+            icon="/card-icons/send.png"
           />
           <DataCard
             data={noOfFollowedUp}
-            title="Agreement Followed Up"
-            icon="/card-icons/file.png"
+            title="Agreements Followed Up"
+            icon="/card-icons/followers.png"
           />
           <DataCard
             data={noOfDenied}
-            title="Agreement Denied"
-            icon="/card-icons/file.png"
+            title="Agreements Denied"
+            icon="/card-icons/denied.png"
           />
-          {/* <DataCard
-            data={totalContractsVerified}
-            title="Contracts Verified"
-            icon="/card-icons/verify.png"
-          /> */}
         </DataCardList>
         <div className={styles.head}>
           <h1 className="__pageHeading __subColorHeading">
