@@ -58,6 +58,7 @@ function AgreementRecord({
       const agreementLink = `${import.meta.env.VITE_SITE_URL}/contracts/${
         agreement?.id
       }`;
+      console.log("sending via phone", { agreementLink });
       const client = await fetchClienDetails(agreement?.clientId);
       console.log({ client });
       await sendAgreementViaPhone(client?.mobile, agreementLink);

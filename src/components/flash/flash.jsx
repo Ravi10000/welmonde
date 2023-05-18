@@ -11,7 +11,7 @@ const Flash = ({ message, type, clearFlash }) => {
     const clearFlashTimeout = setTimeout(function () {
       clearFlash();
       // console.log("cleared");
-    }, 5000);
+    }, 8000);
     return () => {
       clearTimeout(clearFlashTimeout);
     };

@@ -11,6 +11,9 @@ import {
   EditClientDetails,
   fetchUser,
   fetchUserByPhone,
+  fetchUserByEmail,
+  fetchClientByPhone,
+  fetchClientByEmail,
 } from "../../firebase/auth";
 import { useForm } from "react-hook-form";
 import { setFlash } from "../../redux/flash/flash.actions";
@@ -82,7 +85,29 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
         // if (clients.length) {
         //   data.userId = clients[0]?.id;
         // }
+        let existingClient = await fetchClientByPhone(data.mobile);
+        console.log({ existingClient });
+
+        if (existingClient.length > 0)
+          return setFlash({
+            message: "Client already exists with that mobile number.",
+            type: "error",
+          });
+
+        existingClient = await fetchClientByEmail(data.email);
+        console.log({ existingClient });
+        if (existingClient.length > 0)
+          return setFlash({
+            message: "Client already exists with that email address.",
+            type: "error",
+          });
         const userSnapshot = await addNewClient(data);
+        if (userSnapshot?.error) {
+          return setFlash({
+            message: userSnapshot?.error,
+            type: "error",
+          });
+        }
         if (userSnapshot.id) {
           reset();
           setUserId(userSnapshot?.id);

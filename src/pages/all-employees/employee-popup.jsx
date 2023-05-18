@@ -2,7 +2,12 @@ import Popup from "../../components/popup/popup";
 import TextInput from "../../components/text-input/text-input";
 import NumInput from "../../components/num-input/num-input";
 import { useForm } from "react-hook-form";
-import { createUserProfile, updateUserDetails } from "../../firebase/auth";
+import {
+  createUserProfile,
+  fetchUserByEmail,
+  fetchUserByPhone,
+  updateUserDetails,
+} from "../../firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setFlash } from "../../redux/flash/flash.actions";
 import { detatchAuth } from "../../firebase";
@@ -47,6 +52,18 @@ function EmployeePopup({
     const { fname, lname, email, mobile, password } = data;
     try {
       if (!employeeToEdit) {
+        let existingEmployee = await fetchUserByEmail(email);
+        if (existingEmployee.length > 0)
+          return setFlash({
+            message: "Employee with this email address already exists.",
+            type: "error",
+          });
+        existingEmployee = await fetchUserByPhone(mobile);
+        if (existingEmployee.length > 0)
+          return setFlash({
+            message: "Employee with this moblie number already exists.",
+            type: "error",
+          });
         const { user } = await createUserWithEmailAndPassword(
           detatchAuth,
           email,
@@ -117,21 +134,13 @@ function EmployeePopup({
         />
 
         <NumInput
-          maxLength={10}
+          maxLength={16}
           label="Mobile Number"
-          placeholder="Enter Admin Mobile Number"
+          placeholder="Enter Employee Mobile Number"
           error={errors?.mobile?.message}
           register={{
             ...register("mobile", {
               required: "Enter Mobile Number",
-              minLength: {
-                value: 10,
-                message: "Mobile Number should be 10 digits",
-              },
-              maxLength: {
-                value: 10,
-                message: "Mobile Number should be 10 digits",
-              },
             }),
           }}
         />
@@ -139,7 +148,7 @@ function EmployeePopup({
           <>
             <TextInput
               label="Email"
-              placeholder="Enter Admin Email Id"
+              placeholder="Enter Employee Email Id"
               error={errors?.email?.message}
               register={{
                 ...register("email", {
@@ -154,7 +163,7 @@ function EmployeePopup({
             <TextInput
               label="Password"
               type="password"
-              placeholder="Enter Admin Password"
+              placeholder="Enter Employee Password"
               error={errors?.password?.message}
               register={{
                 ...register("password", {

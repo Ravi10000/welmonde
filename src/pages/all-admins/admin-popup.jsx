@@ -2,7 +2,11 @@ import Popup from "../../components/popup/popup";
 import TextInput from "../../components/text-input/text-input";
 import NumInput from "../../components/num-input/num-input";
 import { useForm } from "react-hook-form";
-import { createUserProfile } from "../../firebase/auth";
+import {
+  createUserProfile,
+  fetchUserByEmail,
+  fetchUserByPhone,
+} from "../../firebase/auth";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setFlash } from "../../redux/flash/flash.actions";
@@ -48,6 +52,18 @@ function AdminPopup({
     const { fname, lname, email, mobile, password } = data;
     try {
       if (!adminToEdit) {
+        let existingEmployee = await fetchUserByEmail(email);
+        if (existingEmployee.length > 0)
+          return setFlash({
+            message: "Admin with this email address already exists.",
+            type: "error",
+          });
+        existingEmployee = await fetchUserByPhone(mobile);
+        if (existingEmployee.length > 0)
+          return setFlash({
+            message: "Admin with this moblie number already exists.",
+            type: "error",
+          });
         const { user } = await createUserWithEmailAndPassword(
           detatchAuth,
           email,
@@ -126,21 +142,13 @@ function AdminPopup({
         />
 
         <NumInput
-          maxLength={10}
+          maxLength={16}
           label="Mobile Number"
           placeholder="Enter Admin Mobile Number"
           error={errors?.mobile?.message}
           register={{
             ...register("mobile", {
               required: "Enter Mobile Number",
-              minLength: {
-                value: 10,
-                message: "Mobile Number should be 10 digits",
-              },
-              maxLength: {
-                value: 10,
-                message: "Mobile Number should be 10 digits",
-              },
             }),
           }}
         />

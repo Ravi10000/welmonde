@@ -211,3 +211,23 @@ export const fetchUserByPhone = async (phone) => {
     return { error: err.message };
   }
 };
+export const fetchUserByEmail = async (email) => {
+  try {
+    const q = query(collection(db, "users"), where("email", "==", email));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  } catch (err) {
+    console.log({ err });
+    return { error: err.message };
+  }
+};
+export const fetchClientByEmail = async (email) => {
+  try {
+    const q = query(collection(db, "clients"), where("email", "==", email));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  } catch (err) {
+    console.log({ err });
+    return { error: err.message };
+  }
+};
