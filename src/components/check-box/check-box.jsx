@@ -8,13 +8,8 @@ function CheckBox({ label, register, defaultChecked, ...otherProps }) {
   // console.log({ checked });
   return (
     <div className={`${styles.checkbox} ${checked ? styles.active : ""}`}>
-      <div
-        className={`${styles.check} ${checked ? styles.active : ""}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          setChecked((prevState) => !prevState);
-        }}
-      ></div>
+      <label className={styles.overlay} htmlFor={id}></label>
+      <div className={`${styles.check} ${checked ? styles.active : ""}`}></div>
       <input
         type="checkbox"
         value={label.toLowerCase()}

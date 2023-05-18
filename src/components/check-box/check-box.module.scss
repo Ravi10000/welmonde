@@ -6,6 +6,7 @@
   align-items: center;
   border: 2px solid var(--fadeGray);
   cursor: pointer;
+  position: relative;
   &.active {
     border-color: var(--mainBrandColor);
   }
@@ -15,6 +16,14 @@
   label {
     cursor: pointer;
     text-transform: capitalize;
+  }
+  .overlay {
+    background: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
   }
 }
 
