@@ -61,6 +61,7 @@ function App({ setCurrentUser, flash }) {
     });
   }
   useEffect(() => {
+    console.log({ siteUrl: import.meta.env.VITE_SITE_URL });
     handleCheckAuth();
   }, []);
   useEffect(() => {
