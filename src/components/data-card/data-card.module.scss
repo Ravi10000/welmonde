@@ -1,0 +1,28 @@
+.dataCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  border-radius: 10px;
+  gap: 5px;
+  padding: 20px;
+  // border: 1px solid var(--fadeGray);
+  // box-shadow: 0px 1px 2px #009985;
+  // box-shadow: 0.5px 1px 2px #009985a4;
+  box-shadow: 0px 2px 10px -2px rgba(0, 153, 133, 0.5);
+  color: var(--subBrandColor);
+  width: 150px;
+  aspect-ratio: 1/1;
+  color: #000;
+  .icon {
+    align-self: flex-start;
+    height: 20px;
+    width: fit-content;
+  }
+  .data {
+    font-size: 2.5rem;
+  }
+  .title {
+    font-size: 0.9rem;
+  }
+}

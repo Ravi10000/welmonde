@@ -20,6 +20,8 @@ import ClientRecord from "./client-record/client-record";
 import { verticals } from "../../data/verticals";
 import { fetchMyClients } from "../../firebase/employee";
 import { fetchAgreementsByClientId } from "../../firebase/agreement";
+import DataCardList from "../../components/data-card-list/data-card-list";
+import DataCard from "../../components/data-card/data-card";
 
 function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
   const [clients, setClients] = useState([]);
@@ -49,7 +51,7 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
 
   async function handleFetchClients() {
     // const clients = await fetchAllClients();
-    console.log({uid: currentUser?.uid});
+    console.log({ uid: currentUser?.uid });
     const clients = await fetchMyClients(
       adminPrivilages ? null : currentUser?.uid
     );
@@ -286,20 +288,37 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
         </form>
       )}
 
-      <section className={styles.cardsContainer}>
+      {/* <section className={styles.cardsContainer}>
         <div className={styles.card}>
           <p>{clients?.length}</p>
           <h4>Total Clients</h4>
         </div>
-        {/* <div className={styles.card}>
+        <div className={styles.card}>
             <p>1200</p>
             <h4>Contracts Signed</h4>
           </div>
           <div className={styles.card}>
             <p>120</p>
             <h4>OTP Verified</h4>
-          </div> */}
-      </section>
+          </div>
+      </section> */}
+      <DataCardList>
+        <DataCard
+          data={clients?.length}
+          title="No. of Clients"
+          icon="/card-icons/user (1).png"
+        />
+        {/* <DataCard
+          data={totalContractsGenerated}
+          title="Contracts Generated"
+          icon="/card-icons/copy.png"
+        />
+        <DataCard
+          data={totalContractsVerified}
+          title="Contracts Verified"
+          icon="/card-icons/verify.png"
+        /> */}
+      </DataCardList>
       <div className={styles.cardsAndBtn}>
         <h1 className="__pageHeading __subColorHeading">
           {adminPrivilages ? "All" : "My"} Clients

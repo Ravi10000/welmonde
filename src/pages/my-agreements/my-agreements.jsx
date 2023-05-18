@@ -8,6 +8,8 @@ import AgreementRecord from "./agreement-record/agreement-record";
 import AddAgreementsPopup from "../../components/add-agreements-popup/add-agreements-popup";
 import ViewAgreementPopup from "./view-agreement-popup/view-agreement-popup";
 import OtpPopup from "../../components/otp-popup/otp-popup";
+import DataCardList from "../../components/data-card-list/data-card-list";
+import DataCard from "../../components/data-card/data-card";
 
 function MyAgreementsPage({ currentUser, adminPrivilages }) {
   const [agreements, setAgreements] = useState([]);
@@ -81,7 +83,7 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
         />
       )}
       <main className={styles.pageContent}>
-        <section className={styles.cardsContainer}>
+        {/* <section className={styles.cardsContainer}>
           <div className={styles.card}>
             <p>{agreements?.length}</p>
             <h4>Total Agreements</h4>
@@ -103,7 +105,39 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
             <p>{noOfDenied}</p>
             <h4>Agreements Denied</h4>
           </div>
-        </section>
+        </section> */}
+        <DataCardList>
+          <DataCard
+            data={agreements?.length}
+            title="No. of Agreements"
+            icon="/card-icons/document.png"
+          />
+          <DataCard
+            data={noOfVerifed}
+            title="Agreement Verified"
+            icon="/card-icons/file.png"
+          />
+          <DataCard
+            data={noOfSent}
+            title="Agreement Sent to Client"
+            icon="/card-icons/file.png"
+          />
+          <DataCard
+            data={noOfFollowedUp}
+            title="Agreement Followed Up"
+            icon="/card-icons/file.png"
+          />
+          <DataCard
+            data={noOfDenied}
+            title="Agreement Denied"
+            icon="/card-icons/file.png"
+          />
+          {/* <DataCard
+            data={totalContractsVerified}
+            title="Contracts Verified"
+            icon="/card-icons/verify.png"
+          /> */}
+        </DataCardList>
         <div className={styles.head}>
           <h1 className="__pageHeading __subColorHeading">
             {adminPrivilages ? "All" : "My"} Agreements

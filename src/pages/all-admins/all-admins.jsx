@@ -7,6 +7,8 @@ import { fetchAllAdmins } from "../../firebase/admin";
 import AdminRecord from "./admin-record/admin-record";
 import AdminPopup from "./admin-popup";
 import { fetchMyAgreements } from "../../firebase/employee";
+import DataCardList from "../../components/data-card-list/data-card-list";
+import DataCard from "../../components/data-card/data-card";
 
 function AllAdminsPage({ setFlash }) {
   const [showPopup, setShowPopup] = useState(false);
@@ -69,7 +71,7 @@ function AllAdminsPage({ setFlash }) {
           }}
         />
       )}
-      <section className={styles.cardsContainer}>
+      {/* <section className={styles.cardsContainer}>
         <div className={styles.card}>
           <p>{admins?.length}</p>
           <h4>Total Admins</h4>
@@ -82,7 +84,24 @@ function AllAdminsPage({ setFlash }) {
           <p>{totalContractsVerified}</p>
           <h4>Contracts Signed</h4>
         </div>
-      </section>
+      </section> */}
+      <DataCardList>
+        <DataCard
+          data={admins?.length}
+          title="No. of Admins"
+          icon="/card-icons/user (1).png"
+        />
+        <DataCard
+          data={totalContractsGenerated}
+          title="Contracts Generated"
+          icon="/card-icons/copy.png"
+        />
+        <DataCard
+          data={totalContractsVerified}
+          title="Contracts Verified"
+          icon="/card-icons/verify.png"
+        />
+      </DataCardList>
       <div className={styles.head}>
         <h1 className="__pageHeading __subColorHeading">All Admins</h1>
         <Button
