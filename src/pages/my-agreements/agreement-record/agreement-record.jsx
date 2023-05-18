@@ -50,6 +50,7 @@ function AgreementRecord({
       const agreementLink = `${import.meta.env.VITE_SITE_URL}/contracts/${
         agreement?.id
       }`;
+      console.log({ agreementLink });
       const client = await fetchClienDetails(agreement?.clientId);
       await sendAgreementViaEmail(client?.email, agreementLink);
     }
