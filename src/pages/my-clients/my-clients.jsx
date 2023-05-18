@@ -49,6 +49,7 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
 
   async function handleFetchClients() {
     // const clients = await fetchAllClients();
+    console.log({uid: currentUser?.uid});
     const clients = await fetchMyClients(
       adminPrivilages ? null : currentUser?.uid
     );
@@ -75,10 +76,10 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
     try {
       if (!clientToEdit) {
         data.createdBy = currentUser?.uid;
-        const clients = await fetchUserByPhone(data.mobile);
-        if (clients.length) {
-          data.userId = clients[0]?.id;
-        }
+        // const clients = await fetchUserByPhone(data.mobile);
+        // if (clients.length) {
+        //   data.userId = clients[0]?.id;
+        // }
         const userSnapshot = await addNewClient(data);
         if (userSnapshot.id) {
           reset();

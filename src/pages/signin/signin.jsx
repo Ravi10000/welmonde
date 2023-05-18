@@ -58,10 +58,10 @@ function SigninPage({ setCurrentUser, setFlash }) {
           mobile: userCredientials.user.phoneNumber,
           usertype: "CLIENT",
         });
-        const clients = await fetchClientByPhone(
-          userCredientials.user.phoneNumber
-        );
-        await updateClientsUserId(clients[0].id, userCredientials.user.uid);
+        // const clients = await fetchClientByPhone(
+        //   userCredientials.user.phoneNumber
+        // );
+        // await updateClientsUserId(clients[0].id, userCredientials.user.uid);
       }
       // setCurrentUser(userCredientials?.user);
       setCurrentUser({

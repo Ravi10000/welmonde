@@ -63,6 +63,7 @@ export const deleteAgreement = async (agreementId) => {
 };
 
 export const fetchMyClients = async (uid) => {
+  console.log({uid});
   let q = query(collection(db, "clients"));
   if (uid) q = query(collection(db, "clients"), where("createdBy", "==", uid));
   const snapshot = await getDocs(q);
