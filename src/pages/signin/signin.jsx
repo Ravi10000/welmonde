@@ -21,6 +21,7 @@ import { connect } from "react-redux";
 import { setFlash } from "../../redux/flash/flash.actions";
 import OtpGroup from "../../components/otp-group/otp-group";
 import SignInHero from "../../components/sign-in-hero/sign-in-hero";
+import TodquestMessage from "../../components/todquest-message/todquest-message";
 
 function SigninPage({ setCurrentUser, setFlash }) {
   const navigate = useNavigate();
@@ -103,6 +104,8 @@ function SigninPage({ setCurrentUser, setFlash }) {
         </div>
       </section> */}
       <SignInHero />
+      <TodquestMessage />
+
       <section className={styles.signinSection}>
         <div className={styles.headings}>
           <h1 className="__subColorHeading">Get Started</h1>

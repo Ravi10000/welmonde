@@ -10,6 +10,7 @@ import { setFlash } from "../../redux/flash/flash.actions";
 import TextInput from "../../components/text-input/text-input";
 import { useForm } from "react-hook-form";
 import SignInHero from "../../components/sign-in-hero/sign-in-hero";
+import TodquestMessage from "../../components/todquest-message/todquest-message";
 
 function AdminSigninPage({ setCurrentUser, setFlash }) {
   const {
@@ -59,6 +60,8 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
   return (
     <div className={styles.signinPage}>
       <SignInHero />
+      <TodquestMessage />
+
       <section className={styles.signinSection}>
         <div className={styles.headings}>
           <h1>Admin / Employee Sign in</h1>

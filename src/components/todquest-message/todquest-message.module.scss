@@ -1,0 +1,11 @@
+.msg {
+  text-decoration: none;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: #000;
+  z-index: 10000;
+  &:hover {
+    color: var(--mainBrandColor);
+  }
+}
