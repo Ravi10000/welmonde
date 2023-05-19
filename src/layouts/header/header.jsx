@@ -14,8 +14,7 @@ function Header({ currentUser }) {
         alt=""
         onClick={() => navigate("/")}
       />
-      {currentUser ? (
-        // currentUser?.usertype === "ADMIN" ? (
+      {/* {currentUser ? (
         <Button
           fit
           outlined
@@ -32,12 +31,6 @@ function Header({ currentUser }) {
           Dashboard
         </Button>
       ) : (
-        // )
-        // : (
-        //   <Button fit outlined onClick={() => navigate("/profile")}>
-        //     Profile
-        //   </Button>
-        // )
         <div className={styles.btnsContainer}>
           <Button fit outlined onClick={() => navigate("/signin")}>
             Get Started
@@ -46,7 +39,7 @@ function Header({ currentUser }) {
             Admin / Employee
           </Button>
         </div>
-      )}
+      )} */}
     </header>
   );
 }

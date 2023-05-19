@@ -16,12 +16,14 @@ export const fetchMyAgreements = async (agreementId) => {
   return snapshot.data();
 };
 
-export const fetchAgreementsByClientId = async (clientId) => {
+export const fetchAgreementsByPhone = async (phone) => {
   // console.log({ clientId });
-  // const client = await fetchClientByPhone(phone);
+  const clients = await fetchClientByPhone(phone);
+  console.log({ client: clients?.[0]?.id });
+  if (clients.length === 0) return [];
   const q = query(
     collection(db, "agreements"),
-    where("clientId", "==", clientId)
+    where("clientId", "==", clients[0]?.id)
   );
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));

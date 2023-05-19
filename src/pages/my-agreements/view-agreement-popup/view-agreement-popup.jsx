@@ -1,15 +1,27 @@
 import styles from "./view-agreement-popup.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Backdrop from "../../../components/backdrop/backdrop";
 import PdfViewer from "../../../components/pdf-viewer/pdf-viewer";
+import { fetchClienDetails } from "../../../firebase/auth";
 
 function ViewAgreementPopup({ agreement, closeAgreement }) {
   const [contract, setContract] = useState(false);
+  const [clientDetails, setClientDetails] = useState(null);
   console.log({ agreement });
   console.log({ contract });
   const addedOnDate = new Date(agreement?.createdAt).toDateString();
   const addedOnTime = new Date(agreement?.createdAt).toLocaleTimeString();
+
+  const handleFetchClientDetails = async () => {
+    console.log({ clientId: agreement?.clientId });
+    const client = await fetchClienDetails(agreement?.clientId);
+    console.log({ client });
+    setClientDetails(client);
+  };
+  useEffect(() => {
+    handleFetchClientDetails();
+  }, []);
   return (
     <>
       {contract && (
@@ -42,6 +54,16 @@ function ViewAgreementPopup({ agreement, closeAgreement }) {
               <h3>Representative Name:</h3>
               <p>{agreement?.representativeName}</p>
             </div>
+            <div className={styles.data}>
+              <h3>Phone Number:</h3>
+              <p>{clientDetails?.mobile}</p>
+            </div>
+            {clientDetails?.email && (
+              <div className={styles.data}>
+                <h3>Email:</h3>
+                <p>{clientDetails?.email}</p>
+              </div>
+            )}
             <div className={styles.data}>
               <h3>Address:</h3>
               <p>{agreement?.clientAddress}</p>

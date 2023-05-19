@@ -9,6 +9,7 @@ import { setCurrentUser } from "../../redux/user/user.actions";
 import { setFlash } from "../../redux/flash/flash.actions";
 import TextInput from "../../components/text-input/text-input";
 import { useForm } from "react-hook-form";
+import SignInHero from "../../components/sign-in-hero/sign-in-hero";
 
 function AdminSigninPage({ setCurrentUser, setFlash }) {
   const {
@@ -57,12 +58,11 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
   }
   return (
     <div className={styles.signinPage}>
-      <section className={styles.signinHero}></section>
+      <SignInHero />
       <section className={styles.signinSection}>
-        <div className={styles.content}>
-          <img className={styles.logo} src="/logo-transparent.png" alt="" />
+        <div className={styles.headings}>
+          <h1>Admin / Employee Sign in</h1>
         </div>
-        <h1>Admin / Employee Sign in</h1>
         <form onSubmit={handleSubmit(handleSignInAdmin)} noValidate>
           <div className={styles.inputsContainer}>
             <TextInput

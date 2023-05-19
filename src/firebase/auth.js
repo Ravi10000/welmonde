@@ -191,9 +191,9 @@ export const fetchClientByPhone = async (phone) => {
     return { error: err.message };
   }
 };
-export const updateClientsUserId = async (mobile, uid) => {
+export const updateClientsUserId = async (clientId, uid) => {
   try {
-    const q = query(doc(db, "clients", clienId));
+    const q = query(doc(db, "clients", clientId));
     const updatedClient = await setDoc(q, { userId: uid }, { merge: true });
     return updatedClient;
   } catch (err) {

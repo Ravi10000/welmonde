@@ -66,7 +66,7 @@ function App({ setCurrentUser, flash }) {
   }, []);
   useEffect(() => {
     if (pathname === "/") {
-      setHideHeader(true);
+      // setHideHeader(true);
       return setIsPostLogin(false);
     } else {
       setHideHeader(false);
@@ -214,7 +214,7 @@ function App({ setCurrentUser, flash }) {
             path="/"
             element={
               <IsNotSignedIn>
-                <HomePage />
+                <SigninPage />
               </IsNotSignedIn>
             }
           />

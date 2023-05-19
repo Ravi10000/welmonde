@@ -20,6 +20,7 @@ import { setCurrentUser } from "../../redux/user/user.actions";
 import { connect } from "react-redux";
 import { setFlash } from "../../redux/flash/flash.actions";
 import OtpGroup from "../../components/otp-group/otp-group";
+import SignInHero from "../../components/sign-in-hero/sign-in-hero";
 
 function SigninPage({ setCurrentUser, setFlash }) {
   const navigate = useNavigate();
@@ -54,6 +55,15 @@ function SigninPage({ setCurrentUser, setFlash }) {
       let user = await fetchUser(userCredientials.user.uid);
       console.log({ user });
       if (!user) {
+        // const existingClients = await fetchClientByPhone(phone);
+        // console.log({ existingClients });
+        // if (existingClients.length > 0) {
+        // if (!existingClients[0].userId)
+        // await updateClientsUserId(
+        // existingClients[0].id,
+        // userCredientials.user.uid
+        // );
+        // }
         user = await createClientProfile(userCredientials.user.uid, {
           mobile: userCredientials.user.phoneNumber,
           usertype: "CLIENT",
@@ -82,15 +92,22 @@ function SigninPage({ setCurrentUser, setFlash }) {
   useEffect(() => {
     otp.length === 6 && setValidOtp(true);
   }, [otp]);
+
   return (
     <div className={styles.signinPage}>
-      <section className={styles.signinHero}></section>
-      <section className={styles.signinSection}>
+      {/* <section className={styles.signinHero}>
         <div className={styles.content}>
-          <img className={styles.logo} src="/logo-transparent.png" alt="" />
-          <h1 className="__subColorHeading">Get Started</h1>
+          <h1 className={styles.tagLine}>
+            Nation's Largest Health Care Platform
+          </h1>
         </div>
-        <h2>Sign in / Sign up</h2>
+      </section> */}
+      <SignInHero />
+      <section className={styles.signinSection}>
+        <div className={styles.headings}>
+          <h1 className="__subColorHeading">Get Started</h1>
+          <h2>Sign in / Sign up</h2>
+        </div>
         <div className={styles.inputsContainer}>
           {!otpSent ? (
             <>

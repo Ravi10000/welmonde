@@ -9,9 +9,9 @@ import {
   updateClientDetails,
   addNewClient,
   EditClientDetails,
-  fetchUser,
-  fetchUserByPhone,
-  fetchUserByEmail,
+  // fetchUser,
+  // fetchUserByPhone,
+  // fetchUserByEmail,
   fetchClientByPhone,
   fetchClientByEmail,
 } from "../../firebase/auth";
@@ -22,7 +22,7 @@ import CheckBox from "../../components/check-box/check-box";
 import ClientRecord from "./client-record/client-record";
 import { verticals } from "../../data/verticals";
 import { fetchMyClients } from "../../firebase/employee";
-import { fetchAgreementsByClientId } from "../../firebase/agreement";
+import { fetchAgreementsByPhone } from "../../firebase/agreement";
 import DataCardList from "../../components/data-card-list/data-card-list";
 import DataCard from "../../components/data-card/data-card";
 
@@ -36,7 +36,14 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
     reset,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      fname: "rvi",
+      lname: "rvi",
+      email: "",
+      mobile: "+919560863067",
+    },
+  });
 
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [isUpdatingUser, setIsUpdatingUser] = useState(false);
@@ -50,6 +57,7 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
     resetField("fname");
     resetField("lname");
     resetField("email");
+    resetField("mobile");
   }
 
   async function handleFetchClients() {
@@ -61,7 +69,7 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
 
     const updatedClients = await Promise.all(
       clients.map(async (client) => {
-        const res = await fetchAgreementsByClientId(client.id);
+        const res = await fetchAgreementsByPhone(client.id);
         let verified = 0;
         let generated = 0;
         res?.forEach((agreement) => {
@@ -81,10 +89,6 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
     try {
       if (!clientToEdit) {
         data.createdBy = currentUser?.uid;
-        // const clients = await fetchUserByPhone(data.mobile);
-        // if (clients.length) {
-        //   data.userId = clients[0]?.id;
-        // }
         let existingClient = await fetchClientByPhone(data.mobile);
         console.log({ existingClient });
 
@@ -94,13 +98,26 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
             type: "error",
           });
 
-        existingClient = await fetchClientByEmail(data.email);
+        if (data.email) existingClient = await fetchClientByEmail(data.email);
         console.log({ existingClient });
         if (existingClient.length > 0)
           return setFlash({
             message: "Client already exists with that email address.",
             type: "error",
           });
+
+        // const existingUsers = await fetchUserByPhone(data.mobile);
+        // console.log({ existingUsers });
+        // if (existingUsers.length > 0) {
+        //   if (existingUsers[0].usertype === "CLIENT")
+        //     data.userId = existingUsers[0]?.id;
+        //   else
+        //     return setFlash({
+        //       message: `User already exists as an ${existingUsers[0]?.usertype}`,
+        //       type: "error",
+        //     });
+        // }
+        // console.log({ data });
         const userSnapshot = await addNewClient(data);
         if (userSnapshot?.error) {
           return setFlash({
@@ -219,7 +236,7 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
               error={errors?.email?.message}
               register={{
                 ...register("email", {
-                  required: "Enter Email Id",
+                  // required: "Enter Email Id",
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                     message: "Not a valid Email Id",

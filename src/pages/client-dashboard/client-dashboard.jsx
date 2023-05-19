@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { setCurrentUser } from "../../redux/user/user.actions";
 import { setFlash } from "../../redux/flash/flash.actions";
 import { useEffect, useState } from "react";
-import { fetchAgreementsByClientId } from "../../firebase/agreement";
+import { fetchAgreementsByPhone } from "../../firebase/agreement";
 import { useNavigate } from "react-router-dom";
 
 function ClientDashboard({ currentUser, setCurrentUser, setFlash }) {
@@ -31,10 +31,8 @@ function ClientDashboard({ currentUser, setCurrentUser, setFlash }) {
   async function handleFetchMyAgreements() {
     console.log("fetching agreements");
     // const agreements = await fetchAgreementsByClientId(currentUser.uid);
-    const agreements = await fetchAgreementsByClientId(
-      currentUser.uid,
-      currentUser.phone
-    );
+    const agreements = await fetchAgreementsByPhone(currentUser.mobile);
+    console.log({ agreements });
     setAgreements(agreements);
   }
 

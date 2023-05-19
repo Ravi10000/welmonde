@@ -9,7 +9,7 @@ function IsAdmin({ currentUser, isLoading, children }) {
   useEffect(() => {
     if (!isLoading && currentUser?.usertype !== "ADMIN") {
       console.log("not admin, redirecting to homepage");
-      navigate("/");
+      navigate("/admin/signin");
     }
   }, [isLoading, currentUser]);
 
