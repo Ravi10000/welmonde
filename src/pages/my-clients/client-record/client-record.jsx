@@ -60,6 +60,7 @@ function ClientRecord({
         <Actions
           handleDelete={handleDelete}
           handleEdit={() => {
+            console.log({ client });
             setClientToEdit(client);
             openPopup();
           }}

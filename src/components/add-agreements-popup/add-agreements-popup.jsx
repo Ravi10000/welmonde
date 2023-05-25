@@ -88,7 +88,6 @@ function AddAgreementsPopup({
   async function handleUpdateAgreementDetails(data) {
     setIsLoading(true);
     console.log("updating agreement details");
-    data.updatedAt = new Date().toISOString();
     data.updatedBy = currentUser?.uid;
     // data.employeeId = currentUser?.uid;
     // data.verificationOtp = Math.floor(1000 + Math.random() * 9000);

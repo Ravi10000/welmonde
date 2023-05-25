@@ -28,7 +28,16 @@ function AdminPopup({
     watch,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      fname: adminToEdit?.fname || "",
+      lname: adminToEdit?.lname || "",
+      email: adminToEdit?.email || "",
+      mobile: adminToEdit?.mobile || "",
+      password: adminToEdit ? "" : "",
+      confirmPassword: adminToEdit ? "" : "",
+    },
+  });
   // {
   //   defaultValues: {
   //     fname: adminToEdit?.fname || "test",

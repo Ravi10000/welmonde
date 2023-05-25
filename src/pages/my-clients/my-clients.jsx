@@ -29,6 +29,7 @@ import DataCard from "../../components/data-card/data-card";
 function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
   const [clients, setClients] = useState([]);
   const [clientToEdit, setClientToEdit] = useState(null);
+  console.log({ clientToEdit });
   const {
     register,
     handleSubmit,
@@ -36,14 +37,7 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
     reset,
     watch,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      fname: "rvi",
-      lname: "rvi",
-      email: "",
-      mobile: "+919560863067",
-    },
-  });
+  } = useForm();
 
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [isUpdatingUser, setIsUpdatingUser] = useState(false);
@@ -180,6 +174,7 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
     } catch (err) {
       console.log(err);
     } finally {
+      reset();
       setClientToEdit(null);
       setIsUpdatingUser(false);
       setShowDetailsPopup(false);
@@ -266,7 +261,15 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
           <Popup
             isLoading={isUpdatingUser}
             title={clientToEdit ? "Edit Client Details" : "Client Details"}
-            closePopup={() => setShowDetailsPopup(false)}
+            closePopup={() => {
+              reset();
+              // resetField("representativeName");
+              // resetField("lname");
+              // resetField("email");
+              // resetField("mobile");
+              setClientToEdit(null);
+              setShowDetailsPopup(false);
+            }}
           >
             <TextInput
               defaultValue={clientToEdit?.representativeName || ""}

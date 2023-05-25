@@ -56,6 +56,7 @@ export const createUserProfile = async (auth, additionalData) => {
         email,
         uid,
         createdAt: new Date(),
+        updatedAt: new Date(),
         ...additionalData,
       });
     } catch (err) {
@@ -69,7 +70,11 @@ export const createUserProfile = async (auth, additionalData) => {
 
 export const createClientProfile = async (uid, additionalData) => {
   try {
-    const newClient = await setDoc(doc(db, "users", uid), additionalData);
+    const newClient = await setDoc(doc(db, "users", uid), {
+      ...additionalData,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
     return newClient;
   } catch (err) {
     console.log(err);
@@ -111,7 +116,11 @@ export const fetchClienDetails = async (uid) => {
 
 export const addNewClient = async (clientData) => {
   try {
-    const docRef = await addDoc(collection(db, "clients"), clientData);
+    const docRef = await addDoc(collection(db, "clients"), {
+      ...clientData,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
     return docRef;
   } catch (error) {
     console.log(error);
@@ -124,10 +133,17 @@ export const updateClientDetails = async (userId, clientData) => {
     const snapshot = await getDoc(doc(db, "clients", userId));
     const existingData = snapshot.data();
 
-    const docRef = await setDoc(doc(db, "clients", userId), {
-      ...existingData,
-      ...clientData,
-    });
+    const docRef = await setDoc(
+      doc(db, "clients", userId),
+      {
+        ...existingData,
+        ...clientData,
+        updatedAt: new Date(),
+      },
+      {
+        merge: true,
+      }
+    );
     return docRef;
   } catch (error) {
     console.log(error);
@@ -136,9 +152,13 @@ export const updateClientDetails = async (userId, clientData) => {
 };
 export const updateUserDetails = async (userToEdit, userData) => {
   try {
-    const docRef = await setDoc(doc(db, "users", userToEdit.uid), userData, {
-      merge: true,
-    });
+    const docRef = await setDoc(
+      doc(db, "users", userToEdit.uid),
+      { ...userData, updatedAt: new Date() },
+      {
+        merge: true,
+      }
+    );
     return docRef;
   } catch (error) {
     console.log(error);
@@ -147,9 +167,13 @@ export const updateUserDetails = async (userToEdit, userData) => {
 };
 export const EditClientDetails = async (clientToEdit, newData) => {
   try {
-    const docRef = await setDoc(doc(db, "clients", clientToEdit.id), newData, {
-      merge: true,
-    });
+    const docRef = await setDoc(
+      doc(db, "clients", clientToEdit.id),
+      { ...newData, updatedAt: new Date() },
+      {
+        merge: true,
+      }
+    );
     return docRef;
   } catch (error) {
     console.log(error);

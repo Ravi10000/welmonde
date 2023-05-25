@@ -40,6 +40,7 @@ export const sendAgreementViaEmail = async (email, link) => {
 };
 
 export const sendAgreementViaPhone = async (phoneNumber, link) => {
+  console.log({ phoneNumber, link });
   try {
     await addDoc(collection(db, "messages"), {
       to: phoneNumber,
