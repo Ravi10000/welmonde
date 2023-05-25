@@ -202,9 +202,9 @@ function App({ setCurrentUser, flash }) {
             exact
             path="/contracts/:agreementId"
             element={
-              <IsUser isLoading={fetchingUser}>
-                <ContractsPage />
-              </IsUser>
+              // <IsUser isLoading={fetchingUser}>
+              <ContractsPage />
+              // </IsUser>
             }
           />
           {/* <Route path="admin/signout" element={<SignoutPage />} /> */}
