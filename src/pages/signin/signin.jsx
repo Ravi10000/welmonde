@@ -77,7 +77,7 @@ function SigninPage({ setCurrentUser, setFlash }) {
       }
       // setCurrentUser(userCredientials?.user);
       setCurrentUser({
-        phone: userCredientials.user.phoneNumber,
+        mobile: userCredientials.user.phoneNumber,
         uid: userCredientials.user.uid,
       });
       setFlash({

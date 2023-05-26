@@ -11,9 +11,8 @@ import { useNavigate } from "react-router-dom";
 function ClientDashboard({ currentUser, setCurrentUser, setFlash }) {
   const auth = getAuth();
   const navigate = useNavigate();
-  console.log({ currentUser });
   const [agreements, setAgreements] = useState([]);
-
+  console.log({ currentUser });
   console.log({ agreements });
   async function handleSignOut() {
     try {
@@ -30,15 +29,28 @@ function ClientDashboard({ currentUser, setCurrentUser, setFlash }) {
 
   async function handleFetchMyAgreements() {
     console.log("fetching agreements");
+    console.log({ currentUser });
     // const agreements = await fetchAgreementsByClientId(currentUser.uid);
-    const agreements = await fetchAgreementsByPhone(currentUser.mobile);
-    console.log({ agreements });
-    setAgreements(agreements);
+    try {
+      if (!currentUser) return;
+      const agreements = await fetchAgreementsByPhone(currentUser.mobile);
+      if (agreements?.error) {
+        setFlash({
+          type: "error",
+          message: agreements.error,
+        });
+        return;
+      }
+      setAgreements(agreements);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   useEffect(() => {
     handleFetchMyAgreements();
-  }, []);
+  }, [currentUser]);
+
   return (
     <div className={styles.dashboard}>
       <div className={styles.head}>

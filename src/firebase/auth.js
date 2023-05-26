@@ -205,9 +205,10 @@ export const fetchAllAgreements = async () => {
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
 
-export const fetchClientByPhone = async (phone) => {
+export const fetchClientByPhone = async (mobile) => {
+  if (!mobile) return console.log("no mobile");
   try {
-    const q = query(collection(db, "clients"), where("mobile", "==", phone));
+    const q = query(collection(db, "clients"), where("mobile", "==", mobile));
     const snapshot = await getDocs(q);
     return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   } catch (err) {

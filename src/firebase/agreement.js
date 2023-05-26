@@ -16,9 +16,10 @@ export const fetchMyAgreements = async (agreementId) => {
   return snapshot.data();
 };
 
-export const fetchAgreementsByPhone = async (phone) => {
+export const fetchAgreementsByPhone = async (mobile) => {
   // console.log({ clientId });
-  const clients = await fetchClientByPhone(phone);
+  if (!mobile) return { error: "no mobile" };
+  const clients = await fetchClientByPhone(mobile);
   console.log({ client: clients?.[0]?.id });
   if (clients.length === 0) return [];
   const q = query(
