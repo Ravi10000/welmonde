@@ -11,6 +11,8 @@ import TextInput from "../../components/text-input/text-input";
 import { useForm } from "react-hook-form";
 import SignInHero from "../../components/sign-in-hero/sign-in-hero";
 import TodquestMessage from "../../components/todquest-message/todquest-message";
+import { resetPassword } from "../../firebase/resetPassword";
+import ResetPasswordForm from "../../components/reset-password/reset-password";
 
 function AdminSigninPage({ setCurrentUser, setFlash }) {
   const {
@@ -27,6 +29,7 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
 
   const navigate = useNavigate();
   const [verifing, setVerifing] = useState(false);
+  const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
 
   async function handleSignInAdmin(data) {
     setVerifing(true);
@@ -57,11 +60,14 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
       setVerifing(false);
     }
   }
+
   return (
     <div className={styles.signinPage}>
       <SignInHero />
       <TodquestMessage />
-
+      {showResetPasswordForm && (
+        <ResetPasswordForm closePopup={() => setShowResetPasswordForm(false)} />
+      )}
       <section className={styles.signinSection}>
         <div className={styles.headings}>
           <h1>Admin / Employee Sign in</h1>
@@ -94,7 +100,12 @@ function AdminSigninPage({ setCurrentUser, setFlash }) {
                 }),
               }}
             />
-            <p className={styles.fp}>forgot password?</p>
+            <p
+              className={styles.fp}
+              onClick={() => setShowResetPasswordForm(true)}
+            >
+              forgot password?
+            </p>
             <Button fit isLoading={verifing} icon="/login.png">
               Sign in
             </Button>
