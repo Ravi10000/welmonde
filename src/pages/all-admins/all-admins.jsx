@@ -71,20 +71,6 @@ function AllAdminsPage({ setFlash }) {
           }}
         />
       )}
-      {/* <section className={styles.cardsContainer}>
-        <div className={styles.card}>
-          <p>{admins?.length}</p>
-          <h4>Total Admins</h4>
-        </div>
-        <div className={styles.card}>
-          <p>{totalContractsGenerated}</p>
-          <h4>Contracts Generated</h4>
-        </div>
-        <div className={styles.card}>
-          <p>{totalContractsVerified}</p>
-          <h4>Contracts Signed</h4>
-        </div>
-      </section> */}
       <DataCardList>
         <DataCard
           data={admins?.length}

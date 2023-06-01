@@ -6,14 +6,17 @@ import { resetPassword } from "../../firebase/resetPassword";
 import { setFlash } from "../../redux/flash/flash.actions";
 import { connect } from "react-redux";
 import { auth } from "../../firebase/auth";
+import { useState } from "react";
 function ResetPasswordForm({ closePopup, setFlash }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [isSending, setIsSending] = useState(false);
 
   async function handleSendResetPasswordEmail(data) {
+    setIsSending(true);
     console.log({ data });
     try {
       const response = await resetPassword(auth, data.email);
@@ -26,11 +29,19 @@ function ResetPasswordForm({ closePopup, setFlash }) {
       });
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsSending(false);
+      closePopup();
     }
   }
   return (
-    <form className={styles.form} noValidate onSubmit={handleSubmit(handleSendResetPasswordEmail)}>
+    <form
+      className={styles.form}
+      noValidate
+      onSubmit={handleSubmit(handleSendResetPasswordEmail)}
+    >
       <Popup
+        isLoading={isSending}
         closePopup={closePopup}
         save="Send Password Reset Email"
         title="Reset Password"

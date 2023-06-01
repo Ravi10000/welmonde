@@ -202,10 +202,6 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
               register={{
                 ...register("fname", {
                   required: "Enter First Name",
-                  pattern: {
-                    value: /^[A-Za-z]+$/i,
-                    message: "only alphabets are allowed",
-                  },
                 }),
               }}
             />
@@ -217,10 +213,6 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
               register={{
                 ...register("lname", {
                   required: "Enter Last Name",
-                  pattern: {
-                    value: /^[A-Za-z]+$/i,
-                    message: "only alphabets are allowed",
-                  },
                 }),
               }}
             />

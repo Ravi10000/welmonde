@@ -29,3 +29,12 @@ export const fetchAgreementsByPhone = async (mobile) => {
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
+
+export const fetchVerifiedAgreements = async () => {
+  const q = query(
+    collection(db, "agreements"),
+    where("status", "==", "OTP VERIFIED")
+  );
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+};

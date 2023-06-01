@@ -10,8 +10,12 @@ import ViewAgreementPopup from "./view-agreement-popup/view-agreement-popup";
 import OtpPopup from "../../components/otp-popup/otp-popup";
 import DataCardList from "../../components/data-card-list/data-card-list";
 import DataCard from "../../components/data-card/data-card";
+import jsonToExcel from "../../utils/jsonToExcel";
+import { fetchVerifiedAgreements } from "../../firebase/agreement";
+import { fetchClienDetails } from "../../firebase/auth";
+import { setFlash } from "../../redux/flash/flash.actions";
 
-function MyAgreementsPage({ currentUser, adminPrivilages }) {
+function MyAgreementsPage({ currentUser, adminPrivilages, setFlash }) {
   const [agreements, setAgreements] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const openPopup = () => setShowPopup(true);
@@ -20,6 +24,8 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
   const [showOtpPopup, setShowOtpPopup] = useState(false);
   const [agreementToEdit, setAgreementToEdit] = useState(null);
   const [updateAgreement, setUpdateAgreement] = useState(false);
+  const [printing, setPrinting] = useState(false);
+
   console.log({ updateAgreement });
 
   let noOfVerifed = 0;
@@ -43,7 +49,7 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
       const agreements = await fetchMyAgreements(
         adminPrivilages ? null : currentUser.uid
       );
-      console.log(agreements);
+      // console.log(agreements);
       setAgreements(agreements);
     } catch (err) {
       console.log(err);
@@ -54,6 +60,66 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
     setAgreementToEdit(agreement);
     setShowOtpPopup(true);
   }
+
+  async function handleJsonToExcel() {
+    setPrinting(true);
+    try {
+      const verifiedAgreements = await fetchVerifiedAgreements();
+
+      const clientsResponse = verifiedAgreements.map(async (agreement) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            let client = await fetchClienDetails(agreement.clientId);
+            resolve(client);
+          } catch (err) {
+            reject(err);
+          }
+        });
+      });
+      Promise.all(clientsResponse).then(async (clients) => {
+        console.log({ clients });
+        let data = [];
+        verifiedAgreements.forEach((agreement, index) => {
+          let {
+            id: agreementId,
+            clientId,
+            verificationOtp,
+            contracts,
+            createdAt: agreementCreatedAt,
+            updatedAt: agreementUpdatedAt,
+            ...agreementDataToPush
+          } = agreement;
+          let clientDataToPush = {};
+          for (let i = 0; i < clients.length; i++) {
+            if (clients[i].id === clientId) {
+              var { fname, lname, mobile, email } = clients[i];
+              clientDataToPush = {
+                clientName: `${fname} ${lname}`,
+                clientMobile: mobile,
+                clientEmail: email,
+              };
+              break;
+            }
+          }
+          data[index] = {
+            ...agreementDataToPush,
+            contracts: contracts.join(", "),
+            ...clientDataToPush,
+          };
+        });
+        console.log({ data });
+        await jsonToExcel(data);
+        setPrinting(false);
+        setFlash({
+          message: "Excel report downloaded successfully",
+          type: "success",
+        });
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
     handleFetchAgreements();
   }, []);
@@ -114,9 +180,21 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
           <h1 className="__pageHeading __subColorHeading">
             {adminPrivilages ? "All" : "My"} Agreements
           </h1>
-          <Button outlined fit onClick={openPopup}>
-            Add New Agreement
-          </Button>
+          <div className={styles.btnContainer}>
+            <Button
+              outlined
+              isLoading={printing}
+              fit
+              icon="/pdf-download.png"
+              hoverIcon="/pdf-download-hovered.png"
+              onClick={handleJsonToExcel}
+            >
+              Download Excel File
+            </Button>
+            <Button outlined fit onClick={openPopup}>
+              Add New Agreement
+            </Button>
+          </div>
         </div>
         <div className="__tableContainer">
           <table>
@@ -162,4 +240,4 @@ function MyAgreementsPage({ currentUser, adminPrivilages }) {
 const mapState = (state) => ({
   currentUser: state.user.currentUser,
 });
-export default connect(mapState)(MyAgreementsPage);
+export default connect(mapState, { setFlash })(MyAgreementsPage);

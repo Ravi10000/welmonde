@@ -111,7 +111,7 @@ export const fetchClienDetails = async (uid) => {
   console.log({ uid });
   const docRef = doc(db, "clients", uid);
   const docSnap = await getDoc(docRef);
-  return docSnap.data();
+  return { ...docSnap.data(), id: docSnap.id };
 };
 
 export const addNewClient = async (clientData) => {

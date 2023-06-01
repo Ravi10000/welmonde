@@ -38,16 +38,6 @@ function AdminPopup({
       confirmPassword: adminToEdit ? "" : "",
     },
   });
-  // {
-  //   defaultValues: {
-  //     fname: adminToEdit?.fname || "test",
-  //     lname: adminToEdit?.lname || "test",
-  //     email: adminToEdit?.email || "test@email.com",
-  //     mobile: adminToEdit?.mobile || "0000000000",
-  //     password: adminToEdit ? "" : "password",
-  //     confirmPassword: adminToEdit ? "" : "password",
-  //   },
-  // }
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     return () => {
@@ -128,10 +118,6 @@ function AdminPopup({
           register={{
             ...register("fname", {
               required: "Enter First Name",
-              pattern: {
-                value: /^[A-Za-z]+$/i,
-                message: "only alphabets are allowed",
-              },
             }),
           }}
         />
@@ -142,10 +128,6 @@ function AdminPopup({
           register={{
             ...register("lname", {
               required: "Enter Last Name",
-              pattern: {
-                value: /^[A-Za-z]+$/i,
-                message: "only alphabets are allowed",
-              },
             }),
           }}
         />

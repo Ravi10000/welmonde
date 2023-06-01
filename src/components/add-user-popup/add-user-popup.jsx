@@ -70,10 +70,7 @@ function AddUserPopup({ usertype, onUserAdded, setFlash }) {
           register={{
             ...register("fname", {
               required: "Enter First Name",
-              pattern: {
-                value: /^[A-Za-z]+$/i,
-                message: "only alphabets are allowed",
-              },
+               
             }),
           }}
         />
@@ -84,10 +81,7 @@ function AddUserPopup({ usertype, onUserAdded, setFlash }) {
           register={{
             ...register("lname", {
               required: "Enter Last Name",
-              pattern: {
-                value: /^[A-Za-z]+$/i,
-                message: "only alphabets are allowed",
-              },
+               
             }),
           }}
         />
