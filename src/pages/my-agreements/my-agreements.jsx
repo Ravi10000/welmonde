@@ -182,16 +182,18 @@ function MyAgreementsPage({ currentUser, adminPrivilages, setFlash }) {
             {adminPrivilages ? "All" : "My"} Agreements
           </h1>
           <div className={styles.btnContainer}>
-            <Button
-              outlined
-              isLoading={printing}
-              fit
-              icon="/pdf-download.png"
-              hoverIcon="/pdf-download-hovered.png"
-              onClick={handleJsonToExcel}
-            >
-              Download Excel File
-            </Button>
+            {currentUser?.usertype === "ADMIN" && (
+              <Button
+                outlined
+                isLoading={printing}
+                fit
+                icon="/pdf-download.png"
+                hoverIcon="/pdf-download-hovered.png"
+                onClick={handleJsonToExcel}
+              >
+                Download Excel File
+              </Button>
+            )}
             <Button outlined fit onClick={openPopup}>
               Add New Agreement
             </Button>

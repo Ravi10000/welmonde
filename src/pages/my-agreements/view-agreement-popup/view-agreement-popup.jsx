@@ -10,8 +10,8 @@ function ViewAgreementPopup({ agreement, closeAgreement }) {
   const [clientDetails, setClientDetails] = useState(null);
   console.log({ agreement });
   console.log({ contract });
-  const addedOnDate = new Date(agreement?.createdAt).toDateString();
-  const addedOnTime = new Date(agreement?.createdAt).toLocaleTimeString();
+  // const addedOnDate = new Date(agreement?.createdAt).toDateString();
+  // const addedOnTime = new Date(agreement?.createdAt).toLocaleTimeString();
 
   const handleFetchClientDetails = async () => {
     console.log({ clientId: agreement?.clientId });
@@ -71,7 +71,8 @@ function ViewAgreementPopup({ agreement, closeAgreement }) {
             <div className={styles.data}>
               <h3>Added On:</h3>
               <p>
-                {addedOnDate}, {addedOnTime}
+                {/* {addedOnDate}, {addedOnTime} */}
+                {agreement.createdAt.toDate().toDateString()}
               </p>
             </div>
             <div className={styles.data}>
