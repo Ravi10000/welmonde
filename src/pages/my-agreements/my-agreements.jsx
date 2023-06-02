@@ -85,6 +85,7 @@ function MyAgreementsPage({ currentUser, adminPrivilages, setFlash }) {
             clientId,
             verificationOtp,
             contracts,
+            employeeId,
             createdAt: agreementCreatedAt,
             updatedAt: agreementUpdatedAt,
             ...agreementDataToPush
