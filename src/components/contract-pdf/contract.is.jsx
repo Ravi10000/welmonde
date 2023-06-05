@@ -63,9 +63,10 @@ const styles = StyleSheet.create({
 });
 
 function ContractIs({ client, contract }) {
-  const addedOnDate = new Date(
-    contract?.agreement?.createdAt
-  ).toLocaleDateString();
+  // const addedOnDate = new Date(
+  //   contract?.agreement?.createdAt
+  // ).toLocaleDateString();
+  const addedOnDate = contract?.agreement?.createdAt.toDate().toDateString();
   return (
     <PDFViewer>
       <Document>

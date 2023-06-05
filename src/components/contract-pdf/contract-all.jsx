@@ -41,7 +41,10 @@ const styles = StyleSheet.create({
 function ContractAll({ client, contract }) {
   console.log({ client, contract });
   console.log({ createdAt: contract?.createdAt });
-  const addedOnDate = new Date(contract?.agreement?.createdAt).toLocaleDateString();
+  const addedOnDate = contract?.agreement?.createdAt.toDate().toDateString();
+  // const addedOnDate = new Date(
+  //   contract?.agreement?.createdAt
+  // ).toLocaleDateString();
   console.log({ addedOnDate });
   // const addedOnTime = new Date(agreement?.createdAt).toLocaleTimeString();
   return (
@@ -75,8 +78,10 @@ function ContractAll({ client, contract }) {
             </Text>
             <Text style={{ ...styles.center, ...styles.margin }}>And</Text>
             <Text>
-              <Text style={styles.captilaze}>{contract?.agreement?.businessName}</Text>, is
-              located at
+              <Text style={styles.captilaze}>
+                {contract?.agreement?.businessName}
+              </Text>
+              , is located at
               <Text style={styles.captilaze}>
                 {" " + contract?.agreement?.clientAddress}
               </Text>
