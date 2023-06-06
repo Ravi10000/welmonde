@@ -35,7 +35,7 @@
   &.outlined {
     color: var(--subBrandColor);
     background: transparent;
-    border: 2px solid var(--subBrandColor);
+    border: 1px solid var(--subBrandColor);
     &:hover {
       background: var(--subBrandColor);
       color: #fff;

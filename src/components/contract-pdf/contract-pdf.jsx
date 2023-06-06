@@ -1,3 +1,5 @@
+import styles from "./contract-pdf.module.scss";
+
 import React, { useEffect, useState } from "react";
 import { fetchClientById } from "../../firebase/employee";
 import ContractAll from "./contract-all";
@@ -7,7 +9,6 @@ import ContractIS from "./contract.is";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { isMobile } from "react-device-detect";
 
-import styles from "./contract-pdf.module.scss";
 // Create Document Component
 function ContractPdf({ contract }) {
   const [client, setClient] = useState(null);
@@ -61,7 +62,12 @@ function ContractPdf({ contract }) {
           <div className={styles.loader}></div>
         </div>
       ) : isMobile ? (
-        <PDFDownloadLink fileName="digiagreements contract.pdf" document={pdf}>
+        <PDFDownloadLink
+          fileName={`digiagreements-${
+            contract?.contractName
+          } ${new Date().toLocaleString()}.pdf`}
+          document={pdf}
+        >
           {({ url, loading }) => {
             return loading ? (
               <p>loading...</p>

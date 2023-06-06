@@ -14,7 +14,11 @@
   }
 }
 
+a {
+  text-decoration: none;
+}
 .downloadBtn {
+  cursor: pointer;
   background: royalblue;
   border: none;
   padding: 15px 20px;
