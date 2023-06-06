@@ -29,7 +29,6 @@ function ViewAgreementPopup({ agreement, closeAgreement }) {
           contract={contract}
           closePdf={() => {
             setContract(null);
-            console.log("close pdf");
           }}
         />
       )}

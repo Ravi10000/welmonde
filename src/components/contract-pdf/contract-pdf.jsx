@@ -4,6 +4,8 @@ import ContractAll from "./contract-all";
 import ContractPharmacy from "./contract-pharmacy";
 import ContractMou from "./contract-mou";
 import ContractIS from "./contract.is";
+import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer";
+import { Document, Page } from "react-pdf";
 
 // Create Document Component
 function ContractPdf({ contract }) {
@@ -39,20 +41,55 @@ function ContractPdf({ contract }) {
   else if (contract?.contractName === "international service")
     pdf = <ContractIS client={client} contract={contract} />;
   else pdf = <ContractAll client={client} contract={contract} />;
+  // else
+  //   pdf = (
+  //     <PDFDownloadLink
+  //       document={<ContractAll client={client} contract={contract} />}
+  //     >
+  //       {({ url, loading }) => {
+  //         return loading ? (
+  //           <p>loading...</p>
+  //         ) : (
+  //           <Document file={url} renderMode="svg">
+  //             <Page pageNumber={1} scale={1} />
+  //           </Document>
+  //         );
+  //       }}
+  //     </PDFDownloadLink>
+  //   );
+  // else
+  //   pdf = (
+  //     <BlobProvider
+  //       document={<ContractAll client={client} contract={contract} />}
+  //     >
+  //       {({ blob, url, loading }) => {
+  //         console.log({ blob, url, loading });
+  //         return loading ? (
+  //           <div className="loader-container">
+  //             <div className="loader"></div>
+  //           </div>
+  //         ) : (
+  //           <Document
+  //             file={url}
+  //             // onLoadSuccess={(pdf) => console.log({ pdf, blob })}
+  //             renderMode="canvas"
+  //           >
+  //             <Page pageNumber={1} width={window.innerWidth} />
+  //           </Document>
+  //         );
+  //       }}
+  //     </BlobProvider>
+  //   );
   return (
     <>
-      {pdf}
-      {/* {isFetching ? (
+      {/* {pdf} */}
+      {isFetching ? (
         <div className="loader-container">
           <div className="loader"></div>
         </div>
-      ) : contract?.contractName === "pharmacy" ? (
-        <ContractPharmacy client={client} contract={contract} />
-      ) : contract?.contractName === "hospital(MOU)" ? (
-        <ContractMou client={client} contract={contract} />
       ) : (
-        <ContractAll client={client} contract={contract} />
-      )} */}
+        pdf
+      )}
     </>
   );
 }

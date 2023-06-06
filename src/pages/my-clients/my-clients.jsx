@@ -22,7 +22,10 @@ import CheckBox from "../../components/check-box/check-box";
 import ClientRecord from "./client-record/client-record";
 import { verticals } from "../../data/verticals";
 import { fetchMyClients } from "../../firebase/employee";
-import { fetchAgreementsByPhone } from "../../firebase/agreement";
+import {
+  fetchAgreementsByClientId,
+  fetchAgreementsByPhone,
+} from "../../firebase/agreement";
 import DataCardList from "../../components/data-card-list/data-card-list";
 import DataCard from "../../components/data-card/data-card";
 
@@ -45,6 +48,8 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
   const [showInitialPopup, setShowInitialPopup] = useState(false);
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [contractsGenerated, setContractsGenerated] = useState(0);
+  const [contractsVerified, setContractsVerified] = useState(0);
 
   function closeInitialPopup() {
     setShowInitialPopup(false);
@@ -55,7 +60,6 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
   }
 
   async function handleFetchClients() {
-    // const clients = await fetchAllClients();
     console.log({ uid: currentUser?.uid });
     const clients = await fetchMyClients(
       adminPrivilages ? null : currentUser?.uid
@@ -63,7 +67,7 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
 
     const updatedClients = await Promise.all(
       clients.map(async (client) => {
-        const res = await fetchAgreementsByPhone(client.id);
+        const res = await fetchAgreementsByClientId(client.id);
         let verified = 0;
         let generated = 0;
         res?.forEach((agreement) => {
@@ -184,6 +188,17 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
   useEffect(() => {
     handleFetchClients();
   }, []);
+
+  useEffect(() => {
+    let verified = 0;
+    let generated = 0;
+    clients?.forEach((client) => {
+      generated += client?.contractsGenerated;
+      verified += client?.contractsVerified;
+    });
+    setContractsGenerated(generated);
+    setContractsVerified(verified);
+  }, [clients]);
 
   return (
     <div className={styles.allClients}>
@@ -330,6 +345,16 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
           data={clients?.length}
           title="No. of Clients"
           icon="/card-icons/user (1).png"
+        />
+        <DataCard
+          data={contractsGenerated}
+          title="Contracts Generated"
+          icon="/card-icons/copy.png"
+        />
+        <DataCard
+          data={contractsVerified}
+          title="Contracts Verified"
+          icon="/card-icons/verify.png"
         />
       </DataCardList>
       <div className={styles.cardsAndBtn}>

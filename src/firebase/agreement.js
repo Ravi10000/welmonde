@@ -38,3 +38,12 @@ export const fetchVerifiedAgreements = async () => {
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
+
+export const fetchAgreementsByClientId = async (clientId) => {
+  const q = query(
+    collection(db, "agreements"),
+    where("clientId", "==", clientId)
+  );
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+};

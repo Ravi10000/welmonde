@@ -8,7 +8,13 @@ function PdfViewer({ contract, closePdf, ...props }) {
       <ScrollToTop />
       <div className={styles.pdfContainer}>
         <ContractPdf contract={contract} />
-        <button className={styles.closeBtn} onClick={() => closePdf()}>
+        <button
+          className={styles.closeBtn}
+          onClick={() => {
+            console.log("close pdf");
+            closePdf();
+          }}
+        >
           close pdf
         </button>
       </div>
