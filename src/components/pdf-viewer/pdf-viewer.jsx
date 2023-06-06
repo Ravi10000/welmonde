@@ -1,12 +1,16 @@
 import styles from "./pdf-viewer.module.scss";
 import ScrollToTop from "../scrollToTop";
 import ContractPdf from "../contract-pdf/contract-pdf";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { isMobile } from "react-device-detect";
 
-function PdfViewer({ contract, closePdf, ...props }) {
+function PdfViewerContainer({ contract, closePdf, ...props }) {
   return (
-    <div className={styles.pdfViewer}>
+    <div className={`${styles.pdfViewer}`}>
       <ScrollToTop />
-      <div className={styles.pdfContainer}>
+      <div
+        className={`${styles.pdfContainer} ${isMobile && styles.mobileView}`}
+      >
         <ContractPdf contract={contract} />
         <button
           className={styles.closeBtn}
@@ -15,11 +19,11 @@ function PdfViewer({ contract, closePdf, ...props }) {
             closePdf();
           }}
         >
-          close pdf
+          <img src="/close-pdf.png" alt="" />
         </button>
       </div>
     </div>
   );
 }
 
-export default PdfViewer;
+export default PdfViewerContainer;

@@ -7,8 +7,11 @@
   width: 100vw;
   background: #fff;
   z-index: 100000;
+  display: flex;
+  justify-content: center;
   .pdfContainer {
-    height: 100%;
+    // margin-top: auto;
+    // height: 100%;
     display: flex;
     gap: 10px;
     flex-direction: column;
@@ -17,15 +20,30 @@
       height: 80%;
       width: 100vw;
     }
-  }
-  .closeBtn {
-    position: absolute;
-    bottom: 10%;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    color: #fff;
-    background: #e5383b;
-    border-radius: 5px;
+    .closeBtn {
+      bottom: 10%;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      background: transparent;
+      border: 2px solid #e5383b;
+      border-radius: 50px;
+      height: 70px;
+      width: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover {
+        background: #ffe3e3;
+      }
+      img {
+        height: 25px;
+        width: fit-content;
+      }
+    }
+    &.mobileView {
+      padding: 50px 0;
+      margin-top: auto;
+    }
   }
 }

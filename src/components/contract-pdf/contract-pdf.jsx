@@ -4,9 +4,10 @@ import ContractAll from "./contract-all";
 import ContractPharmacy from "./contract-pharmacy";
 import ContractMou from "./contract-mou";
 import ContractIS from "./contract.is";
-import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer";
-import { Document, Page } from "react-pdf";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { isMobile } from "react-device-detect";
 
+import styles from "./contract-pdf.module.scss";
 // Create Document Component
 function ContractPdf({ contract }) {
   const [client, setClient] = useState(null);
@@ -43,52 +44,37 @@ function ContractPdf({ contract }) {
   else pdf = <ContractAll client={client} contract={contract} />;
   // else
   //   pdf = (
-  //     <PDFDownloadLink
-  //       document={<ContractAll client={client} contract={contract} />}
-  //     >
-  //       {({ url, loading }) => {
-  //         return loading ? (
-  //           <p>loading...</p>
-  //         ) : (
-  //           <Document file={url} renderMode="svg">
-  //             <Page pageNumber={1} scale={1} />
-  //           </Document>
-  //         );
-  //       }}
-  //     </PDFDownloadLink>
-  //   );
-  // else
-  //   pdf = (
-  //     <BlobProvider
-  //       document={<ContractAll client={client} contract={contract} />}
-  //     >
-  //       {({ blob, url, loading }) => {
-  //         console.log({ blob, url, loading });
-  //         return loading ? (
-  //           <div className="loader-container">
-  //             <div className="loader"></div>
-  //           </div>
-  //         ) : (
-  //           <Document
-  //             file={url}
-  //             // onLoadSuccess={(pdf) => console.log({ pdf, blob })}
-  //             renderMode="canvas"
-  //           >
-  //             <Page pageNumber={1} width={window.innerWidth} />
-  //           </Document>
-  //         );
-  //       }}
-  //     </BlobProvider>
+  // <PDFDownloadLink
+  //   fileName="digiagreements contract.pdf"
+  //   document={<ContractAll client={client} contract={contract} />}
+  // >
+  //   {({ url, loading }) => {
+  //     return loading ? <p>loading...</p> : <p>Download contract PDF</p>;
+  //   }}
+  // </PDFDownloadLink>
   //   );
   return (
     <>
       {/* {pdf} */}
       {isFetching ? (
-        <div className="loader-container">
-          <div className="loader"></div>
+        <div className={styles.loaderContainer}>
+          <div className={styles.loader}></div>
         </div>
+      ) : isMobile ? (
+        <PDFDownloadLink fileName="digiagreements contract.pdf" document={pdf}>
+          {({ url, loading }) => {
+            return loading ? (
+              <p>loading...</p>
+            ) : (
+              <button className={styles.downloadBtn}>
+                <img src="/download.png" alt="" />
+                <p>Download contract PDF</p>
+              </button>
+            );
+          }}
+        </PDFDownloadLink>
       ) : (
-        pdf
+        <PDFViewer>{pdf}</PDFViewer>
       )}
     </>
   );

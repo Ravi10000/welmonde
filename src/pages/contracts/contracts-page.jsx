@@ -2,7 +2,7 @@ import styles from "./contracts-page.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchMyAgreements } from "../../firebase/agreement";
-import PdfViewer from "../../components/pdf-viewer/pdf-viewer";
+import PdfViewerContainer from "../../components/pdf-viewer/pdf-viewer";
 import Button from "../../components/button/button";
 import OtpGroup from "../../components/otp-group/otp-group";
 import { updateAgreementStatus } from "../../firebase/employee";
@@ -128,7 +128,7 @@ function ContractsPage({ setFlash }) {
       <div className={styles.pageContent}>
         <h1>My Contracts</h1>
         {contract && (
-          <PdfViewer contract={contract} closePdf={() => setContract(null)} />
+          <PdfViewerContainer contract={contract} closePdf={() => setContract(null)} />
         )}
         <div className={styles.agreementContainer}>
           {agreement?.contracts?.map((contractName) => (

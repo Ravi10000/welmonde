@@ -2,7 +2,7 @@ import styles from "./view-agreement-popup.module.scss";
 import { useEffect, useState } from "react";
 
 import Backdrop from "../../../components/backdrop/backdrop";
-import PdfViewer from "../../../components/pdf-viewer/pdf-viewer";
+import PdfViewerContainer from "../../../components/pdf-viewer/pdf-viewer";
 import { fetchClienDetails } from "../../../firebase/auth";
 
 function ViewAgreementPopup({ agreement, closeAgreement }) {
@@ -25,7 +25,7 @@ function ViewAgreementPopup({ agreement, closeAgreement }) {
   return (
     <>
       {contract && (
-        <PdfViewer
+        <PdfViewerContainer
           contract={contract}
           closePdf={() => {
             setContract(null);

@@ -1,3 +1,39 @@
-#pdf{
-    background: red;
+.loaderContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .loader {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid #e5383b;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    animation: spin 1s linear infinite;
+  }
+}
+
+.downloadBtn {
+  background: royalblue;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 5px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  img {
+    height: 1.2rem;
+    width: fit-content;
+  }
+  p {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

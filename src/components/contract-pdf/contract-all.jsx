@@ -48,7 +48,7 @@ function ContractAll({ client, contract }) {
   console.log({ addedOnDate });
   // const addedOnTime = new Date(agreement?.createdAt).toLocaleTimeString();
   return (
-    <PDFViewer>
+    // <PDFViewer>
       <Document>
         <Page size="A4" style={styles.page}>
           <View style={styles.section}>
@@ -764,7 +764,7 @@ function ContractAll({ client, contract }) {
           </View>
         </Page>
       </Document>
-    </PDFViewer>
+    // </PDFViewer>
   );
 }
 export default ContractAll;

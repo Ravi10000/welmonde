@@ -68,7 +68,7 @@ function ContractMou({ client, contract }) {
   // ).toLocaleDateString();
   const addedOnDate = contract?.agreement?.createdAt.toDate().toDateString();
   return (
-    <PDFViewer>
+    // <PDFViewer>
       <Document>
         <Page style={styles.page}>
           <View style={styles.section}>
@@ -744,7 +744,7 @@ function ContractMou({ client, contract }) {
           </View>
         </Page>
       </Document>
-    </PDFViewer>
+    // </PDFViewer>
   );
 }
 export default ContractMou;
