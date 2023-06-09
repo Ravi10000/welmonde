@@ -8,11 +8,11 @@ import ContractMou from "./contract-mou";
 import ContractIS from "./contract.is";
 import { PDFDownloadLink, BlobProvider } from "@react-pdf/renderer";
 import { Document, Page, pdfjs } from "react-pdf";
+import { connect } from "react-redux";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import { connect } from "react-redux";
 
 // Create Document Component
 function ContractPdf({ contract, currentUser }) {
@@ -108,17 +108,15 @@ function ContractPdf({ contract, currentUser }) {
                     <img src="/right-arrow.png" alt="next page" />
                   </button>
                 </div>
-                {currentUser?.usertype === "ADMIN" && (
+                {/* {currentUser?.usertype === "ADMIN" && (
                   <PDFDownloadLink
                     document={pdf}
-                    fileName={new Date().toDateString() + contract.contractName}
+                    fileName={
+                      new Date()?.toDateString() + contract.contractName
+                    }
                   >
                     {({ loading }) =>
-                      loading ? (
-                        <div className={styles.loaderContainer}>
-                          <div className={styles.loader}></div>
-                        </div>
-                      ) : (
+                      !loading && (
                         <button className={styles.downloadBtn}>
                           <img src="/download.png" alt="" />
                           <p>Download Contract</p>
@@ -126,7 +124,7 @@ function ContractPdf({ contract, currentUser }) {
                       )
                     }
                   </PDFDownloadLink>
-                )}
+                )} */}
               </div>
             );
           }}
