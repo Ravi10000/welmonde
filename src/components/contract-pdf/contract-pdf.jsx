@@ -6,14 +6,31 @@ import ContractAll from "./contract-all";
 import ContractPharmacy from "./contract-pharmacy";
 import ContractMou from "./contract-mou";
 import ContractIS from "./contract.is";
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { PDFDownloadLink, PDFViewer, BlobProvider } from "@react-pdf/renderer";
 import { isMobile } from "react-device-detect";
+import { Document, Page, pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import "react-pdf/dist/esm/Page/TextLayer.css";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 
 // Create Document Component
 function ContractPdf({ contract }) {
   const [client, setClient] = useState(null);
   console.log({ contract, client });
   const [isFetching, setIsFetching] = useState(false);
+  const [pdfLength, setPdfLength] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  async function handleNextPage() {
+    if (currentPage >= pdfLength) return;
+    setCurrentPage((prev) => prev + 1);
+  }
+  async function handlePrevPage() {
+    if (currentPage <= 1) return;
+    setCurrentPage((prev) => prev - 1);
+  }
+
   async function handleFetchClient() {
     setIsFetching(true);
     try {
@@ -43,17 +60,6 @@ function ContractPdf({ contract }) {
   else if (contract?.contractName === "international service")
     pdf = <ContractIS client={client} contract={contract} />;
   else pdf = <ContractAll client={client} contract={contract} />;
-  // else
-  //   pdf = (
-  // <PDFDownloadLink
-  //   fileName="digiagreements contract.pdf"
-  //   document={<ContractAll client={client} contract={contract} />}
-  // >
-  //   {({ url, loading }) => {
-  //     return loading ? <p>loading...</p> : <p>Download contract PDF</p>;
-  //   }}
-  // </PDFDownloadLink>
-  //   );
   return (
     <>
       {/* {pdf} */}
@@ -61,26 +67,50 @@ function ContractPdf({ contract }) {
         <div className={styles.loaderContainer}>
           <div className={styles.loader}></div>
         </div>
-      ) : isMobile ? (
-        <PDFDownloadLink
-          fileName={`digiagreements-${
-            contract?.contractName
-          } ${new Date().toLocaleString()}.pdf`}
-          document={pdf}
-        >
-          {({ url, loading }) => {
-            return loading ? (
+      ) : (
+        <BlobProvider document={pdf}>
+          {(pdfData) => {
+            console.log({ pdfData });
+            return pdfData?.loading ? (
               <p>loading...</p>
             ) : (
-              <button className={styles.downloadBtn}>
-                <img src="/download.png" alt="" />
-                <p>Download contract PDF</p>
-              </button>
+              <div className={styles.pdfWithControls}>
+                <Document
+                  file={pdfData?.url}
+                  onLoadSuccess={(documentData) => {
+                    console.log({
+                      documentData,
+                      numOfPage: documentData._pdfInfo.numPages,
+                    });
+                    setPdfLength(documentData._pdfInfo.numPages);
+                  }}
+                >
+                  <Page
+                    pageNumber={currentPage}
+                    width={window.innerWidth > 1000 ? 1000 : window.innerWidth}
+                  ></Page>
+                </Document>
+                <div className={styles.pdfControls}>
+                  <button
+                    className={`${styles.navBtn} ${styles.prev}`}
+                    onClick={handlePrevPage}
+                  >
+                    <img src="/right-arrow.png" alt="previous page" />
+                  </button>
+                  <p>
+                    {currentPage} / {pdfLength}
+                  </p>
+                  <button
+                    className={`${styles.navBtn} ${styles.next}`}
+                    onClick={handleNextPage}
+                  >
+                    <img src="/right-arrow.png" alt="next page" />
+                  </button>
+                </div>
+              </div>
             );
           }}
-        </PDFDownloadLink>
-      ) : (
-        <PDFViewer>{pdf}</PDFViewer>
+        </BlobProvider>
       )}
     </>
   );

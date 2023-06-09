@@ -19,7 +19,7 @@ function PdfViewerContainer({ contract, closePdf, ...props }) {
             closePdf();
           }}
         >
-          <img src="/close-pdf.png" alt="" />
+          <img src="/close-pdf.png" alt="close pdf" />
         </button>
       </div>
     </div>

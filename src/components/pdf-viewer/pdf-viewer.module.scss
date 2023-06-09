@@ -6,22 +6,18 @@
   height: 100%;
   width: 100vw;
   background: #fff;
+  overflow: scroll;
   z-index: 100000;
   display: flex;
   justify-content: center;
   .pdfContainer {
-    // margin-top: auto;
-    // height: 100%;
     display: flex;
     gap: 10px;
     flex-direction: column;
     align-items: center;
-    iframe {
-      height: 80%;
-      width: 100vw;
-    }
+    // padding: 10px;
+    height: fit-content;
     .closeBtn {
-      bottom: 10%;
       border: none;
       cursor: pointer;
       color: #fff;
@@ -40,10 +36,6 @@
         height: 25px;
         width: fit-content;
       }
-    }
-    &.mobileView {
-      padding: 50px 0;
-      margin-top: auto;
     }
   }
 }
