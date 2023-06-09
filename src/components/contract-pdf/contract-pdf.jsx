@@ -6,16 +6,16 @@ import ContractAll from "./contract-all";
 import ContractPharmacy from "./contract-pharmacy";
 import ContractMou from "./contract-mou";
 import ContractIS from "./contract.is";
-import { PDFDownloadLink, PDFViewer, BlobProvider } from "@react-pdf/renderer";
-import { isMobile } from "react-device-detect";
+import { PDFDownloadLink, BlobProvider } from "@react-pdf/renderer";
 import { Document, Page, pdfjs } from "react-pdf";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import { connect } from "react-redux";
 
 // Create Document Component
-function ContractPdf({ contract }) {
+function ContractPdf({ contract, currentUser }) {
   const [client, setClient] = useState(null);
   console.log({ contract, client });
   const [isFetching, setIsFetching] = useState(false);
@@ -62,7 +62,6 @@ function ContractPdf({ contract }) {
   else pdf = <ContractAll client={client} contract={contract} />;
   return (
     <>
-      {/* {pdf} */}
       {isFetching ? (
         <div className={styles.loaderContainer}>
           <div className={styles.loader}></div>
@@ -72,7 +71,9 @@ function ContractPdf({ contract }) {
           {(pdfData) => {
             console.log({ pdfData });
             return pdfData?.loading ? (
-              <p>loading...</p>
+              <div className={styles.loaderContainer}>
+                <div className={styles.loader}></div>
+              </div>
             ) : (
               <div className={styles.pdfWithControls}>
                 <Document
@@ -107,6 +108,25 @@ function ContractPdf({ contract }) {
                     <img src="/right-arrow.png" alt="next page" />
                   </button>
                 </div>
+                {currentUser?.usertype === "ADMIN" && (
+                  <PDFDownloadLink
+                    document={pdf}
+                    fileName={new Date().toDateString() + contract.contractName}
+                  >
+                    {({ loading }) =>
+                      loading ? (
+                        <div className={styles.loaderContainer}>
+                          <div className={styles.loader}></div>
+                        </div>
+                      ) : (
+                        <button className={styles.downloadBtn}>
+                          <img src="/download.png" alt="" />
+                          <p>Download Contract</p>
+                        </button>
+                      )
+                    }
+                  </PDFDownloadLink>
+                )}
               </div>
             );
           }}
@@ -116,4 +136,7 @@ function ContractPdf({ contract }) {
   );
 }
 
-export default ContractPdf;
+const mapState = (state) => ({
+  currentUser: state.user.currentUser,
+});
+export default connect(mapState)(ContractPdf);
