@@ -21,15 +21,15 @@
       cursor: pointer;
       color: #fff;
       background: transparent;
-      border: 2px solid #e5383b;
       border-radius: 50px;
       height: 70px;
       width: 70px;
       display: flex;
       align-items: center;
       justify-content: center;
+      background: #ffe3e3;
       &:hover {
-        background: #ffe3e3;
+        border: 2px solid #e5383b;
       }
       img {
         height: 25px;
