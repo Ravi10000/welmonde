@@ -28,10 +28,12 @@ import {
 } from "../../firebase/agreement";
 import DataCardList from "../../components/data-card-list/data-card-list";
 import DataCard from "../../components/data-card/data-card";
+import PhoneInput from "react-phone-number-input";
 
 function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
   const [clients, setClients] = useState([]);
   const [clientToEdit, setClientToEdit] = useState(null);
+  const [phone, setPhone] = useState("");
   console.log({ clientToEdit });
   const {
     register,
@@ -57,6 +59,7 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
     resetField("lname");
     resetField("email");
     resetField("mobile");
+    setPhone("");
   }
 
   async function handleFetchClients() {
@@ -83,6 +86,7 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
     setClients(updatedClients);
   }
   async function handleClientCreation(data) {
+    data.mobile = phone;
     setIsAddingUser(true);
     try {
       if (!clientToEdit) {
@@ -104,18 +108,6 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
             type: "error",
           });
 
-        // const existingUsers = await fetchUserByPhone(data.mobile);
-        // console.log({ existingUsers });
-        // if (existingUsers.length > 0) {
-        //   if (existingUsers[0].usertype === "CLIENT")
-        //     data.userId = existingUsers[0]?.id;
-        //   else
-        //     return setFlash({
-        //       message: `User already exists as an ${existingUsers[0]?.usertype}`,
-        //       type: "error",
-        //     });
-        // }
-        // console.log({ data });
         const userSnapshot = await addNewClient(data);
         if (userSnapshot?.error) {
           return setFlash({
@@ -247,18 +239,27 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
               }}
             />
             {!clientToEdit && (
-              <NumInput
-                defaultValue={clientToEdit?.mobile || ""}
-                maxLength={16}
-                label="Mobile Number(with country code)"
-                placeholder="Enter Client Mobile Number"
-                error={errors?.mobile?.message}
-                register={{
-                  ...register("mobile", {
-                    required: "Enter Mobile Number",
-                  }),
-                }}
-              />
+              <>
+                <label className={styles.label}>Mobile Number</label>
+                <PhoneInput
+                  placeholder="Enter phone number"
+                  defaultCountry="IN"
+                  value={phone}
+                  onChange={setPhone}
+                />
+              </>
+              // <NumInput
+              //   defaultValue={clientToEdit?.mobile || ""}
+              //   maxLength={16}
+              //   label="Mobile Number(with country code)"
+              //   placeholder="Enter Client Mobile Number"
+              //   error={errors?.mobile?.message}
+              //   register={{
+              //     ...register("mobile", {
+              //       required: "Enter Mobile Number",
+              //     }),
+              //   }}
+              // />
             )}
           </Popup>
         </form>
