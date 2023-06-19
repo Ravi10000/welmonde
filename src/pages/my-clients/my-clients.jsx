@@ -51,8 +51,9 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [userId, setUserId] = useState(null);
   const [agreementsGenerated, setAgreementsGenerated] = useState(0);
-  const [contractsGenerated, setContractsGenerated] = useState(0);
   const [agreementVerified, setAgreementsVerified] = useState(0);
+  const [contractsGenerated, setContractsGenerated] = useState(0);
+  const [contractsVerified, setContractsVerified] = useState(0);
 
   function closeInitialPopup() {
     setShowInitialPopup(false);
@@ -72,17 +73,23 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
     const updatedClients = await Promise.all(
       clients.map(async (client) => {
         const res = await fetchAgreementsByClientId(client.id);
-        let verified = 0;
-        let generated = 0;
+        let aggVerified = 0;
+        let aggGenerated = 0;
         let contractsCount = 0;
+        let contractsVerified = 0;
         res?.forEach((agreement) => {
-          generated++;
+          aggGenerated++;
           contractsCount += agreement?.contracts?.length;
-          if (agreement?.status === "OTP VERIFIED") verified++;
+          if (agreement?.status === "OTP VERIFIED") {
+            aggVerified++;
+            contractsVerified += agreement?.contracts?.length;
+          }
         });
-        client.contractsVerified = verified;
-        client.contractsGenerated = generated;
-        client.contracts = contractsCount;
+        client.agreementsGenerated = aggGenerated;
+        client.agreementsVerified = aggVerified;
+
+        client.contractsVerified = contractsVerified;
+        client.contractsCount = contractsCount;
         return client;
       })
     );
@@ -186,17 +193,20 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
   }, []);
 
   useEffect(() => {
-    let verified = 0;
-    let generated = 0;
-    let contractsCount = 0;
+    let aggVerified = 0;
+    let aggGenerated = 0;
+    let totalContracts = 0;
+    let contractsVerified = 0;
     clients?.forEach((client) => {
-      generated += client?.contractsGenerated;
-      verified += client?.contractsVerified;
-      contractsCount += client?.contracts;
+      aggGenerated += client?.agreementsGenerated;
+      aggVerified += client?.agreementsVerified;
+      totalContracts += client?.contractsCount;
+      contractsVerified += client?.contractsVerified;
     });
-    setAgreementsGenerated(generated);
-    setAgreementsVerified(verified);
-    setContractsGenerated(contractsCount);
+    setAgreementsGenerated(aggGenerated);
+    setAgreementsVerified(aggVerified);
+    setContractsGenerated(totalContracts);
+    setContractsVerified(contractsVerified);
   }, [clients]);
 
   return (
@@ -360,6 +370,11 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
           icon="/card-icons/copy.png"
         />
         <DataCard
+          data={contractsVerified}
+          title="Contracts Verified"
+          icon="/card-icons/copy.png"
+        />
+        <DataCard
           data={agreementsGenerated}
           title="Agreements Generated"
           icon="/card-icons/copy.png"
@@ -399,6 +414,7 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
               {/* <th>Vertical</th> */}
               <th>Agreements Generated</th>
               <th>Agreements Signed</th>
+              <th>Contracts Signed</th>
               <th>Actions</th>
             </tr>
           </thead>

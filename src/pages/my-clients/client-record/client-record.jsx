@@ -31,7 +31,10 @@ function ClientRecord({
     <tr className={styles.clientRecord}>
       <td>{client?.representativeName}</td>
       <td>{client?.businessName}</td>
-      <td>{client?.email}</td>
+      <td>
+        {client?.email?.slice(0, 15)}
+        {client?.email?.length > 15 && "..."}
+      </td>
       <td>{client?.mobile}</td>
       {/* <td>
         {client?.street}, {client?.city}, {client?.state}, {client?.pincode}
@@ -41,8 +44,9 @@ function ClientRecord({
           {client?.vertical && client?.vertical?.map((v) => <p key={v}>{v}</p>)}
         </ul>
       </td> */}
-      <td className="textCenter">{client?.contractsGenerated}</td>
-      <td className="textCenter">{client?.contractsVerified}</td>
+      <td className="textCenter">{client?.agreementsGenerated}</td>
+      <td className="textCenter">{client?.agreementsVerified}</td>
+      <td className="textCenter">{client?.contractsCount}</td>
       <td className={styles.actions}>
         {/* <Button
           iconOnly
