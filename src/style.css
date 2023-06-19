@@ -171,3 +171,9 @@ button {
     transform: rotate(360deg) scale(1);
   }
 }
+
+.__phone-label {
+  color: #a2a5b5;
+  font-weight: 500;
+  margin-left: 5px;
+}

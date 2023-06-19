@@ -14,6 +14,7 @@ import { detatchAuth } from "../../firebase";
 import { connect } from "react-redux";
 import { useEffect, useState } from "react";
 import { updateUserDetails } from "../../firebase/auth";
+import PhoneInput from "react-phone-number-input";
 
 function AdminPopup({
   closePopup,
@@ -22,6 +23,7 @@ function AdminPopup({
   setAdminToEdit,
   setFlash,
 }) {
+  const [mobile, setMobile] = useState("");
   const {
     register,
     handleSubmit,
@@ -33,7 +35,7 @@ function AdminPopup({
       fname: adminToEdit?.fname || "",
       lname: adminToEdit?.lname || "",
       email: adminToEdit?.email || "",
-      mobile: adminToEdit?.mobile || "",
+      // mobile: adminToEdit?.mobile || "",
       password: adminToEdit ? "" : "",
       confirmPassword: adminToEdit ? "" : "",
     },
@@ -48,7 +50,7 @@ function AdminPopup({
 
   async function handleAdminCreation(data) {
     setIsLoading(true);
-    const { fname, lname, email, mobile, password } = data;
+    const { fname, lname, email, password } = data;
     try {
       if (!adminToEdit) {
         let existingEmployee = await fetchUserByEmail(email);
@@ -132,7 +134,7 @@ function AdminPopup({
           }}
         />
 
-        <NumInput
+        {/* <NumInput
           maxLength={16}
           label="Mobile Number"
           placeholder="Enter Admin Mobile Number"
@@ -142,6 +144,13 @@ function AdminPopup({
               required: "Enter Mobile Number",
             }),
           }}
+        /> */}
+        <label className="__phone-label">Mobile Number</label>
+        <PhoneInput
+          placeholder="Enter phone number"
+          defaultCountry="IN"
+          value={mobile}
+          onChange={setMobile}
         />
         {!adminToEdit && (
           <>

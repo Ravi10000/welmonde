@@ -1,6 +1,5 @@
 import Popup from "../../components/popup/popup";
 import TextInput from "../../components/text-input/text-input";
-import NumInput from "../../components/num-input/num-input";
 import { useForm } from "react-hook-form";
 import {
   createUserProfile,
@@ -13,6 +12,7 @@ import { setFlash } from "../../redux/flash/flash.actions";
 import { detatchAuth } from "../../firebase";
 import { connect } from "react-redux";
 import { useEffect, useState } from "react";
+import PhoneInput from "react-phone-number-input";
 
 function EmployeePopup({
   closePopup,
@@ -21,6 +21,8 @@ function EmployeePopup({
   setEmployeeToEdit,
   setFlash,
 }) {
+  const [mobile, setMobile] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -32,7 +34,6 @@ function EmployeePopup({
       fname: employeeToEdit?.fname || "",
       lname: employeeToEdit?.lname || "",
       email: employeeToEdit?.email || "",
-      mobile: employeeToEdit?.mobile || "",
       password: employeeToEdit?.password || "",
       confirmPassword: employeeToEdit?.confirmPassword || "",
     },
@@ -49,7 +50,7 @@ function EmployeePopup({
 
   async function handleEmployeeCreation(data) {
     setIsLoading(true);
-    const { fname, lname, email, mobile, password } = data;
+    const { fname, lname, email, password } = data;
     try {
       if (!employeeToEdit) {
         let existingEmployee = await fetchUserByEmail(email);
@@ -111,7 +112,6 @@ function EmployeePopup({
           register={{
             ...register("fname", {
               required: "Enter First Name",
-               
             }),
           }}
         />
@@ -122,12 +122,11 @@ function EmployeePopup({
           register={{
             ...register("lname", {
               required: "Enter Last Name",
-               
             }),
           }}
         />
 
-        <NumInput
+        {/* <NumInput
           maxLength={16}
           label="Mobile Number"
           placeholder="Enter Employee Mobile Number"
@@ -137,6 +136,13 @@ function EmployeePopup({
               required: "Enter Mobile Number",
             }),
           }}
+        /> */}
+        <label className="__phone-label">Mobile Number</label>
+        <PhoneInput
+          placeholder="Enter phone number"
+          defaultCountry="IN"
+          value={mobile}
+          onChange={setMobile}
         />
         {!employeeToEdit && (
           <>
