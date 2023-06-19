@@ -12,7 +12,7 @@ import DataCardList from "../../components/data-card-list/data-card-list";
 import DataCard from "../../components/data-card/data-card";
 import jsonToExcel from "../../utils/jsonToExcel";
 import { fetchVerifiedAgreements } from "../../firebase/agreement";
-import { fetchClienDetails } from "../../firebase/auth";
+import { fetchClienDetails, fetchUser } from "../../firebase/auth";
 import { setFlash } from "../../redux/flash/flash.actions";
 
 function MyAgreementsPage({ currentUser, adminPrivilages, setFlash }) {
@@ -66,11 +66,27 @@ function MyAgreementsPage({ currentUser, adminPrivilages, setFlash }) {
     setPrinting(true);
     try {
       const verifiedAgreements = await fetchVerifiedAgreements();
+      // const employeeResponse = verifiedAgreements.map(async (agreement) => {
+      //   return new Promise(async (resololve, reject) => {
+      //     try {
+      //       let employee = await fetchUser(agreement.employeeId);
+      //       resololve(employee);
+      //     } catch (err) {
+      //       reject(err);
+      //     }
+      //   });
+      // });
 
       const clientsResponse = verifiedAgreements.map(async (agreement) => {
         return new Promise(async (resolve, reject) => {
           try {
             let client = await fetchClienDetails(agreement.clientId);
+            let employee = await fetchUser(agreement.employeeId);
+            client = {
+              ...client,
+              employeeName: employee.fname + " " + employee.lname,
+              employeeEmail: employee.email,
+            };
             resolve(client);
           } catch (err) {
             reject(err);
@@ -89,6 +105,7 @@ function MyAgreementsPage({ currentUser, adminPrivilages, setFlash }) {
             employeeId,
             createdAt: agreementCreatedAt,
             updatedAt: agreementUpdatedAt,
+            updatedBy: agreementUpdatedBy,
             ...agreementDataToPush
           } = agreement;
           let clientDataToPush = {};
@@ -96,16 +113,18 @@ function MyAgreementsPage({ currentUser, adminPrivilages, setFlash }) {
             if (clients[i].id === clientId) {
               var { fname, lname, mobile, email } = clients[i];
               clientDataToPush = {
-                clientName: `${fname} ${lname}`,
-                clientMobile: mobile,
-                clientEmail: email,
+                "Client Name": `${fname} ${lname}`,
+                "Client Mobile": mobile,
+                "Client Email": email,
+                "Employee Name": clients[i].employeeName,
+                "Employee Email": clients[i].employeeEmail,
               };
               break;
             }
           }
           data[index] = {
             ...agreementDataToPush,
-            contracts: contracts.join(", "),
+            Contracts: contracts.join(", "),
             ...clientDataToPush,
           };
         });
