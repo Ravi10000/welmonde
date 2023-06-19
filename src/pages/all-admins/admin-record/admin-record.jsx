@@ -37,8 +37,10 @@ function AdminRecord({
       <td className={styles.recordData}>{admin?.fname + " " + admin?.lname}</td>
       <td className={styles.recordData}>{admin?.email}</td>
       <td className={styles.recordData}>{admin?.mobile}</td>
-      <td className={styles.recordData}>{admin?.contractsGenerated}</td>
+      <td className={styles.recordData}>{admin?.agreementsGenerated}</td>
+      <td className={styles.recordData}>{admin?.agreementsVerified}</td>
       <td className={styles.recordData}>{admin?.contractsVerified}</td>
+      {/* <td className={styles.recordData}>{admin?.contractsGenerated}</td> */}
       <td className={`${styles.recordData} ${styles.actions}`}>
         <Actions
           handleDelete={handleDeleteAdmin}

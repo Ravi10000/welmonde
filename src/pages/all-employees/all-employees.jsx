@@ -14,6 +14,10 @@ function AllEmployeesPage({ setFlash }) {
   const [showPopup, setShowPopup] = useState(false);
   const [employees, setEmployees] = useState([]);
   const [employeeToEdit, setEmployeeToEdit] = useState(null);
+
+  const [totalAgreementsVerified, setTotalAgreementsVerified] = useState(0);
+  const [totalAgreementsGenerated, setTotalAgreementsGenerated] = useState(0);
+
   const [totalContractsVerified, setTotalContractsVerified] = useState(0);
   const [totalContractsGenerated, setTotalContractsGenerated] = useState(0);
 
@@ -25,14 +29,22 @@ function AllEmployeesPage({ setFlash }) {
       employees.map(async (employee) => {
         const res = await fetchMyAgreements(employee.uid);
         console.log({ res });
-        let verified = 0;
-        let generated = 0;
+        let agVerified = 0;
+        let agGenerated = 0;
+        let contractsGenerated = 0;
+        let contractsVerified = 0;
         res?.forEach((agreement) => {
-          generated++;
-          if (agreement?.status === "OTP VERIFIED") verified++;
+          agGenerated++;
+          contractsGenerated += agreement?.contracts?.length;
+          if (agreement?.status === "OTP VERIFIED") {
+            agVerified++;
+            contractsVerified += agreement?.contracts?.length;
+          }
         });
-        employee.contractsVerified = verified;
-        employee.contractsGenerated = generated;
+        employee.agreementsVerified = agVerified;
+        employee.agreementsGenerated = agGenerated;
+        employee.contractsGenerated = contractsGenerated;
+        employee.contractsVerified = contractsVerified;
         return employee;
       })
     );
@@ -43,14 +55,22 @@ function AllEmployeesPage({ setFlash }) {
   }, []);
 
   useEffect(() => {
-    let verified = 0;
-    let generated = 0;
+    let agVerified = 0;
+    let agGenerated = 0;
+
+    let contractsVerified = 0;
+    let contractsGenerated = 0;
+
     employees?.forEach((admin) => {
-      generated += admin?.contractsGenerated;
-      verified += admin?.contractsVerified;
+      agGenerated += admin?.agreementsGenerated;
+      agVerified += admin?.agreementsVerified;
+      contractsGenerated += admin?.contractsGenerated;
+      contractsVerified += admin?.contractsVerified;
     });
-    setTotalContractsGenerated(generated);
-    setTotalContractsVerified(verified);
+    setTotalAgreementsGenerated(agGenerated);
+    setTotalAgreementsVerified(agVerified);
+    setTotalContractsGenerated(contractsGenerated);
+    setTotalContractsVerified(contractsVerified);
   }, [employees]);
 
   return (
@@ -68,6 +88,16 @@ function AllEmployeesPage({ setFlash }) {
           data={employees?.length}
           title="No. of Employees"
           icon="/card-icons/user (1).png"
+        />
+        <DataCard
+          data={totalAgreementsGenerated}
+          title="Agreements Generated"
+          icon="/card-icons/copy.png"
+        />
+        <DataCard
+          data={totalAgreementsVerified}
+          title="Agreements Verified"
+          icon="/card-icons/verify.png"
         />
         <DataCard
           data={totalContractsGenerated}
@@ -98,7 +128,8 @@ function AllEmployeesPage({ setFlash }) {
             <th>Employee Name</th>
             <th>Employee Email</th>
             <th>Employee Phone</th>
-            <th>Contracts Generated</th>
+            <th>Agreements Generated</th>
+            <th>Agreements Signed</th>
             <th>Contracts Signed</th>
             <th>Actions</th>
           </thead>

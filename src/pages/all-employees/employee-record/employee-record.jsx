@@ -38,8 +38,9 @@ function EmployeeRecord({
       <td>{employee?.fname + " " + employee?.lname}</td>
       <td>{employee?.email}</td>
       <td>{employee?.mobile}</td>
-      <td>{employee?.contractsGenerated}</td>
-      <td>{employee?.contractsVerified}</td>
+      <td className={styles.recordData}>{employee?.agreementsGenerated}</td>
+      <td className={styles.recordData}>{employee?.agreementsVerified}</td>
+      <td className={styles.recordData}>{employee?.contractsVerified}</td>
       <td>
         <Actions
           handleDelete={handleDeleteEmployee}

@@ -365,16 +365,6 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
           icon="/card-icons/user (1).png"
         />
         <DataCard
-          data={contractsGenerated}
-          title="Contracts Generated"
-          icon="/card-icons/copy.png"
-        />
-        <DataCard
-          data={contractsVerified}
-          title="Contracts Verified"
-          icon="/card-icons/copy.png"
-        />
-        <DataCard
           data={agreementsGenerated}
           title="Agreements Generated"
           icon="/card-icons/copy.png"
@@ -383,6 +373,16 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
           data={agreementVerified}
           title="Agreements Verified"
           icon="/card-icons/verify.png"
+        />
+        <DataCard
+          data={contractsGenerated}
+          title="Contracts Generated"
+          icon="/card-icons/copy.png"
+        />
+        <DataCard
+          data={contractsVerified}
+          title="Contracts Verified"
+          icon="/card-icons/copy.png"
         />
       </DataCardList>
       <div className={styles.cardsAndBtn}>

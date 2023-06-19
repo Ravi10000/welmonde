@@ -15,40 +15,56 @@ function AllAdminsPage({ setFlash }) {
   const [admins, setAdmins] = useState([]);
   const [adminToEdit, setAdminToEdit] = useState(null);
 
+  const [totalAgreementsVerified, setTotalAgreementsVerified] = useState(0);
+  const [totalAgreementsGenerated, setTotalAgreementsGenerated] = useState(0);
+
   const [totalContractsVerified, setTotalContractsVerified] = useState(0);
   const [totalContractsGenerated, setTotalContractsGenerated] = useState(0);
 
   console.log({ admins });
   useEffect(() => {
-    let verified = 0;
-    let generated = 0;
+    let agVerified = 0;
+    let agGenerated = 0;
+
+    let contractsVerified = 0;
+    let contractsGenerated = 0;
+
     admins?.forEach((admin) => {
-      generated += admin?.contractsGenerated;
-      verified += admin?.contractsVerified;
+      agGenerated += admin?.agreementsGenerated;
+      agVerified += admin?.agreementsVerified;
+      contractsGenerated += admin?.contractsGenerated;
+      contractsVerified += admin?.contractsVerified;
     });
-    setTotalContractsGenerated(generated);
-    setTotalContractsVerified(verified);
+    setTotalAgreementsGenerated(agGenerated);
+    setTotalAgreementsVerified(agVerified);
+    setTotalContractsGenerated(contractsGenerated);
+    setTotalContractsVerified(contractsVerified);
   }, [admins]);
 
   async function handleFetchAdmins() {
-    console.log("fetching admins");
     let admins = await fetchAllAdmins();
     const updatedAdmins = await Promise.all(
       admins.map(async (admin) => {
         const res = await fetchMyAgreements(admin.uid);
         console.log({ res });
-        let verified = 0;
-        let generated = 0;
+        let agVerified = 0;
+        let agGenerated = 0;
+        let contractsGenerated = 0;
+        let contractsVerified = 0;
         res?.forEach((agreement) => {
-          generated++;
-          if (agreement?.status === "OTP VERIFIED") verified++;
+          agGenerated++;
+          contractsGenerated += agreement?.contracts?.length;
+          if (agreement?.status === "OTP VERIFIED") {
+            agVerified++;
+            contractsVerified += agreement?.contracts?.length;
+          }
           console.log(agreement?.status);
         });
-        admin.contractsVerified = verified;
-        admin.contractsGenerated = generated;
+        admin.agreementsVerified = agVerified;
+        admin.agreementsGenerated = agGenerated;
+        admin.contractsGenerated = contractsGenerated;
+        admin.contractsVerified = contractsVerified;
         return admin;
-        console.log({ verified, generated });
-        // console.log({ status: res?.status });
       })
     );
     console.log({ updatedAdmins });
@@ -76,6 +92,16 @@ function AllAdminsPage({ setFlash }) {
           data={admins?.length}
           title="No. of Admins"
           icon="/card-icons/user (1).png"
+        />
+        <DataCard
+          data={totalAgreementsGenerated}
+          title="Agreements Generated"
+          icon="/card-icons/copy.png"
+        />
+        <DataCard
+          data={totalAgreementsVerified}
+          title="Agreements Verified"
+          icon="/card-icons/verify.png"
         />
         <DataCard
           data={totalContractsGenerated}
@@ -106,8 +132,10 @@ function AllAdminsPage({ setFlash }) {
             <th>Admin Name</th>
             <th>Admin Email</th>
             <th>Admin Phone</th>
-            <th>Contracts Generated</th>
+            <th>Agreements Generated</th>
+            <th>Agreements Signed</th>
             <th>Contracts Signed</th>
+            {/* <th>Contracts Generated</th> */}
             <th>Actions</th>
           </thead>
           <tbody>
