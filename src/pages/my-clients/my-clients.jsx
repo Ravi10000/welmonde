@@ -50,8 +50,9 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
   const [showInitialPopup, setShowInitialPopup] = useState(false);
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [agreementsGenerated, setAgreementsGenerated] = useState(0);
   const [contractsGenerated, setContractsGenerated] = useState(0);
-  const [contractsVerified, setContractsVerified] = useState(0);
+  const [agreementVerified, setAgreementsVerified] = useState(0);
 
   function closeInitialPopup() {
     setShowInitialPopup(false);
@@ -73,12 +74,15 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
         const res = await fetchAgreementsByClientId(client.id);
         let verified = 0;
         let generated = 0;
+        let contractsCount = 0;
         res?.forEach((agreement) => {
           generated++;
+          contractsCount += agreement?.contracts?.length;
           if (agreement?.status === "OTP VERIFIED") verified++;
         });
         client.contractsVerified = verified;
         client.contractsGenerated = generated;
+        client.contracts = contractsCount;
         return client;
       })
     );
@@ -184,12 +188,15 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
   useEffect(() => {
     let verified = 0;
     let generated = 0;
+    let contractsCount = 0;
     clients?.forEach((client) => {
       generated += client?.contractsGenerated;
       verified += client?.contractsVerified;
+      contractsCount += client?.contracts;
     });
-    setContractsGenerated(generated);
-    setContractsVerified(verified);
+    setAgreementsGenerated(generated);
+    setAgreementsVerified(verified);
+    setContractsGenerated(contractsCount);
   }, [clients]);
 
   return (
@@ -353,8 +360,13 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
           icon="/card-icons/copy.png"
         />
         <DataCard
-          data={contractsVerified}
-          title="Contracts Verified"
+          data={agreementsGenerated}
+          title="Agreements Generated"
+          icon="/card-icons/copy.png"
+        />
+        <DataCard
+          data={agreementVerified}
+          title="Agreements Verified"
           icon="/card-icons/verify.png"
         />
       </DataCardList>
@@ -385,8 +397,8 @@ function MyClientsPage({ setFlash, currentUser, adminPrivilages }) {
               <th>Phone</th>
               {/* <th>Address</th> */}
               {/* <th>Vertical</th> */}
-              <th>Contracts Generated</th>
-              <th>Contracts Signed</th>
+              <th>Agreements Generated</th>
+              <th>Agreements Signed</th>
               <th>Actions</th>
             </tr>
           </thead>

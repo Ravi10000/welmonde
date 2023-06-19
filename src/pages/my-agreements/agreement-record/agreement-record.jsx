@@ -24,10 +24,8 @@ function AgreementRecord({
   const [showOptions, setShowOptions] = useState(false);
   const [isLoading, setIsloading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-
   const optionsRef = useRef(null);
-  // const addedOnDate = new Date(agreement?.createdAt).toDateString();
-  // const addedOnTime = new Date(agreement?.createdAt).toLocaleTimeString();
+  const [employeeDetails, setEmployeeDetails] = useState(null);
 
   useEffect(() => {
     function handleOutsideClick(e) {

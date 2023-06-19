@@ -17,6 +17,7 @@ import { setFlash } from "../../redux/flash/flash.actions";
 
 function MyAgreementsPage({ currentUser, adminPrivilages, setFlash }) {
   const [agreements, setAgreements] = useState([]);
+  console.log({ agreements });
   const [showPopup, setShowPopup] = useState(false);
   const openPopup = () => setShowPopup(true);
   const closePopup = () => setShowPopup(false);

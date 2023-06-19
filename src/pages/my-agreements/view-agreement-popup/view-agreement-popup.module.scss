@@ -5,6 +5,11 @@
   border-radius: 5px;
   margin: auto;
 
+  .subtitle {
+    padding-bottom: 5px;
+    border-bottom: 2px solid rgba(211, 211, 211, 0.452);
+    color: rgba(97, 97, 97, 0.662);
+  }
   .head {
     display: flex;
     justify-content: space-between;
@@ -47,6 +52,7 @@
       border-top: 1px solid var(--fadeGray);
       padding: 5px 0 0 0;
       display: flex;
+      align-items: center;
       justify-content: space-between;
       gap: 50px;
       &:first-child {

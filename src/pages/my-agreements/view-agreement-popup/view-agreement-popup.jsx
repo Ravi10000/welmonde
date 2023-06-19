@@ -3,24 +3,28 @@ import { useEffect, useState } from "react";
 
 import Backdrop from "../../../components/backdrop/backdrop";
 import PdfViewerContainer from "../../../components/pdf-viewer/pdf-viewer";
-import { fetchClienDetails } from "../../../firebase/auth";
+import { fetchClienDetails, fetchUser } from "../../../firebase/auth";
 
 function ViewAgreementPopup({ agreement, closeAgreement }) {
   const [contract, setContract] = useState(false);
   const [clientDetails, setClientDetails] = useState(null);
+  const [employeeDetails, setEmployeeDetails] = useState(null);
   console.log({ agreement });
   console.log({ contract });
   // const addedOnDate = new Date(agreement?.createdAt).toDateString();
   // const addedOnTime = new Date(agreement?.createdAt).toLocaleTimeString();
 
-  const handleFetchClientDetails = async () => {
+  const handleFetchClient_n_EmployeeDetails = async () => {
     console.log({ clientId: agreement?.clientId });
     const client = await fetchClienDetails(agreement?.clientId);
+    const employee = await fetchUser(agreement?.employeeId);
+    console.log({ employee });
     console.log({ client });
+    setEmployeeDetails(employee);
     setClientDetails(client);
   };
   useEffect(() => {
-    handleFetchClientDetails();
+    handleFetchClient_n_EmployeeDetails();
   }, []);
   return (
     <>
@@ -41,6 +45,7 @@ function ViewAgreementPopup({ agreement, closeAgreement }) {
             </div>
           </div>
           <div className={styles.dataContainer}>
+            <h2  className={styles.subtitle}>Client Details</h2>
             <div className={styles.data}>
               <h3>Client Name:</h3>
               <p>{agreement?.clientName}</p>
@@ -78,8 +83,25 @@ function ViewAgreementPopup({ agreement, closeAgreement }) {
               <h3>Status:</h3>
               <p>{agreement?.status}</p>
             </div>
+            <br />
+            <h2  className={styles.subtitle}>Employee Details</h2>
+            <div className={styles.data}>
+              <h3>Employee Name:</h3>
+              <p>
+                {employeeDetails?.fname} {employeeDetails?.lname}
+              </p>
+            </div>
+            <div className={styles.data}>
+              <h3>Employee Email:</h3>
+              <p>{employeeDetails?.email}</p>
+            </div>
+            <div className={styles.data}>
+              <h3>Employee Mobile:</h3>
+              <p>{employeeDetails?.mobile}</p>
+            </div>
           </div>
-          <h3>Contracts:</h3>
+          <br />
+          <h2 className={styles.subtitle}>Contracts:</h2>
           <div className={styles.agreementList}>
             {agreement?.contracts?.map((contract) => (
               <div className={styles.contract} key={contract}>
