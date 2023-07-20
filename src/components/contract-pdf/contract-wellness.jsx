@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function ContractAll({ client, contract }) {
+function ContractWellness({ client, contract }) {
   console.log({ client, contract });
   console.log({ createdAt: contract?.createdAt });
   const addedOnDate = contract?.agreement?.createdAt.toDate().toDateString();
@@ -750,7 +750,6 @@ function ContractAll({ client, contract }) {
         </View>
       </Page>
     </Document>
-    // </PDFViewer>
   );
 }
-export default ContractAll;
+export default ContractWellness;

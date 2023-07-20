@@ -2,17 +2,18 @@ import styles from "./contract-pdf.module.scss";
 
 import React, { useEffect, useState } from "react";
 import { fetchClientById } from "../../firebase/employee";
-import ContractAll from "./contract-all";
+import ContractFitness from "./contract-fitness";
 import ContractPharmacy from "./contract-new-pharmacy";
 import ContractMou from "./contract-mou";
-import ContractIS from "./contract.is";
-import { PDFDownloadLink, BlobProvider } from "@react-pdf/renderer";
+import ContractInternational from "./contract-is";
+import { BlobProvider } from "@react-pdf/renderer";
 import { Document, Page, pdfjs } from "react-pdf";
 import { connect } from "react-redux";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import ContractWellness from "./contract-wellness";
 
 // Create Document Component
 function ContractPdf({ contract, currentUser }) {
@@ -58,8 +59,13 @@ function ContractPdf({ contract, currentUser }) {
   else if (contract?.contractName === "hospital(mou)")
     pdf = <ContractMou client={client} contract={contract} />;
   else if (contract?.contractName === "international service")
-    pdf = <ContractIS client={client} contract={contract} />;
-  else pdf = <ContractAll client={client} contract={contract} />;
+    pdf = <ContractInternational client={client} contract={contract} />;
+  else if (
+    contract?.contractName === "saloon(wellness)" ||
+    contract?.contractName === "spa(wellness)"
+  )
+    pdf = <ContractWellness client={client} contract={contract} />;
+  else pdf = <ContractFitness client={client} contract={contract} />;
   return (
     <>
       {isFetching ? (
