@@ -3,7 +3,7 @@ import styles from "./contract-pdf.module.scss";
 import React, { useEffect, useState } from "react";
 import { fetchClientById } from "../../firebase/employee";
 import ContractAll from "./contract-all";
-import ContractPharmacy from "./contract-pharmacy";
+import ContractPharmacy from "./contract-new-pharmacy";
 import ContractMou from "./contract-mou";
 import ContractIS from "./contract.is";
 import { PDFDownloadLink, BlobProvider } from "@react-pdf/renderer";
